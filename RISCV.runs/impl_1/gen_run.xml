@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-2L" LaunchTime="1764228893">
+  <File Type="POSTROUTE-PHYSOPT-RQS-RPT" Name="postroute_physopt_report_qor_suggestions_0.rpt"/>
+  <File Type="ROUTE-RQS-RPT" Name="route_report_qor_suggestions_0.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-RQS" Name="register_status_table_postroute_physopted.rqs"/>
+  <File Type="ROUTE-RQS" Name="register_status_table_routed.rqs"/>
+  <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
+  <File Type="RDI-RDI" Name="register_status_table.vdi"/>
+  <File Type="BG-DRC" Name="register_status_table.drc"/>
+  <File Type="BG-BGN" Name="register_status_table.bgn"/>
+  <File Type="BITSTR-SYSDEF" Name="register_status_table.sysdef"/>
+  <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
+  <File Type="BITSTR-LTX" Name="register_status_table.ltx"/>
+  <File Type="PL-LTX-FILE" Name="register_status_table_pld.ltx"/>
+  <File Type="BOOT-LTX-FILE" Name="register_status_table_boot.ltx"/>
+  <File Type="LTX-FILE" Name="register_status_table.ltx"/>
+  <File Type="PL-BIF-FILE" Name="register_status_table_pld.bif"/>
+  <File Type="BOOT-BIF-FILE" Name="register_status_table_boot.bif"/>
+  <File Type="BIF-FILE" Name="register_status_table.bif"/>
+  <File Type="MMI-FILE" Name="register_status_table.mmi"/>
+  <File Type="RBD_FILE" Name="register_status_table.rbd"/>
+  <File Type="NPI_FILE" Name="register_status_table.npi"/>
+  <File Type="PL_UNMASK_RCDO_FILE" Name="register_status_table_pld_unmask.rcdo"/>
+  <File Type="PL_UNMASK_MARKER_RCDO_FILE" Name="register_status_table_pld_unmask_markers.rcdo"/>
+  <File Type="PL_MASK_RCDO_FILE" Name="register_status_table_pld_mask.rcdo"/>
+  <File Type="PL_MARKER_RCDO_FILE" Name="register_status_table_pld_markers.rcdo"/>
+  <File Type="PL-CLEAR-RCDO-FILE" Name="register_status_table_pld_clear.rcdo"/>
+  <File Type="PL-RCDO-FILE" Name="register_status_table_pld.rcdo"/>
+  <File Type="PL_UNMASK_RNPI_FILE" Name="register_status_table_pld_unmask.rnpi"/>
+  <File Type="PL_SHUTDOWN_RNPI_FILE" Name="register_status_table_pld_shutdown.rnpi"/>
+  <File Type="PL_MASK_RNPI_FILE" Name="register_status_table_pld_mask.rnpi"/>
+  <File Type="PL_MARKER_RNPI_FILE" Name="register_status_table_pld_markers.rnpi"/>
+  <File Type="PL_RNPI_FILE" Name="register_status_table_pld.rnpi"/>
+  <File Type="BOOT_MARKER_RNPI_FILE" Name="register_status_table_boot_markers.rnpi"/>
+  <File Type="BOOT_RNPI_FILE" Name="register_status_table_boot.rnpi"/>
+  <File Type="MARKER-RCDO-FILE" Name="register_status_table_markers.rcdo"/>
+  <File Type="MARKER-RNPI-FILE" Name="register_status_table_markers.rnpi"/>
+  <File Type="RCDO-FILE" Name="register_status_table.rcdo"/>
+  <File Type="RNPI_FILE" Name="register_status_table.rnpi"/>
+  <File Type="CFI_FILE" Name="register_status_table.cfi"/>
+  <File Type="RCFI_FILE" Name="register_status_table.rcfi"/>
+  <File Type="PL-PDI-FILE" Name="register_status_table_pld.pdi"/>
+  <File Type="BOOT-PDI-FILE" Name="register_status_table_boot.pdi"/>
+  <File Type="PDI-FILE" Name="register_status_table.pdi"/>
+  <File Type="BITSTR-MMI" Name="register_status_table.mmi"/>
+  <File Type="BITSTR-BMM" Name="register_status_table_bd.bmm"/>
+  <File Type="BITSTR-NKY" Name="register_status_table.nky"/>
+  <File Type="BITSTR-RBT" Name="register_status_table.rbt"/>
+  <File Type="BITSTR-MSK" Name="register_status_table.msk"/>
+  <File Type="BG-BIN" Name="register_status_table.bin"/>
+  <File Type="BG-BIT" Name="register_status_table.bit"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="fifo_buffer_bus_skew_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="fifo_buffer_bus_skew_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="fifo_buffer_bus_skew_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="fifo_buffer_timing_summary_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="fifo_buffer_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="fifo_buffer_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="register_status_table_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="register_status_table_postroute_physopt.dcp"/>
+  <File Type="ROUTE-RQS-PB" Name="register_status_table_rqs_routed.pb"/>
+  <File Type="ROUTE-BUS-SKEW-RPX" Name="register_status_table_bus_skew_routed.rpx"/>
+  <File Type="ROUTE-BUS-SKEW-PB" Name="register_status_table_bus_skew_routed.pb"/>
+  <File Type="ROUTE-BUS-SKEW" Name="register_status_table_bus_skew_routed.rpt"/>
+  <File Type="ROUTE-CLK" Name="register_status_table_clock_utilization_routed.rpt"/>
+  <File Type="ROUTE-SIMILARITY" Name="register_status_table_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-TIMING-RPX" Name="register_status_table_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-TIMING-PB" Name="register_status_table_timing_summary_routed.pb"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="register_status_table_timing_summary_routed.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="register_status_table_route_status.pb"/>
+  <File Type="ROUTE-STATUS" Name="register_status_table_route_status.rpt"/>
+  <File Type="ROUTE-PWR-RPX" Name="register_status_table_power_routed.rpx"/>
+  <File Type="ROUTE-PWR-SUM" Name="register_status_table_power_summary_routed.pb"/>
+  <File Type="ROUTE-PWR" Name="register_status_table_power_routed.rpt"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="register_status_table_methodology_drc_routed.pb"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="register_status_table_methodology_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="register_status_table_methodology_drc_routed.rpt"/>
+  <File Type="ROUTE-DRC-RPX" Name="register_status_table_drc_routed.rpx"/>
+  <File Type="ROUTE-DRC-PB" Name="register_status_table_drc_routed.pb"/>
+  <File Type="ROUTE-DRC" Name="register_status_table_drc_routed.rpt"/>
+  <File Type="ROUTE-UTIL-PB" Name="register_status_table_utilization_routed.pb"/>
+  <File Type="ROUTE-UTIL" Name="register_status_table_utilization_routed.rpt"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="register_status_table_routed_bb.dcp"/>
+  <File Type="ROUTE-DCP" Name="register_status_table_routed.dcp"/>
+  <File Type="ROUTE-ERROR-DCP" Name="register_status_table_routed_error.dcp"/>
+  <File Type="PHYSOPT-TIMING" Name="register_status_table_timing_summary_physopted.rpt"/>
+  <File Type="PHYSOPT-DRC" Name="register_status_table_drc_physopted.rpt"/>
+  <File Type="PHYSOPT-DCP" Name="register_status_table_physopt.dcp"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="register_status_table_timing_summary_postplace_pwropted.rpt"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="register_status_table_postplace_pwropt.dcp"/>
+  <File Type="PLACE-RQA-PB" Name="register_status_table_rqa_placed.pb"/>
+  <File Type="PLACE-TIMING" Name="register_status_table_timing_summary_placed.rpt"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="register_status_table_incremental_reuse_pre_placed.rpt"/>
+  <File Type="PLACE-SIMILARITY" Name="register_status_table_incremental_reuse_placed.rpt"/>
+  <File Type="PLACE-CTRL" Name="register_status_table_control_sets_placed.rpt"/>
+  <File Type="PLACE-UTIL-PB" Name="register_status_table_utilization_placed.pb"/>
+  <File Type="PLACE-UTIL" Name="register_status_table_utilization_placed.rpt"/>
+  <File Type="PLACE-CLK" Name="register_status_table_clock_utilization_placed.rpt"/>
+  <File Type="PLACE-IO" Name="register_status_table_io_placed.rpt"/>
+  <File Type="PLACE-DCP" Name="register_status_table_placed.dcp"/>
+  <File Type="PWROPT-TIMING" Name="register_status_table_timing_summary_pwropted.rpt"/>
+  <File Type="PWROPT-DRC" Name="register_status_table_drc_pwropted.rpt"/>
+  <File Type="PWROPT-DCP" Name="register_status_table_pwropt.dcp"/>
+  <File Type="OPT-RQA-PB" Name="register_status_table_rqa_opted.pb"/>
+  <File Type="OPT-TIMING" Name="register_status_table_timing_summary_opted.rpt"/>
+  <File Type="OPT-HWDEF" Name="register_status_table.hwdef"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="register_status_table_methodology_drc_opted.rpt"/>
+  <File Type="OPT-UTIL-PB" Name="register_status_table_utilization_opted.pb"/>
+  <File Type="OPT-UTIL" Name="register_status_table_utilization_opted.rpt"/>
+  <File Type="OPT-DRC" Name="register_status_table_drc_opted.rpt"/>
+  <File Type="OPT-DCP" Name="register_status_table_opt.dcp"/>
+  <File Type="INIT-TIMING" Name="register_status_table_timing_summary_init.rpt"/>
+  <File Type="REPORTS-TCL" Name="register_status_table_reports.tcl"/>
+  <File Type="PA-TCL" Name="register_status_table.tcl"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/register_status_table.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/Thermometer/Digital-Thermometer/fifo_buffer.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/PCSelectLayer1.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/PCSelectLayer2.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/decode_stage1.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/gshare_predictor.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/instr_memory.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/pattern_history_table.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/RISC-V-OOO-CORE/register_file.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/short_freeze.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/IFU.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/reorder_buffer.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/branch_alu.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/branch_target_buffer.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/data_mem.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/decode_stage2.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/execution_op.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/extend.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/ifu_predecoder.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/jalr_rs.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/jalr_unit.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/load_store_rs.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/loadnstore_buffers.sv">
+      <FileInfo>
+        <Attr Name="UserDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/ls_rsaggro.sv">
+      <FileInfo>
+        <Attr Name="UserDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/riu_rs.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/databus_arbitrer.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/load_store_unit.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/instr_dispatch_stage.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/alu.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/CPU_FILES/branch_rs.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/pipeline_reset_arbitrer.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/data_memory.mem">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/instruction_memory.mem">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/register_file.mem">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/resettable_fifo.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../Documents/Thermometer/Digital-Thermometer/fifo_tb.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="register_status_table"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <File Path="$PSRCDIR/constrs_1/new/timing.xdc">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TargetConstrsFile" Val="$PSRCDIR/constrs_1/new/timing.xdc"/>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1" RelGenDir="$PGENDIR/utils_1">
+    <Filter Type="Utils"/>
+    <File Path="$PSRCDIR/utils_1/imports/synth_1/fifo_buffer.dcp">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedInSteps" Val="synth_1"/>
+        <Attr Name="AutoDcp" Val="1"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2025"/>
+    <Step Id="init_design"/>
+    <Step Id="opt_design"/>
+    <Step Id="power_opt_design"/>
+    <Step Id="place_design"/>
+    <Step Id="post_place_power_opt_design"/>
+    <Step Id="phys_opt_design"/>
+    <Step Id="route_design"/>
+    <Step Id="post_route_phys_opt_design"/>
+    <Step Id="write_bitstream"/>
+  </Strategy>
+</GenRun>

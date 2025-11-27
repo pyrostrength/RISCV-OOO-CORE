@@ -1,0 +1,9 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../../../Downloads/2025.1/data/rsb/busdef" \
+"fifo_tb_func_synth.v" \
+
+sv xil_defaultlib  --include "../../../../../../Downloads/2025.1/data/rsb/busdef" \
+"../../../../../../Documents/Thermometer/Digital-Thermometer/fifo_tb.sv" \
+
+# Do not sort compile order
+nosort
