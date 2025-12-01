@@ -1,3 +1,11 @@
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/voidknight/RISCV/RISCV.sim/sim_1/synth/func/xsim/fifo_tb_func_synth.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module fifo_buffer
-INFO: [VRFC 10-311] analyzing module glbl
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/voidknight/RISCV/RISCV.srcs/sim_1/new/rst_tb.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module rst_tb
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/voidknight/RISCV/RISCV.srcs/sim_1/new/fifo_tb.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fifo_tb
+WARNING: [VRFC 10-8658] /* is inside a comment [/home/voidknight/RISCV/RISCV.srcs/sim_1/new/fifo_tb.sv:96]
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/voidknight/RISCV/RISCV.srcs/sim_1/new/pc_select_test.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module pc_select_test
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/voidknight/RISCV/RISCV.srcs/sim_1/new/gshare_test.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module gshare_test
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/voidknight/RISCV/RISCV.srcs/sim_1/new/short_flush_tb.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module short_flush_tb
