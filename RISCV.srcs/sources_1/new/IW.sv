@@ -21,9 +21,9 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
      
            input logic[I:0] rd_index,ghr_snapshot,
            input logic[1:0] pht_state,
-           input logic[W:0] nxt_seq_pc,imm_ext,pred_addr,
+           input logic[W:0] nxt_pc,imm_ext,pred_addr,
      
-           input logic riu_req,jalr_req,loadstore_req,branch_req,
+           input logic ri_req,jalr_req,loadstore_req,branch_req,
            input logic write_mem,jal,take_imm,
            input logic jalr,write_rob,
            input logic lui,auipc,
@@ -37,12 +37,12 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
            input logic[$clog2(ROB):0] commit_rob,execution_rob,
            input logic[W:0] commit_result,execution_result,
            
-           /*Signals specific to riu reservation station*/
-           output logic[$clog2(ROB):0] riu_rob,
-           output logic[W:0] riu_op1,riu_op2,
-           output logic[C:0] riu_mode,
-           output logic riu_selected,
-           output logic riu_full,
+           /*Signals specific to ri reservation station*/
+           output logic[$clog2(ROB):0] ri_rob,
+           output logic[W:0] ri_op1,ri_op2,
+           output logic[C:0] ri_mode,
+           output logic ri_selected,
+           output logic ri_full,
            
            /*Signals specific to jalr reservation station*/
            output logic[$clog2(ROB):0] jalr_rob,
@@ -79,7 +79,11 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
            arbitration buffer*/
            output logic jal_request,
            output logic[$clog2(ROB):0] jal_rob,
-           output logic[W:0] jal_data
+           output logic[W:0] jal_data,
+           
+           output logic u_request,
+           output logic[$clog2(ROB):0] u_rob,
+           output logic[W:0] u_data
           
           );
           logic[$clog2(ROB)+1:0] src1_booking,src2_booking; 
@@ -122,7 +126,9 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
           exists an instruction about to commit for which
           current instruction's operands were dependent on
           */
-          riu_rs riu_station(.clk(clk),
+          logic[W:0] src2;
+          assign src2 = (take_imm) ? imm_ext : reg_src2;
+          ri_rs ri_station(.clk(clk),
                              .reset(reset),
                              .reset_pipeline(reset_pipeline),
                              .read_ptr(read_ptr),
@@ -131,10 +137,10 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
                              .src2_booking(src2_booking),
                              .is_lui(lui),
                              .is_auipc(auipc),
-                             .station_request(riu_req),
+                             .station_request(ri_req),
                              .op_control(op_control),
                              .rs1(reg_src1),
-                             .rs2(reg_src2),
+                             .rs2(src2),
                              .commit_rob(commit_rob),
                              .execution_rob(execution_rob),
                              .reset_rob(reset_rob),
@@ -142,13 +148,14 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
                              .execution_result(execution_result),
                              .instr_commit(instr_commit),
                              .instr_executed(instr_executed),
-                             .riu_rob(riu_rob),
-                             .riu_op1(riu_op1),
-                             .riu_op2(riu_op2),
-                             .riu_mode(riu_mode),
-                             .riu_selected(riu_selected),
-                             .rs_full(riu_full));
-          
+                             .ri_rob(ri_rob),
+                             .ri_op1(ri_op1),
+                             .ri_op2(ri_op2),
+                             .ri_mode(ri_mode),
+                             .ri_selected(ri_selected),
+                             .rs_full(ri_full));
+          logic[W:0] seq_pc;
+          assign seq_pc = nxt_pc + 1;
           jalr_rs jalr_station(.clk(clk),
                              .reset(reset),
                              .reset_pipeline(reset_pipeline),
@@ -160,7 +167,7 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
                              .station_request(jalr_req),
                              .rs1(reg_src1),
                              .rs2(imm_ext),
-                             .seq_pc(nxt_seq_pc),
+                             .seq_pc(seq_pc),
                              .prediction_index(rd_index),
                              .ghr_checkpoint(ghr_snapshot),
                              
@@ -190,7 +197,7 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
                              .op_control({pht_state,prediction_taken,op_control}),
                              .rs1(reg_src1),
                              .rs2(reg_src2),
-                             .seq_pc(nxt_seq_pc),
+                             .seq_pc(seq_pc),
                              .prediction_address(pred_addr),
                              .prediction_index(rd_index),
                              .ghr_checkpoint(ghr_snapshot),
@@ -223,9 +230,6 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
                              .rs1(reg_src1),
                              .rs2(reg_src2),
                              .imm(imm_ext),
-                             .seq_pc(nxt_seq_pc),
-                             .prediction_index(rd_index),
-                             .ghr_checkpoint(ghr_snapshot),
                              
                              .commit_rob(committed_store_rob),
                              .execution_rob(execution_rob),
@@ -246,11 +250,15 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
                              .store_data(store_data),
                              .store_mode(store_mode),
                              .store_selected(store_selected));
-                             
+        
+        /*To JAL cdb queue*/                     
         assign jal_request = jal;
         assign jal_rob = instr_rob;
-        assign jal_data = nxt_seq_pc;                    
-                             
-          
+        assign jal_data = seq_pc;
+        
+        /*To LUI,AUIPC cdb queue*/
+        assign  u_request = lui | auipc;
+        assign u_rob = instr_rob;
+        assign u_data = (lui) ? imm_ext : imm_ext + nxt_pc;
           
 endmodule

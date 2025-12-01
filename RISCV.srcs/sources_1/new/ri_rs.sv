@@ -1,6 +1,6 @@
 /*
 Unified reservation station for
-R,I and U type instructions.
+R and I type instructions.
 
 No forwarding is provided for instructions
 that are ready to execute and writing
@@ -36,7 +36,7 @@ first out policy.
 
 */
 
-module riu_rs #(parameter ROB = 32,RS = 16, W = 31,C = 3)
+module ri_rs #(parameter ROB = 32,RS = 16, W = 31,C = 3)
     (input clk,
     input reset,
     input reset_pipeline,full_rob,
@@ -53,7 +53,6 @@ module riu_rs #(parameter ROB = 32,RS = 16, W = 31,C = 3)
     input logic[$clog2(ROB)+1:0] src1_booking,src2_booking,
     /*Control signals to determine what functional unit
     to go to and what operation to perform in functional unit*/
-    input logic is_lui,is_auipc,
     input logic station_request,
     input logic[C:0] op_control,
     /*Source operand values to choose from*/
@@ -70,17 +69,17 @@ module riu_rs #(parameter ROB = 32,RS = 16, W = 31,C = 3)
     reservation station, one for load/stores,
     one for. Instructions selected go out with
     their rob entries*/
-    output logic[$clog2(ROB):0] riu_rob,
+    output logic[$clog2(ROB):0] ri_rob,
     
     /*And operand values*/
-    output logic[W:0] riu_op1,riu_op2,
+    output logic[W:0] ri_op1,ri_op2,
     
     /*And control values for operation*/
-    output logic[3:0]riu_mode,
+    output logic[3:0]ri_mode,
     
     /*And signal to validate instr results when it writes
     on common data bus*/
-    output logic riu_selected,
+    output logic ri_selected,
     
     output logic rs_full
     );
@@ -148,8 +147,8 @@ module riu_rs #(parameter ROB = 32,RS = 16, W = 31,C = 3)
     /*Select entries for which execution result is
     ready and highlight respective operand to
     which result should go to*/
-    logic[RS:0] src1_result_ready;
-    logic[RS:0] src2_result_ready;
+    logic[RS-1:0] src1_result_ready;
+    logic[RS-1:0] src2_result_ready;
     always_comb begin
         src1_result_ready = '0;
         src2_result_ready = '0;
@@ -176,7 +175,7 @@ module riu_rs #(parameter ROB = 32,RS = 16, W = 31,C = 3)
         mode = '0;
         rob = '0;
         {op1,op2} = '0;
-        for(int i = RS -1; i >= 0; i++)begin
+        for(int i = RS -1; i >= 0; i--)begin
             if(valid_storage[i] & ready1_storage[i] & ready2_storage[i])begin
                 selected_instr[i] = '1;
                 instr_found = '1;
@@ -215,11 +214,14 @@ module riu_rs #(parameter ROB = 32,RS = 16, W = 31,C = 3)
             and when instruction writes to reservation station entry
             it overrwrites all fields*/
             for(int i = 0; i < RS; i++)begin
+                valid_storage[i] <= (remove_entry[i] | selected_instr[i]) ? '0 
+                    : (first_open_entry[i]) ? '1 : valid_storage[i];
+                    
                 value1_storage[i] <= (src1_result_ready[i]) ? execution_result : 
                     (first_open_entry[i]) ? rs1 : value1_storage[i];
                 
                 value2_storage[i] <= (src2_result_ready[i]) ? execution_result : 
-                    (first_open_entry[i]) ? rs1 : value2_storage[i];
+                    (first_open_entry[i]) ? rs2 : value2_storage[i];
                 
                 ready1_storage[i] <= (src1_result_ready[i]) ? '1 : 
                     (first_open_entry[i]) ? src1_booking[$clog2(ROB)+1] : ready1_storage[i];
@@ -246,16 +248,16 @@ module riu_rs #(parameter ROB = 32,RS = 16, W = 31,C = 3)
     /*Selection Logic*/
     always_ff@(posedge clk) begin
         if(reset)begin
-            {riu_selected,riu_mode,riu_rob} <= '0;
-            {riu_op2,riu_op1} <= '0;  
+            {ri_selected,ri_mode,ri_rob} <= '0;
+            {ri_op2,ri_op1} <= '0;  
         end
         
         else begin
-            riu_selected <= instr_found;
-            riu_mode <= mode;
-            riu_op1 <= op1;
-            riu_op2 <= op2;
-            riu_rob <= rob;
+            ri_selected <= instr_found;
+            ri_mode <= mode;
+            ri_op1 <= op1;
+            ri_op2 <= op2;
+            ri_rob <= rob;
         end 
     end
     

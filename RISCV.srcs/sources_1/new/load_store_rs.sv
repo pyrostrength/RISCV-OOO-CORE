@@ -109,7 +109,7 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                         end
                         
                         /*Select first open entry to write to*/
-                        logic[RS:0] first_open_entry;
+                        logic[RS-1:0] first_open_entry;
                         always_comb begin
                             first_open_entry = '0;
                             rs_full = '1;
@@ -129,8 +129,8 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                         /*Select entries for which execution result is
                         ready and highlight respective operand to
                         which result should go to*/
-                        logic[RS:0] src1_result_ready;
-                        logic[RS:0] src2_result_ready;
+                        logic[RS-1:0] src1_result_ready;
+                        logic[RS-1:0] src2_result_ready;
                         always_comb begin
                             src1_result_ready = '0;
                             src2_result_ready = '0;
@@ -145,8 +145,8 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                         /*Select load instruction for execution. Remember
                         an instruction selected for execution deletes its
                         own entry in the subsequent clock cycle*/
-                        logic[RS:0] selected_load_instr;
-                        logic[RS:0] older_store_for_load;
+                        logic[RS-1:0] selected_load_instr;
+                        logic[RS-1:0] older_store_for_load;
                         logic load_found;
                         
                         /*Instr info*/
@@ -161,7 +161,7 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                             ld_rob = '0;
                             ld_op1 = '0;
                             ld_op2 = '0;
-                            for(int i = RS -1; i >= 0; i++)begin
+                            for(int i = RS - 1; i >= 0; i--)begin
                                 if(valid_storage[i] & ready1_storage[i] & ready2_storage[i]
                                     &decodeinfo_storage[i][C+1])begin
                                     older_store_for_load[i] = '0;
@@ -205,7 +205,7 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                         end
                         
                         /*Selected store instruction for execution*/
-                        logic[RS:0] selected_store_instr;
+                        logic[RS-1:0] selected_store_instr;
                         logic store_found;
                         
                         /*Instr info*/
@@ -218,7 +218,7 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                             st_mode = '0;
                             st_rob = '0;
                             {st_op1,st_op2,st_data} = '0;
-                            for(int i = RS -1; i >= 0; i++)begin
+                            for(int i = RS -1; i >= 0; i--)begin
                                 if(valid_storage[i] & ready1_storage[i] & ready2_storage[i]
                                     &!decodeinfo_storage[i][C+1])begin
                                         selected_store_instr[i] = '1;

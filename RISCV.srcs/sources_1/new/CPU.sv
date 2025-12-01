@@ -38,7 +38,7 @@ module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32)
 
     logic[2:0] imm_src;
     logic[1:0] execution_op;
-    logic riu_station,jalr_station,loadstore_station,branch_station;
+    logic ri_station,jalr_station,loadstore_station,branch_station;
     logic mem_write,is_jal,use_imm;
     logic is_jalr,rob_write;
     logic is_lui,is_auipc;
@@ -55,8 +55,8 @@ module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32)
     logic[3:0] op_control;
     logic[I:0] rd_index,ghr_snapshot;
     logic[1:0] pht_state;
-    logic[W:0] nxt_seq_pc,pred_addr;
-    logic riu_req,jalr_req,loadstore_req,branch_req;
+    logic[W:0] nxt_pc,pred_addr;
+    logic ri_req,jalr_req,loadstore_req,branch_req;
     logic write_mem,jal,take_imm;
     logic jalr,write_rob;
     logic lui,auipc;
@@ -75,11 +75,11 @@ module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32)
     logic[$clog2(ROB):0] commit_rob,execution_rob,committed_store_rob;
     logic[W:0] commit_result,execution_result;
 
-    logic[$clog2(ROB):0] riu_rob;
-    logic[W:0] riu_op1,riu_op2;
-    logic[C:0] riu_mode;
-    logic riu_selected;
-    logic riu_full;
+    logic[$clog2(ROB):0] ri_rob;
+    logic[W:0] ri_op1,ri_op2;
+    logic[C:0] ri_mode;
+    logic ri_selected;
+    logic ri_full;
            
     logic[$clog2(ROB):0] jalr_rob;
     logic[W:0] jalr_op1,jalr_op2;
@@ -112,6 +112,10 @@ module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32)
     logic jal_request;
     logic[$clog2(ROB):0] jal_rob;
     logic[W:0] jal_data;
+    
+    logic u_request;
+    logic[$clog2(ROB):0] u_rob;
+    logic[W:0] u_data;
   
     IW instruction_window(.*);
     
@@ -161,8 +165,8 @@ module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32)
    
    /*Signals specific to alu*/
     logic[$clog2(ROB):0] alu_rob;
-    logic riu_request;
-    logic[W:0] riu_data;
+    logic ri_request;
+    logic[W:0] ri_data;
    
    /*Signals specific to branch alu*/
     logic branch_request;
@@ -206,7 +210,7 @@ module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32)
     /*If the reorder buffer is full or if
     any of the reservation stations are full,
     freeze the CPU's backend*/
-    assign freeze = full_rob | branch_full | loadstore_full | riu_full | jalr_full;
+    assign freeze = full_rob | branch_full | loadstore_full | ri_full | jalr_full;
     
     
                                

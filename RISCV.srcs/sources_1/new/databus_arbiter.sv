@@ -14,15 +14,15 @@ little sense*/
 
 module databus_arbiter #(parameter W = 31, ROB = 32)
                         (input logic clk,reset,
-                         input logic[$clog2(ROB):0] jalr_rob,jal_rob,load_rob,store_rob,riu_rob,branch_rob,
-                         input logic riu_request,jal_request,jalr_request,branch_request,store_request,
+                         input logic[$clog2(ROB):0] jalr_rob,jal_rob,load_rob,store_rob,ri_rob,branch_rob,u_rob,
+                         input logic ri_request,jal_request,jalr_request,branch_request,store_request,u_request,
                          input logic load_request,
-                         input logic[W:0] riu_data,jalr_data,jal_result,store_data,store_address,load_data,
+                         input logic[W:0] ri_data,jalr_data,jal_result,store_data,store_address,load_data,u_data,
                          output logic cdb_broadcast,
                          output logic[W:0] broadcast_data,broadcast_address,
                          output logic[$clog2(ROB):0] broadcast_rob);
                          
-                         logic[5:0] grant;
+                         logic[6:0] grant;
                          /*Buffer for load instructions*/
                          logic full_load_rob_buffer,empty_load_rob_buffer;
                          logic[$clog2(ROB):0] read_load_rob;
@@ -137,34 +137,58 @@ module databus_arbiter #(parameter W = 31, ROB = 32)
                                                                          .wr_data(jal_result),
                                                                          .rd_data(read_jal_data));
                          
-                          /*Buffer for riu instructions*/
-                         logic full_riu_rob_buffer,empty_riu_rob_buffer;
-                         logic[$clog2(ROB):0] read_riu_rob;
-                         fifo_buffer #(.DW($clog2(ROB))) riu_rob_buffer(.clk(clk),
+                         /*Buffer for u instructions*/
+                         logic full_u_rob_buffer,empty_u_rob_buffer;
+                         logic[$clog2(ROB):0] read_u_rob;
+                         fifo_buffer #(.DW($clog2(ROB))) u_rob_buffer(.clk(clk),
                                                                          .reset(reset),
-                                                                         .full(full_riu_rob_buffer),
-                                                                         .empty(empty_riu_rob_buffer),
-                                                                         .write(riu_request),
-                                                                         .read(grant[5]),
-                                                                         .wr_data(riu_rob),
-                                                                         .rd_data(read_riu_rob));
+                                                                         .full(full_u_rob_buffer),
+                                                                         .empty(empty_u_rob_buffer),
+                                                                         .write(u_request),
+                                                                         .read(grant[4]),
+                                                                         .wr_data(u_rob),
+                                                                         .rd_data(read_u_rob));
                          
-                         logic full_riu_data_buffer,empty_riu_data_buffer;
-                         logic[W:0] read_riu_data;
-                         fifo_buffer #(.DW(W)) riu_data_buffer(.clk(clk),
+                         logic full_u_data_buffer,empty_u_data_buffer;
+                         logic[W:0] read_u_data;
+                         fifo_buffer #(.DW(W)) u_data_buffer(.clk(clk),
                                                                          .reset(reset),
-                                                                         .full(full_riu_data_buffer),
-                                                                         .empty(empty_riu_data_buffer),
-                                                                         .write(riu_request),
+                                                                         .full(full_u_data_buffer),
+                                                                         .empty(empty_u_data_buffer),
+                                                                         .write(u_request),
+                                                                         .read(grant[4]),
+                                                                         .wr_data(u_result),
+                                                                         .rd_data(read_u_data));
+                         
+                          /*Buffer for ri instructions*/
+                         logic full_ri_rob_buffer,empty_ri_rob_buffer;
+                         logic[$clog2(ROB):0] read_ri_rob;
+                         fifo_buffer #(.DW($clog2(ROB))) ri_rob_buffer(.clk(clk),
+                                                                         .reset(reset),
+                                                                         .full(full_ri_rob_buffer),
+                                                                         .empty(empty_ri_rob_buffer),
+                                                                         .write(ri_request),
                                                                          .read(grant[5]),
-                                                                         .wr_data(riu_data),
-                                                                         .rd_data(read_riu_data));
+                                                                         .wr_data(ri_rob),
+                                                                         .rd_data(read_ri_rob));
+                         
+                         logic full_ri_data_buffer,empty_ri_data_buffer;
+                         logic[W:0] read_ri_data;
+                         fifo_buffer #(.DW(W)) ri_data_buffer(.clk(clk),
+                                                                         .reset(reset),
+                                                                         .full(full_ri_data_buffer),
+                                                                         .empty(empty_ri_data_buffer),
+                                                                         .write(ri_request),
+                                                                         .read(grant[5]),
+                                                                         .wr_data(ri_data),
+                                                                         .rd_data(read_ri_data));
                          
                          logic [2:0] pointer; 
                          // Sequential logic for the pointer 
                          always_ff @(posedge clk) begin 
                             if (reset) begin 
-                                pointer <= 0; end 
+                                pointer <= 0; 
+                            end 
                             else begin 
                             /*Update priority based on the granted request. 
                             If request was granted, next priority starts 
@@ -181,7 +205,7 @@ module databus_arbiter #(parameter W = 31, ROB = 32)
                          
                          /*Granting access to each functional unit*/ 
                          always_comb begin 
-                            grant = 4'b0000;  
+                            grant = '0;  
                             case (pointer) 
                                 3'd0: begin 
                                     if (load_request) grant[0] = 1'b1; 
@@ -189,7 +213,8 @@ module databus_arbiter #(parameter W = 31, ROB = 32)
                                     else if (branch_request) grant[2] = 1'b1; 
                                     else if (jalr_request) grant[3] = 1'b1;
                                     else if(jal_request) grant[4] = 1'b1;
-                                    else if(riu_request) grant[5] = 1'b1;
+                                    else if(ri_request) grant[5] = 1'b1;
+                                    else if(u_request) grant[6] = 1'b1;
                                 end
                                 
                                 3'd1: begin 
@@ -197,7 +222,8 @@ module databus_arbiter #(parameter W = 31, ROB = 32)
                                     else if (branch_request) grant[2] = 1'b1; 
                                     else if (jalr_request) grant[3] = 1'b1; 
                                     else if (jal_request) grant[4] = 1'b1;
-                                    else if(riu_request) grant[5] = 1'b1;
+                                    else if(ri_request) grant[5] = 1'b1;
+                                    else if(u_request) grant[6] = 1'b1;
                                     else if(load_request) grant[0] = 1'b1;
                                 end
                                 
@@ -205,7 +231,8 @@ module databus_arbiter #(parameter W = 31, ROB = 32)
                                     if (branch_request) grant[2] = 1'b1; 
                                     else if (jalr_request) grant[3] = 1'b1; 
                                     else if (jal_request) grant[4] = 1'b1; 
-                                    else if (riu_request) grant[5] = 1'b1;
+                                    else if (ri_request) grant[5] = 1'b1;
+                                    else if(u_request) grant[6] = 1'b1;
                                     else if(load_request) grant[0] = 1'b1;
                                     else if(store_request) grant[1] = 1'b1;
                                 end 
@@ -213,7 +240,8 @@ module databus_arbiter #(parameter W = 31, ROB = 32)
                                 3'd3: begin 
                                     if (jalr_request) grant[3] = 1'b1; 
                                     else if (jal_request) grant[4] = 1'b1; 
-                                    else if (riu_request) grant[5] = 1'b1; 
+                                    else if (ri_request) grant[5] = 1'b1;
+                                    else if(u_request) grant[6] = 1'b1; 
                                     else if (load_request) grant[0] = 1'b1;
                                     else if(store_request) grant[1] = 1'b1;
                                     else if(branch_request) grant[2] = 1'b1;
@@ -221,7 +249,8 @@ module databus_arbiter #(parameter W = 31, ROB = 32)
                                 
                                 3'd4: begin 
                                     if (jal_request) grant[4] = 1'b1; 
-                                    else if (riu_request) grant[5] = 1'b1; 
+                                    else if (ri_request) grant[5] = 1'b1;
+                                    else if(u_request) grant[6] = 1'b1; 
                                     else if (load_request) grant[0] = 1'b1; 
                                     else if (store_request) grant[1] = 1'b1;
                                     else if(branch_request) grant[2] = 1'b1;
@@ -229,12 +258,23 @@ module databus_arbiter #(parameter W = 31, ROB = 32)
                                 end
                                 
                                 3'd5: begin 
-                                    if (riu_request) grant[5] = 1'b1; 
+                                    if (ri_request) grant[5] = 1'b1;
+                                    else if(u_request) grant[6] = 1'b1; 
                                     else if (load_request) grant[0] = 1'b1; 
                                     else if (store_request) grant[1] = 1'b1; 
                                     else if (branch_request) grant[2] = 1'b1;
                                     else if(jalr_request) grant[3] = 1'b1;
                                     else if(jal_request) grant[4] = 1'b1;
+                                end
+                                
+                                3'd6:begin
+                                    if (u_request) grant[6] = 1'b1;
+                                    else if (load_request) grant[0] = 1'b1; 
+                                    else if (store_request) grant[1] = 1'b1; 
+                                    else if (branch_request) grant[2] = 1'b1;
+                                    else if(jalr_request) grant[3] = 1'b1;
+                                    else if(jal_request) grant[4] = 1'b1;
+                                    else if(ri_request) grant[5] = 1'b1;
                                 end
                             endcase
                          end 

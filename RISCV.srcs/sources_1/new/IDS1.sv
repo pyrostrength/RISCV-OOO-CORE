@@ -17,7 +17,7 @@ module IDS1 #(parameter I = 7, C = 3, W = 31)
 
     output logic[2:0] imm_src,
     output logic[1:0] execution_op,
-    output logic riu_station,jalr_station,loadstore_station,branch_station,
+    output logic ri_station,jalr_station,loadstore_station,branch_station,
     output logic mem_write,is_jal,use_imm,
     output logic is_jalr,rob_write,
     output logic is_lui,is_auipc,
@@ -34,7 +34,7 @@ module IDS1 #(parameter I = 7, C = 3, W = 31)
     
     logic[2:0] imm_src_next;
     logic[1:0] execution_op_next;
-    logic riu_station_next,loadstore_station_next,branch_station_next;
+    logic ri_station_next,loadstore_station_next,branch_station_next;
     logic jalr_station_next;
     logic mem_write_next,is_jal_next,use_imm_next;
     logic is_jalr_next,rob_write_next,is_lui_next,is_auipc_next;
@@ -48,7 +48,7 @@ module IDS1 #(parameter I = 7, C = 3, W = 31)
                               .opcode(instr[3:0]),
                               .imm_src(imm_src_next),
                               .execution_op(execution_op_next),
-                              .riu_station(riu_station_next),
+                              .ri_station(ri_station_next),
                               .loadstore_station(loadstore_station_next),
                               .branch_station(branch_station_next),
                               .jalr_station(jalr_station_next),
@@ -78,7 +78,7 @@ module IDS1 #(parameter I = 7, C = 3, W = 31)
         if(reset | reset_pipeline) begin
            {mem_write,is_jal,is_jalr} <= '0;
            imm_src <= '0;
-	       {riu_station,loadstore_station,branch_station,jalr_station} <= '0;
+	       {ri_station,loadstore_station,branch_station,jalr_station} <= '0;
 	       {use_imm,rob_write,execution_op} <= '0;
 	       {is_lui,is_auipc} <= '0;
 	       
@@ -102,7 +102,7 @@ module IDS1 #(parameter I = 7, C = 3, W = 31)
 	       is_jal <= is_jal;
 	       is_jalr <= is_jalr;
 	       
-	       riu_station <= riu_station;
+	       ri_station <= ri_station;
 	       jalr_station <= jalr_station;
 	       branch_station <= branch_station;
 	       loadstore_station <= loadstore_station;
@@ -150,7 +150,7 @@ module IDS1 #(parameter I = 7, C = 3, W = 31)
 	       branch_addr <= branch_addr_next;
 	       jal_addr <= jal_addr_next;
 	       
-	       riu_station <= riu_station_next;
+	       ri_station <= ri_station_next;
 	       jalr_station <= jalr_station_next;
 	       branch_station <= branch_station_next;
 	       loadstore_station <= loadstore_station_next;

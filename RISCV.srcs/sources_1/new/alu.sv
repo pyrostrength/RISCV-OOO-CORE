@@ -1,15 +1,15 @@
 /*Functional unit for R-type, U-type and I-type instructions*/
 module alu #(parameter W = 31, C = 3, ROB = 32)
-            (input logic is_riu_instr,
+            (input logic is_ri_instr,
              input logic[$clog2(ROB):0] instr_rob,
              input logic [C:0] op_control,
              input logic signed[W:0] op1,op2,
-             output logic[$clog2(ROB):0] riu_rob,
-             output logic riu_cdb_request,
+             output logic[$clog2(ROB):0] ri_rob,
+             output logic ri_cdb_request,
              output logic signed[W:0] result);
              
-             assign riu_cdb_request = is_riu_instr;
-             assign riu_rob = instr_rob;
+             assign ri_cdb_request = is_ri_instr;
+             assign ri_rob = instr_rob;
              /*For shifts with immediate the shift amount
 			 is encoded in first 5 bits of immediate or rs2 value.
 			 */

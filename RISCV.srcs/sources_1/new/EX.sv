@@ -6,11 +6,11 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
           (input logic clk,reset,
            input logic[$clog2(ROB):0] read_ptr,
     
-           input logic[$clog2(ROB):0] riu_rob,
-           input logic[W:0] riu_op1,riu_op2,
-           input logic[C:0] riu_mode,
-           input logic riu_selected,
-           input logic riu_full,
+           input logic[$clog2(ROB):0] ri_rob,
+           input logic[W:0] ri_op1,ri_op2,
+           input logic[C:0] ri_mode,
+           input logic ri_selected,
+           input logic ri_full,
      
      /*Signals specific to jalr reservation station*/
            input logic[$clog2(ROB):0] jalr_rob,
@@ -53,8 +53,8 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
            
            /*Signals specific to alu*/
            output logic[$clog2(ROB):0] alu_rob,
-           output logic riu_request,
-           output logic[W:0] riu_data,
+           output logic ri_request,
+           output logic[W:0] ri_data,
            
            /*Signals specific to branch alu*/
            output logic branch_request,
@@ -89,13 +89,13 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
                  
     );
     
-    alu ALU(.is_riu_instr(riu_selected),
-            .instr_rob(riu_rob),
-            .op_control(riu_mode),
-            .op1(riu_op1),
-            .op2(riu_op2),
-            .riu_rob(alu_rob),
-            .riu_cdb_request(riu_request));
+    alu ALU(.is_ri_instr(ri_selected),
+            .instr_rob(ri_rob),
+            .op_control(ri_mode),
+            .op1(ri_op1),
+            .op2(ri_op2),
+            .ri_rob(alu_rob),
+            .ri_cdb_request(ri_request));
     
     logic misprediction;
     

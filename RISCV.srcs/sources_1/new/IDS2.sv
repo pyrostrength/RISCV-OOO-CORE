@@ -18,7 +18,7 @@ module IDS2 #(parameter W = 31, I = 7, C = 3)
 
      input logic[2:0] imm_src,
      input logic[1:0] execution_op,
-     input logic riu_station,jalr_station,loadstore_station,branch_station,
+     input logic ri_station,jalr_station,loadstore_station,branch_station,
      input logic mem_write,is_jal,use_imm,
      input logic is_jalr,rob_write,
      input logic is_lui,is_auipc,
@@ -40,13 +40,13 @@ module IDS2 #(parameter W = 31, I = 7, C = 3)
      /*For JAL instruction which write to a register
      rd, for branch and jalr instruction for
      pipeline recovery*/
-     output logic[W:0] nxt_seq_pc,pred_addr,
+     output logic[W:0] nxt_pc,pred_addr,
      /*We fix pipeline here in case of JAL
      and branch instructions*/
      output logic fix,
      output logic[W:0] fix_addr,
      
-     output logic riu_req,jalr_req,loadstore_req,branch_req,
+     output logic ri_req,jalr_req,loadstore_req,branch_req,
      output logic write_mem,jal,take_imm,
      output logic jalr,write_rob,
      output logic lui,auipc,
@@ -88,9 +88,6 @@ module IDS2 #(parameter W = 31, I = 7, C = 3)
               .fix(fix),
               .fix_flush(fix_flush));
     
-    logic[W:0] nxt_seq_pc_nxt;
-    /*Produce next sequential PC*/
-    assign nxt_seq_pc_nxt = pc + 1;
     
     /*Register values*/
     logic[4:0] rs1_next,rs2_next,rd_next;
@@ -103,14 +100,14 @@ module IDS2 #(parameter W = 31, I = 7, C = 3)
     /*Output register*/
     always_ff @(posedge clk)begin
         if(reset | reset_pipeline | fix_flush)begin
-            nxt_seq_pc <= '0;
+            nxt_pc <= '0;
             op_control <= '0;
             rd_index <= '0;
             ghr_snapshot <= '0;
             pht_state <= '0;
             fix <= '0;
             fix_addr <= '0;
-            riu_req <= '0;
+            ri_req <= '0;
             jalr_req <= '0;
             loadstore_req <= '0;
             branch_req <= '0;
@@ -134,14 +131,14 @@ module IDS2 #(parameter W = 31, I = 7, C = 3)
         end
         
         else if(freeze)begin
-            nxt_seq_pc <= nxt_seq_pc;
+            nxt_pc <= nxt_pc;
             op_control <= op_control;
             rd_index <= rd_index;
             ghr_snapshot <= ghr_snapshot;
             pht_state <= pht_state;
             fix <= fix;
             fix_addr <= fix_addr;
-            riu_req <= riu_req;
+            ri_req <= ri_req;
             jalr_req <= jalr_req;
             loadstore_req <= loadstore_req;
             branch_req <= branch_req;
@@ -165,14 +162,14 @@ module IDS2 #(parameter W = 31, I = 7, C = 3)
         end
         
         else begin
-            nxt_seq_pc <= nxt_seq_pc_nxt;
+            nxt_pc <= pc;
             op_control <= op_control_next;
             rd_index <= table_index;
             ghr_snapshot <= ghr_snaps;
             pht_state <= table_state;
             fix <= fix_next;
             fix_addr <= fix_addr_next;
-            riu_req <= riu_station;
+            ri_req <= ri_station;
             jalr_req <= jalr_station;
             loadstore_req <= loadstore_station;
             branch_req <= branch_station;

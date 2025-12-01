@@ -4,7 +4,7 @@
 
 set TIME_start [clock seconds] 
 namespace eval ::optrace {
-  variable script "/home/voidknight/RISCV/RISCV.runs/synth_1/btb_flush.tcl"
+  variable script "/home/voidknight/RISCV/RISCV.runs/synth_1/ri_rs.tcl"
   variable category "vivado_synth"
 }
 
@@ -57,9 +57,7 @@ if {$::dispatch::connected} {
 
 OPTRACE "synth_1" START { ROLLUP_AUTO }
 set_param checkpoint.writeSynthRtdsInDcp 1
-set_param chipscope.maxJobs 3
 set_param general.usePosixSpawnForFork 1
-set_msg_config -id {Common 17-41} -limit 10000000
 set_msg_config -id {Synth 8-256} -limit 10000
 set_msg_config -id {Synth 8-638} -limit 10000
 OPTRACE "Creating in-memory project" START { }
@@ -104,7 +102,6 @@ read_verilog -library xil_defaultlib -sv {
   /home/voidknight/RISCV/RISCV.srcs/sources_1/new/extender.sv
   /home/voidknight/RISCV/RISCV.srcs/sources_1/new/register_status_table.sv
   /home/voidknight/RISCV/RISCV.srcs/sources_1/new/register_file.sv
-  /home/voidknight/RISCV/RISCV.srcs/sources_1/new/riu_rs.sv
   /home/voidknight/RISCV/RISCV.srcs/sources_1/new/jalr_rs.sv
   /home/voidknight/RISCV/RISCV.srcs/sources_1/new/branch_rs.sv
   /home/voidknight/RISCV/RISCV.srcs/sources_1/new/load_store_rs.sv
@@ -116,6 +113,7 @@ read_verilog -library xil_defaultlib -sv {
   /home/voidknight/RISCV/RISCV.srcs/sources_1/new/fifo_buffer.sv
   /home/voidknight/RISCV/RISCV.srcs/sources_1/new/data_mem.sv
   /home/voidknight/RISCV/RISCV.srcs/sources_1/new/databus_arbiter.sv
+  /home/voidknight/RISCV/RISCV.srcs/sources_1/new/ri_rs.sv
 }
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
@@ -135,7 +133,7 @@ read_checkpoint -auto_incremental -incremental /home/voidknight/RISCV/RISCV.srcs
 close [open __synthesis_is_running__ w]
 
 OPTRACE "synth_design" START { }
-synth_design -top btb_flush -part xc7a35tcpg236-2L -directive PerformanceOptimized -fsm_extraction one_hot -keep_equivalent_registers -resource_sharing off -no_lc -shreg_min_size 5
+synth_design -top ri_rs -part xc7a35tcpg236-2L -directive PerformanceOptimized -fsm_extraction one_hot -keep_equivalent_registers -resource_sharing off -no_lc -shreg_min_size 5
 OPTRACE "synth_design" END { }
 if { [get_msg_config -count -severity {CRITICAL WARNING}] > 0 } {
  send_msg_id runtcl-6 info "Synthesis results are not added to the cache due to CRITICAL_WARNING"
@@ -145,10 +143,10 @@ if { [get_msg_config -count -severity {CRITICAL WARNING}] > 0 } {
 OPTRACE "write_checkpoint" START { CHECKPOINT }
 # disable binary constraint mode for synth run checkpoints
 set_param constraints.enableBinaryConstraints false
-write_checkpoint -force -noxdef btb_flush.dcp
+write_checkpoint -force -noxdef ri_rs.dcp
 OPTRACE "write_checkpoint" END { }
 OPTRACE "synth reports" START { REPORT }
-generate_parallel_reports -reports { "report_utilization -file btb_flush_utilization_synth.rpt -pb btb_flush_utilization_synth.pb"  } 
+generate_parallel_reports -reports { "report_utilization -file ri_rs_utilization_synth.rpt -pb ri_rs_utilization_synth.pb"  } 
 OPTRACE "synth reports" END { }
 file delete __synthesis_is_running__
 close [open __synthesis_is_complete__ w]

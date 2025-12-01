@@ -14,7 +14,7 @@ module decode_stage1 #(parameter W = 31, I_W = 24)
     input logic[3:0] opcode,
     output logic[2:0] imm_src,
     output logic[1:0] execution_op,
-    output logic riu_station,branch_station,jalr_station,
+    output logic ri_station,branch_station,jalr_station,
     output logic loadstore_station,
     output logic mem_write,is_jal,use_imm,
     output logic is_jalr,rob_write,
@@ -34,7 +34,7 @@ module decode_stage1 #(parameter W = 31, I_W = 24)
 
 	always_comb begin
 	   {mem_write,is_jal,is_jalr} = '0;
-	   {riu_station,branch_station,jalr_station,loadstore_station} = '0;
+	   {ri_station,branch_station,jalr_station,loadstore_station} = '0;
 	   execution_op = 2'b11;
 	   imm_src = 3'b000; //For JALR and I-type instructions.
 	   /*Most instructions use their immediate field*/
@@ -48,7 +48,7 @@ module decode_stage1 #(parameter W = 31, I_W = 24)
 	   reg_write = (rd != '0);
 	   case(opcode)
 	       4'b0001 : begin //R-type
-	          riu_station = '1; 
+	          ri_station = '1; 
 	          execution_op = 2'b00;
 	          imm_src = 3'b111;
 	          use_imm = 1'b0;
@@ -56,7 +56,7 @@ module decode_stage1 #(parameter W = 31, I_W = 24)
 		   end
 		   
 		    4'b0010 : begin //I-type
-		      riu_station = '1;
+		      ri_station = '1;
 	          execution_op = 2'b00;
 	          imm_src = 3'b000;
 	          rob_write= 1'b1;
@@ -84,7 +84,6 @@ module decode_stage1 #(parameter W = 31, I_W = 24)
 		   end
 		   
 		   4'b0101 : begin //LUI
-	          riu_station = 1'b1; 
 	          imm_src = 3'b011;
 	          rob_write = 1'b1;
 	          is_lui = '1;
@@ -92,13 +91,14 @@ module decode_stage1 #(parameter W = 31, I_W = 24)
 		   
 		   4'b0111 : begin	//AUIPC
 		      imm_src = 3'b011;
-		      riu_station = '1;
+		      rob_write = '1;
 			  is_auipc = 1'b1;
 		   end
 			   
 		   4'b0110 : begin //JAL-type
 		      imm_src = 3'b100;
 			  is_jal = 1'b1;
+			  rob_write = '1;
 		   end
 										
 		   4'b1000 : begin //JALR-type

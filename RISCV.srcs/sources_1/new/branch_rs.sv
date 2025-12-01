@@ -127,7 +127,7 @@ module branch_rs #(parameter ROB = 32,RS = 4, W = 31, I = 7, C = 3)
     end
                         
     /*Select first open entry to write to*/
-    logic[RS:0] first_open_entry;
+    logic[RS-1:0] first_open_entry;
     always_comb begin
         first_open_entry = '0;
         rs_full = '1;
@@ -143,8 +143,8 @@ module branch_rs #(parameter ROB = 32,RS = 4, W = 31, I = 7, C = 3)
     /*Select entries for which execution result is
     ready and highlight respective operand to
     which result should go to*/
-    logic[RS:0] src1_result_ready;
-    logic[RS:0] src2_result_ready;
+    logic[RS-1:0] src1_result_ready;
+    logic[RS-1:0] src2_result_ready;
     always_comb begin
         src1_result_ready = '0;
         src2_result_ready = '0;
@@ -157,7 +157,7 @@ module branch_rs #(parameter ROB = 32,RS = 4, W = 31, I = 7, C = 3)
     end
     
     /*Select entry for execution*/
-    logic[RS:0] selected_instr;
+    logic[RS-1:0] selected_instr;
     logic instr_found;
                         
     /*Instr info*/
@@ -172,7 +172,7 @@ module branch_rs #(parameter ROB = 32,RS = 4, W = 31, I = 7, C = 3)
         rob = '0;
         {op1,op2,nxt_pc,addr} = '0;
         mode = '0;
-        for(int i = RS -1; i >= 0; i++)begin
+        for(int i = RS -1; i >= 0; i--)begin
             if(valid_storage[i] & ready1_storage[i] & ready2_storage[i])begin
                 selected_instr[i] = '1;
                 instr_found = '1;
@@ -218,6 +218,9 @@ module branch_rs #(parameter ROB = 32,RS = 4, W = 31, I = 7, C = 3)
             and when instruction writes to reservation station entry
             it overrwrites all fields*/
             for(int i = 0; i < RS; i++)begin
+                valid_storage[i] <= (remove_entry[i] | selected_instr[i]) ? '0 
+                    : (first_open_entry[i]) ? '1 : valid_storage[i];
+                    
                 value1_storage[i] <= (src1_result_ready[i]) ? execution_result : 
                     (first_open_entry[i]) ? rs1 : value1_storage[i];
                 

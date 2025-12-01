@@ -8,7 +8,10 @@ write on positive clock edge and
 asynchronous read.
 
 As per RISC_V specification, register
-x0 is hardwired to x0. 
+x0 is hardwired to x0. But this rule
+is enforced by the decoding stage(disabling
+reg_write of all instructions that write
+to registers) 
 */
 
 

@@ -2,3 +2,6 @@ Running: xsim.dir/pc_select_test_func_synth/xsimk -simmode gui -wdb pc_select_te
 Design successfully loaded
 Design Loading Memory Usage: 179588 KB (Peak: 179588 KB)
 Design Loading CPU Usage: 1260 ms
+Simulation completed
+Simulation Memory Usage: 265944 KB (Peak: 318856 KB)
+Simulation CPU Usage: 1280 ms

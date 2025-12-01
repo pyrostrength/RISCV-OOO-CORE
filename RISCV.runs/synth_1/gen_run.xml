@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-2L" LaunchTime="1764555019" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/fifo_buffer.dcp">
-  <File Type="VDS-TIMINGSUMMARY" Name="btb_flush_timing_summary_synth.rpt"/>
-  <File Type="RDS-DCP" Name="btb_flush.dcp"/>
-  <File Type="RDS-UTIL-PB" Name="btb_flush_utilization_synth.pb"/>
-  <File Type="RDS-UTIL" Name="btb_flush_utilization_synth.rpt"/>
-  <File Type="RDS-PROPCONSTRS" Name="btb_flush_drc_synth.rpt"/>
-  <File Type="RDS-RDS" Name="btb_flush.vds"/>
-  <File Type="REPORTS-TCL" Name="btb_flush_reports.tcl"/>
-  <File Type="VDS-TIMING-PB" Name="btb_flush_timing_summary_synth.pb"/>
-  <File Type="PA-TCL" Name="btb_flush.tcl"/>
+<GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-2L" LaunchTime="1764576367" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/fifo_buffer.dcp">
+  <File Type="VDS-TIMINGSUMMARY" Name="ri_rs_timing_summary_synth.rpt"/>
+  <File Type="RDS-DCP" Name="ri_rs.dcp"/>
+  <File Type="RDS-UTIL-PB" Name="ri_rs_utilization_synth.pb"/>
+  <File Type="RDS-UTIL" Name="ri_rs_utilization_synth.rpt"/>
+  <File Type="RDS-PROPCONSTRS" Name="ri_rs_drc_synth.rpt"/>
+  <File Type="RDS-RDS" Name="ri_rs.vds"/>
+  <File Type="REPORTS-TCL" Name="ri_rs_reports.tcl"/>
+  <File Type="VDS-TIMING-PB" Name="ri_rs_timing_summary_synth.pb"/>
+  <File Type="PA-TCL" Name="ri_rs.tcl"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PSRCDIR/sources_1/new/pc_select.sv">
@@ -173,12 +173,6 @@
         <Attr Name="UsedIn" Val="implementation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/new/riu_rs.sv">
-      <FileInfo>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-      </FileInfo>
-    </File>
     <File Path="$PSRCDIR/sources_1/new/jalr_rs.sv">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
@@ -246,9 +240,16 @@
         <Attr Name="UsedIn" Val="implementation"/>
       </FileInfo>
     </File>
+    <File Path="$PSRCDIR/sources_1/new/ri_rs.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <Config>
       <Option Name="DesignMode" Val="RTL"/>
-      <Option Name="TopModule" Val="btb_flush"/>
+      <Option Name="TopModule" Val="ri_rs"/>
     </Config>
   </FileSet>
   <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">
@@ -287,9 +288,7 @@
     </Config>
   </FileSet>
   <Strategy Version="1" Minor="2">
-    <StratHandle Name="Flow_PerfOptimized_high" Flow="Vivado Synthesis 2025">
-      <Desc>Higher performance designs, resource sharing is turned off, the global fanout guide is set to a lower number, FSM extraction forced to one-hot, LUT combining is disabled, equivalent registers are preserved, SRL are inferred  with a larger threshold</Desc>
-    </StratHandle>
+    <StratHandle Name="Flow_PerfOptimized_high" Flow="Vivado Synthesis 2025"/>
     <Step Id="synth_design">
       <Option Id="Directive">7</Option>
       <Option Id="FsmExtraction">1</Option>
