@@ -1,9 +1,0 @@
-0.7
-2020.2
-May 21 2025
-22:59:56
-/home/voidknight/Documents/CPU_FILES/register_status_table.sv,1764228254,systemVerilog,,/home/voidknight/RISCV/RISCV.srcs/sim_1/new/rst_tb.sv,,register_status_table,,uvm,../../../../../Downloads/2025.1/data/rsb/busdef,,,,,
-/home/voidknight/Documents/Thermometer/Digital-Thermometer/fifo_buffer.sv,1764128757,systemVerilog,,/home/voidknight/Documents/Thermometer/Digital-Thermometer/fifo_tb.sv,,fifo_buffer,,uvm,../../../../../Downloads/2025.1/data/rsb/busdef,,,,,
-/home/voidknight/Documents/Thermometer/Digital-Thermometer/fifo_tb.sv,1764126322,systemVerilog,,,,fifo_tb,,uvm,../../../../../Downloads/2025.1/data/rsb/busdef,,,,,
-/home/voidknight/RISCV/RISCV.sim/sim_1/behav/xsim/glbl.v,1741209010,verilog,,,,glbl,,uvm,,,,,,
-/home/voidknight/RISCV/RISCV.srcs/sim_1/new/rst_tb.sv,1764228385,systemVerilog,,,,rst_tb,,uvm,../../../../../Downloads/2025.1/data/rsb/busdef,,,,,

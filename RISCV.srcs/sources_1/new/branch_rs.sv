@@ -112,13 +112,14 @@ module branch_rs #(parameter ROB = 32,RS = 4, W = 31, I = 7, C = 3)
             if(reset_pipeline) begin
                 if(reset_rob[$clog2(ROB)] == read_ptr[$clog2(ROB)])begin
                     if((tag_storage[i][$clog2(ROB)] != reset_rob[$clog2(ROB)]) || 
-                        (tag_storage[i][$clog2(ROB)-1:0] >= reset_rob[$clog2(ROB) - 1:0]))begin
+                        (tag_storage[i][$clog2(ROB)] == reset_rob[$clog2(ROB)]) &
+                        (tag_storage[i][$clog2(ROB)-1:0] > reset_rob[$clog2(ROB) - 1:0]))begin
                             remove_entry[i] = '1;
                     end
                 end
                 else begin
                     if((tag_storage[i][$clog2(ROB)] == reset_rob[$clog2(ROB)]) && 
-                        (tag_storage[i][$clog2(ROB)-1:0] >= reset_rob[$clog2(ROB) - 1:0]))begin
+                        (tag_storage[i][$clog2(ROB)-1:0] > reset_rob[$clog2(ROB) - 1:0]))begin
                             remove_entry[i] = '1;
                     end
                 end
@@ -132,13 +133,18 @@ module branch_rs #(parameter ROB = 32,RS = 4, W = 31, I = 7, C = 3)
         first_open_entry = '0;
         rs_full = '1;
         for(int i = 0; i < RS; i++)begin
-            if(station_request & !valid_storage[i] &!full_rob)begin
+            if(!valid_storage[i])begin
                 first_open_entry[i] = '1;
                 rs_full = '0;
                 break; 
             end
         end
     end
+    
+    /*Signal that indicates if conditions for writing
+    exist*/
+    logic can_write;
+    assign can_write = !full_rob & station_request & !reset_pipeline;
                         
     /*Select entries for which execution result is
     ready and highlight respective operand to
@@ -173,7 +179,7 @@ module branch_rs #(parameter ROB = 32,RS = 4, W = 31, I = 7, C = 3)
         {op1,op2,nxt_pc,addr} = '0;
         mode = '0;
         for(int i = RS -1; i >= 0; i--)begin
-            if(valid_storage[i] & ready1_storage[i] & ready2_storage[i])begin
+            if(valid_storage[i] & ready1_storage[i] & ready2_storage[i] & !reset_pipeline)begin
                 selected_instr[i] = '1;
                 instr_found = '1;
                 p_index = pht_storage[i][2*I+1:I+1];
@@ -218,38 +224,43 @@ module branch_rs #(parameter ROB = 32,RS = 4, W = 31, I = 7, C = 3)
             and when instruction writes to reservation station entry
             it overrwrites all fields*/
             for(int i = 0; i < RS; i++)begin
-                valid_storage[i] <= (remove_entry[i] | selected_instr[i]) ? '0 
-                    : (first_open_entry[i]) ? '1 : valid_storage[i];
+                valid_storage[i] <= (remove_entry[i] | selected_instr[i] ) ? '0 
+                    : (first_open_entry[i] & can_write) ? '1 : valid_storage[i];
                     
-                value1_storage[i] <= (src1_result_ready[i]) ? execution_result : 
-                    (first_open_entry[i]) ? rs1 : value1_storage[i];
+                value1_storage[i] <= (first_open_entry[i] & can_write) ? rs1 : 
+                    (src1_result_ready[i]) ? execution_result : value1_storage[i];
                 
-                value2_storage[i] <= (src2_result_ready[i]) ? execution_result : 
-                    (first_open_entry[i]) ? rs1 : value2_storage[i];
-                
-                ready1_storage[i] <= (src1_result_ready[i]) ? '1 : 
-                    (first_open_entry[i]) ? src1_booking[$clog2(ROB)+1] : ready1_storage[i];
-                                        
-                ready2_storage[i] <= (src2_result_ready[i]) ? '1 : 
-                    (first_open_entry[i]) ? src2_booking[$clog2(ROB)+1] : ready2_storage[i];
+                value2_storage[i] <= (first_open_entry[i] & can_write) ? rs2 : 
+                    (src2_result_ready[i]) ? execution_result : value2_storage[i];
+                    
+                ready1_storage[i] <= (first_open_entry[i] & can_write) ? src1_booking[$clog2(ROB)+1] : 
+                    (src1_result_ready[i]) ? '1 : ready1_storage[i];
+                    
+                ready2_storage[i] <= (first_open_entry[i] & can_write) ? src2_booking[$clog2(ROB)+1] : 
+                    (src2_result_ready[i]) ? '1 : ready2_storage[i];
                                     
-                tag_storage[i] <= (first_open_entry[i]) ? rob_entry : tag_storage[i];
+                tag_storage[i] <= (first_open_entry[i] & can_write) 
+                    ? rob_entry : tag_storage[i];
                                     
-                rob1_storage[i] <= (first_open_entry[i]) ? src1_booking[$clog2(ROB):0] :
+                rob1_storage[i] <= (first_open_entry[i] & can_write) 
+                    ? src1_booking[$clog2(ROB):0] :
                     rob1_storage[i];
                                     
-                rob2_storage[i] <= (first_open_entry[i]) ? src2_booking[$clog2(ROB):0] :
+                rob2_storage[i] <= (first_open_entry[i] & can_write) 
+                    ? src2_booking[$clog2(ROB):0] :
                     rob2_storage[i];
+                
+                decodeinfo_storage[i] <= (first_open_entry[i] & can_write) 
+                    ? op_control : decodeinfo_storage[i];
                     
-                pht_storage[i] <= (first_open_entry[i]) ? {prediction_index, ghr_checkpoint} :
+                pht_storage[i] <= (first_open_entry[i] & can_write) ? {prediction_index, ghr_checkpoint} :
                     pht_storage[i];
                 
-                seq_pc_storage[i] <= (first_open_entry[i]) ? seq_pc : seq_pc_storage[i];
+                seq_pc_storage[i] <= (first_open_entry[i] & can_write) ? seq_pc : seq_pc_storage[i];
                 
-                prediction_addr_storage[i] <= (first_open_entry[i]) ? prediction_address : 
+                prediction_addr_storage[i] <= (first_open_entry[i] & can_write) ? prediction_address : 
                     prediction_addr_storage[i];
                 
-                decodeinfo_storage[i] <= (first_open_entry[i]) ? op_control : decodeinfo_storage[i];
                   
             end
                         

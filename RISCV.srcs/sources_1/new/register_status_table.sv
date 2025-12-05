@@ -9,12 +9,8 @@ execution as younger instructions know
 which instruction to wait for to
 receive its operands.
 
-When an instruction commits it
-writes to the register file thus
-younger instructions need only retrieve
-the appropriate data from the register file.
-Thus a committing instruction must unmark
-its destination register if no other
+A committing instruction must unmark
+its destination register only if no other
 younger instruction marked it.
 
 In case of branch misprediction or
@@ -26,9 +22,8 @@ Committing instructions are by default older
 than the offending branch or JALR instruction
 so commits are unaffected by the pipeline reset.
 
-If no pipeline reset, allinstructions 
-in pipeline stage with RST that mark a destination
-register will mark the destination register with
+If no pipeline reset, all instructions 
+will mark the destination register with
 their ROB entry.
  */
 module register_status_table #(parameter DEPTH = 32, ROB = 32) 
@@ -56,14 +51,15 @@ module register_status_table #(parameter DEPTH = 32, ROB = 32)
         if(pipeline_reset)begin
             for(int i = 0; i < DEPTH;i++)begin
                 if(reset_rob[$clog2(ROB)] == read_ptr[$clog2(ROB)])begin
-                    if((mem[i][$clog2(ROB)] != reset_rob[$clog2(ROB)]) || 
-                        (mem[i][$clog2(ROB)-1:0] >= reset_rob[$clog2(ROB) - 1:0]))begin
+                    if((mem[i][$clog2(ROB)] != reset_rob[$clog2(ROB)]) ||
+                     (mem[i][$clog2(ROB)] == reset_rob[$clog2(ROB)]) 
+                        & (mem[i][$clog2(ROB)-1:0] > reset_rob[$clog2(ROB) - 1:0]))begin
                             remove_entry[i] = '1;
                     end
                 end
                 else begin
                     if((mem[i][$clog2(ROB)] == reset_rob[$clog2(ROB)]) && 
-                        (mem[i][$clog2(ROB)-1:0] >= reset_rob[$clog2(ROB) - 1:0]))begin
+                        (mem[i][$clog2(ROB)-1:0] > reset_rob[$clog2(ROB) - 1:0]))begin
                             remove_entry[i] = '1;
                     end
                 end

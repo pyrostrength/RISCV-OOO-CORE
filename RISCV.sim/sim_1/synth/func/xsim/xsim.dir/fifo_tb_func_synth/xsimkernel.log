@@ -1,4 +1,0 @@
-Running: xsim.dir/fifo_tb_func_synth/xsimk -simmode gui -wdb fifo_tb_func_synth.wdb -simrunnum 0 -socket 33965
-Design successfully loaded
-Design Loading Memory Usage: 180008 KB (Peak: 180008 KB)
-Design Loading CPU Usage: 1210 ms

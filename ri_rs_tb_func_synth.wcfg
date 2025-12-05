@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="ri_rs_tb_func_synth.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="ri_rs_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="72,533.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="72,577.401 ns"></ZoomEndTime>
+      <Cursor1Time time="72,565.100 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="404"></NameColumnWidth>
+      <ValueColumnWidth column_width="91"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="41" />
+   <wvobject type="logic" fp_name="/ri_rs_tb/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ri_rs_tb/reset">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ri_rs_tb/reset_pipeline">
+      <obj_property name="ElementShortName">reset_pipeline</obj_property>
+      <obj_property name="ObjectShortName">reset_pipeline</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ri_rs_tb/full_rob">
+      <obj_property name="ElementShortName">full_rob</obj_property>
+      <obj_property name="ObjectShortName">full_rob</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/read_ptr">
+      <obj_property name="ElementShortName">read_ptr[5:0]</obj_property>
+      <obj_property name="ObjectShortName">read_ptr[5:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/rob_entry">
+      <obj_property name="ElementShortName">rob_entry[5:0]</obj_property>
+      <obj_property name="ObjectShortName">rob_entry[5:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/src1_booking">
+      <obj_property name="ElementShortName">src1_booking[6:0]</obj_property>
+      <obj_property name="ObjectShortName">src1_booking[6:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/src2_booking">
+      <obj_property name="ElementShortName">src2_booking[6:0]</obj_property>
+      <obj_property name="ObjectShortName">src2_booking[6:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ri_rs_tb/station_request">
+      <obj_property name="ElementShortName">station_request</obj_property>
+      <obj_property name="ObjectShortName">station_request</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/op_control">
+      <obj_property name="ElementShortName">op_control[3:0]</obj_property>
+      <obj_property name="ObjectShortName">op_control[3:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/rs1">
+      <obj_property name="ElementShortName">rs1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rs1[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/rs2">
+      <obj_property name="ElementShortName">rs2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rs2[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/execution_rob">
+      <obj_property name="ElementShortName">execution_rob[5:0]</obj_property>
+      <obj_property name="ObjectShortName">execution_rob[5:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/reset_rob">
+      <obj_property name="ElementShortName">reset_rob[5:0]</obj_property>
+      <obj_property name="ObjectShortName">reset_rob[5:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/execution_result">
+      <obj_property name="ElementShortName">execution_result[31:0]</obj_property>
+      <obj_property name="ObjectShortName">execution_result[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ri_rs_tb/instr_executed">
+      <obj_property name="ElementShortName">instr_executed</obj_property>
+      <obj_property name="ObjectShortName">instr_executed</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/ri_rob">
+      <obj_property name="ElementShortName">ri_rob[5:0]</obj_property>
+      <obj_property name="ObjectShortName">ri_rob[5:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/ri_op1">
+      <obj_property name="ElementShortName">ri_op1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ri_op1[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/ri_op2">
+      <obj_property name="ElementShortName">ri_op2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ri_op2[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/ri_mode">
+      <obj_property name="ElementShortName">ri_mode[3:0]</obj_property>
+      <obj_property name="ObjectShortName">ri_mode[3:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ri_rs_tb/ri_selected">
+      <obj_property name="ElementShortName">ri_selected</obj_property>
+      <obj_property name="ObjectShortName">ri_selected</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ri_rs_tb/rs_full">
+      <obj_property name="ElementShortName">rs_full</obj_property>
+      <obj_property name="ObjectShortName">rs_full</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/valid_array">
+      <obj_property name="ElementShortName">valid_array[15:0]</obj_property>
+      <obj_property name="ObjectShortName">valid_array[15:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/tag_array">
+      <obj_property name="ElementShortName">tag_array[15:0][5:0]</obj_property>
+      <obj_property name="ObjectShortName">tag_array[15:0][5:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/ri_rs_tb/tag_array[15]">
+         <obj_property name="ElementShortName">[15][5:0]</obj_property>
+         <obj_property name="ObjectShortName">[15][5:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/tag_array[14]">
+         <obj_property name="ElementShortName">[14][5:0]</obj_property>
+         <obj_property name="ObjectShortName">[14][5:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/tag_array[13]">
+         <obj_property name="ElementShortName">[13][5:0]</obj_property>
+         <obj_property name="ObjectShortName">[13][5:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/tag_array[12]">
+         <obj_property name="ElementShortName">[12][5:0]</obj_property>
+         <obj_property name="ObjectShortName">[12][5:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/tag_array[11]">
+         <obj_property name="ElementShortName">[11][5:0]</obj_property>
+         <obj_property name="ObjectShortName">[11][5:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/tag_array[10]">
+         <obj_property name="ElementShortName">[10][5:0]</obj_property>
+         <obj_property name="ObjectShortName">[10][5:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/tag_array[9]">
+         <obj_property name="ElementShortName">[9][5:0]</obj_property>
+         <obj_property name="ObjectShortName">[9][5:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/tag_array[8]">
+         <obj_property name="ElementShortName">[8][5:0]</obj_property>
+         <obj_property name="ObjectShortName">[8][5:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/tag_array[7]">
+         <obj_property name="ElementShortName">[7][5:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][5:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/tag_array[6]">
+         <obj_property name="ElementShortName">[6][5:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][5:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/tag_array[5]">
+         <obj_property name="ElementShortName">[5][5:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][5:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/tag_array[4]">
+         <obj_property name="ElementShortName">[4][5:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][5:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/tag_array[3]">
+         <obj_property name="ElementShortName">[3][5:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][5:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/tag_array[2]">
+         <obj_property name="ElementShortName">[2][5:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][5:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/tag_array[1]">
+         <obj_property name="ElementShortName">[1][5:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][5:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/tag_array[0]">
+         <obj_property name="ElementShortName">[0][5:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][5:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/rob1_array">
+      <obj_property name="ElementShortName">rob1_array[15:0][5:0]</obj_property>
+      <obj_property name="ObjectShortName">rob1_array[15:0][5:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/rob2_array">
+      <obj_property name="ElementShortName">rob2_array[15:0][5:0]</obj_property>
+      <obj_property name="ObjectShortName">rob2_array[15:0][5:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/ready1_array">
+      <obj_property name="ElementShortName">ready1_array[15:0]</obj_property>
+      <obj_property name="ObjectShortName">ready1_array[15:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/ready2_array">
+      <obj_property name="ElementShortName">ready2_array[15:0]</obj_property>
+      <obj_property name="ObjectShortName">ready2_array[15:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/value1_array">
+      <obj_property name="ElementShortName">value1_array[15:0][31:0]</obj_property>
+      <obj_property name="ObjectShortName">value1_array[15:0][31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/ri_rs_tb/value1_array[15]">
+         <obj_property name="ElementShortName">[15][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[15][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value1_array[14]">
+         <obj_property name="ElementShortName">[14][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[14][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value1_array[13]">
+         <obj_property name="ElementShortName">[13][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[13][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value1_array[12]">
+         <obj_property name="ElementShortName">[12][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[12][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value1_array[11]">
+         <obj_property name="ElementShortName">[11][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[11][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value1_array[10]">
+         <obj_property name="ElementShortName">[10][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[10][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value1_array[9]">
+         <obj_property name="ElementShortName">[9][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[9][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value1_array[8]">
+         <obj_property name="ElementShortName">[8][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[8][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value1_array[7]">
+         <obj_property name="ElementShortName">[7][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value1_array[6]">
+         <obj_property name="ElementShortName">[6][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value1_array[5]">
+         <obj_property name="ElementShortName">[5][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value1_array[4]">
+         <obj_property name="ElementShortName">[4][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value1_array[3]">
+         <obj_property name="ElementShortName">[3][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value1_array[2]">
+         <obj_property name="ElementShortName">[2][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value1_array[1]">
+         <obj_property name="ElementShortName">[1][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value1_array[0]">
+         <obj_property name="ElementShortName">[0][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/value2_array">
+      <obj_property name="ElementShortName">value2_array[15:0][31:0]</obj_property>
+      <obj_property name="ObjectShortName">value2_array[15:0][31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/ri_rs_tb/value2_array[15]">
+         <obj_property name="ElementShortName">[15][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[15][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value2_array[14]">
+         <obj_property name="ElementShortName">[14][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[14][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value2_array[13]">
+         <obj_property name="ElementShortName">[13][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[13][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value2_array[12]">
+         <obj_property name="ElementShortName">[12][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[12][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value2_array[11]">
+         <obj_property name="ElementShortName">[11][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[11][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value2_array[10]">
+         <obj_property name="ElementShortName">[10][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[10][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value2_array[9]">
+         <obj_property name="ElementShortName">[9][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[9][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value2_array[8]">
+         <obj_property name="ElementShortName">[8][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[8][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value2_array[7]">
+         <obj_property name="ElementShortName">[7][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value2_array[6]">
+         <obj_property name="ElementShortName">[6][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value2_array[5]">
+         <obj_property name="ElementShortName">[5][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value2_array[4]">
+         <obj_property name="ElementShortName">[4][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value2_array[3]">
+         <obj_property name="ElementShortName">[3][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value2_array[2]">
+         <obj_property name="ElementShortName">[2][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value2_array[1]">
+         <obj_property name="ElementShortName">[1][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/value2_array[0]">
+         <obj_property name="ElementShortName">[0][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/decodeinfo_array">
+      <obj_property name="ElementShortName">decodeinfo_array[15:0][3:0]</obj_property>
+      <obj_property name="ObjectShortName">decodeinfo_array[15:0][3:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/ri_rs_tb/decodeinfo_array[15]">
+         <obj_property name="ElementShortName">[15][3:0]</obj_property>
+         <obj_property name="ObjectShortName">[15][3:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/decodeinfo_array[14]">
+         <obj_property name="ElementShortName">[14][3:0]</obj_property>
+         <obj_property name="ObjectShortName">[14][3:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/decodeinfo_array[13]">
+         <obj_property name="ElementShortName">[13][3:0]</obj_property>
+         <obj_property name="ObjectShortName">[13][3:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/decodeinfo_array[12]">
+         <obj_property name="ElementShortName">[12][3:0]</obj_property>
+         <obj_property name="ObjectShortName">[12][3:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/decodeinfo_array[11]">
+         <obj_property name="ElementShortName">[11][3:0]</obj_property>
+         <obj_property name="ObjectShortName">[11][3:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/decodeinfo_array[10]">
+         <obj_property name="ElementShortName">[10][3:0]</obj_property>
+         <obj_property name="ObjectShortName">[10][3:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/decodeinfo_array[9]">
+         <obj_property name="ElementShortName">[9][3:0]</obj_property>
+         <obj_property name="ObjectShortName">[9][3:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/decodeinfo_array[8]">
+         <obj_property name="ElementShortName">[8][3:0]</obj_property>
+         <obj_property name="ObjectShortName">[8][3:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/decodeinfo_array[7]">
+         <obj_property name="ElementShortName">[7][3:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][3:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/decodeinfo_array[6]">
+         <obj_property name="ElementShortName">[6][3:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][3:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/decodeinfo_array[5]">
+         <obj_property name="ElementShortName">[5][3:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][3:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/decodeinfo_array[4]">
+         <obj_property name="ElementShortName">[4][3:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][3:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/decodeinfo_array[3]">
+         <obj_property name="ElementShortName">[3][3:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][3:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/decodeinfo_array[2]">
+         <obj_property name="ElementShortName">[2][3:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][3:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/decodeinfo_array[1]">
+         <obj_property name="ElementShortName">[1][3:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][3:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ri_rs_tb/decodeinfo_array[0]">
+         <obj_property name="ElementShortName">[0][3:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][3:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/rob">
+      <obj_property name="ElementShortName">rob[5:0]</obj_property>
+      <obj_property name="ObjectShortName">rob[5:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/op1">
+      <obj_property name="ElementShortName">op1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">op1[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/op2">
+      <obj_property name="ElementShortName">op2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">op2[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/mode">
+      <obj_property name="ElementShortName">mode[3:0]</obj_property>
+      <obj_property name="ObjectShortName">mode[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ri_rs_tb/selected">
+      <obj_property name="ElementShortName">selected</obj_property>
+      <obj_property name="ObjectShortName">selected</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ri_rs_tb/full">
+      <obj_property name="ElementShortName">full</obj_property>
+      <obj_property name="ObjectShortName">full</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/W">
+      <obj_property name="ElementShortName">W[31:0]</obj_property>
+      <obj_property name="ObjectShortName">W[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/ROB">
+      <obj_property name="ElementShortName">ROB[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ROB[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/C">
+      <obj_property name="ElementShortName">C[31:0]</obj_property>
+      <obj_property name="ObjectShortName">C[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ri_rs_tb/RS">
+      <obj_property name="ElementShortName">RS[31:0]</obj_property>
+      <obj_property name="ObjectShortName">RS[31:0]</obj_property>
+   </wvobject>
+</wave_config>

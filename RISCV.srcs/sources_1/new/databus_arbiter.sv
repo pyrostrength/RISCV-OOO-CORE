@@ -157,7 +157,7 @@ module databus_arbiter #(parameter W = 31, ROB = 32)
                                                                          .empty(empty_u_data_buffer),
                                                                          .write(u_request),
                                                                          .read(grant[4]),
-                                                                         .wr_data(u_result),
+                                                                         .wr_data(u_data),
                                                                          .rd_data(read_u_data));
                          
                           /*Buffer for ri instructions*/

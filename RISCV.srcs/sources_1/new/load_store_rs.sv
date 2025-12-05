@@ -12,7 +12,7 @@ been released.
 
 module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                         (input logic clk,reset,
-                         input logic station_request,
+                         input logic station_request,full_rob,
                          /*Byte,half word,full word reads as
                          unsigned or signed binary value*/
                          input logic[C:0] op_control,
@@ -93,14 +93,15 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                             for(int i = 0; i < RS; i++)begin
                                 if(reset_pipeline) begin
                                     if(reset_rob[$clog2(ROB)] == read_ptr[$clog2(ROB)])begin
-                                        if((tag_storage[i][$clog2(ROB)] != reset_rob[$clog2(ROB)]) || 
-                                        (tag_storage[i][$clog2(ROB)-1:0] >= reset_rob[$clog2(ROB) - 1:0]))begin
+                                        if((tag_storage[i][$clog2(ROB)] != reset_rob[$clog2(ROB)]) ||
+                                        (tag_storage[i][$clog2(ROB)] == reset_rob[$clog2(ROB)]) & 
+                                        (tag_storage[i][$clog2(ROB)-1:0] > reset_rob[$clog2(ROB) - 1:0]))begin
                                             remove_entry[i] = '1;
                                         end
                                     end
                                     else begin
                                         if((tag_storage[i][$clog2(ROB)] == reset_rob[$clog2(ROB)]) && 
-                                            (tag_storage[i][$clog2(ROB)-1:0] >= reset_rob[$clog2(ROB) - 1:0]))begin
+                                            (tag_storage[i][$clog2(ROB)-1:0] > reset_rob[$clog2(ROB) - 1:0]))begin
                                                 remove_entry[i] = '1;
                                         end
                                     end
@@ -114,7 +115,7 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                             first_open_entry = '0;
                             rs_full = '1;
                             for(int i = 0; i < RS; i++)begin
-                                if(station_request & !valid_storage[i])begin
+                                if(!valid_storage[i])begin
                                    first_open_entry[i] = '1;
                                    /*If any open entry can be found then
                                    reservation station isn't full*/
@@ -124,7 +125,11 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                             end
                         end
                         
-                            
+                        /*Signal that indicates if conditions for writing
+                        exist*/
+                        logic can_write;
+                        assign can_write = !full_rob & station_request & !reset_pipeline;
+                          
                         
                         /*Select entries for which execution result is
                         ready and highlight respective operand to
@@ -163,13 +168,14 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                             ld_op2 = '0;
                             for(int i = RS - 1; i >= 0; i--)begin
                                 if(valid_storage[i] & ready1_storage[i] & ready2_storage[i]
-                                    &decodeinfo_storage[i][C+1])begin
+                                    &decodeinfo_storage[i][C+1] &!reset_pipeline)begin
                                     older_store_for_load[i] = '0;
                                     /*Search thru RS to check for earlier store instructions*/
                                     for(int k = RS - 1; k >= 0; k--)begin
                                         if(tag_storage[k][$clog2(ROB)] == read_ptr[$clog2(ROB)])begin
-                                            if((tag_storage[i][$clog2(ROB)] != tag_storage[k][$clog2(ROB)]) 
-                                                ||(tag_storage[i][$clog2(ROB)-1:0] >= tag_storage[k][$clog2(ROB) - 1:0]))begin
+                                            if((tag_storage[i][$clog2(ROB)] != tag_storage[k][$clog2(ROB)]) ||
+                                            (tag_storage[i][$clog2(ROB)] == tag_storage[k][$clog2(ROB)]) &
+                                            (tag_storage[i][$clog2(ROB)-1:0] > tag_storage[k][$clog2(ROB) - 1:0]))begin
                                                     if(!decodeinfo_storage[k][C+1] & valid_storage[k])begin
                                                         older_store_for_load[i] = '1;
                                                         break; 
@@ -178,7 +184,7 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                                          end
                                          else begin
                                             if((tag_storage[i][$clog2(ROB)] == tag_storage[k][$clog2(ROB)]) 
-                                                &&(tag_storage[i][$clog2(ROB)-1:0] >= tag_storage[k][$clog2(ROB) - 1:0]))begin
+                                                &&(tag_storage[i][$clog2(ROB)-1:0] > tag_storage[k][$clog2(ROB) - 1:0]))begin
                                                     if(!decodeinfo_storage[k][C+1] & valid_storage[k])begin
                                                         older_store_for_load[i] = '1;
                                                         break;
@@ -192,6 +198,7 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                                      end
                                      /*No older store we have a valid load instruction*/
                                      else begin
+                                        /*If a pipeline reset occurs no instruction selected*/
                                         selected_load_instr[i] = '1;
                                         load_found = '1;
                                         ld_mode = decodeinfo_storage[i];
@@ -220,7 +227,7 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                             {st_op1,st_op2,st_data} = '0;
                             for(int i = RS -1; i >= 0; i--)begin
                                 if(valid_storage[i] & ready1_storage[i] & ready2_storage[i]
-                                    &!decodeinfo_storage[i][C+1])begin
+                                    &!decodeinfo_storage[i][C+1] & !reset_pipeline)begin
                                         selected_store_instr[i] = '1;
                                         store_found = '1;
                                         st_mode = decodeinfo_storage[i];
@@ -255,39 +262,38 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                                 /*Reservation station fields snoop in on CDB 
                                 and capture values broadcast regardless of any CPU events, including
                                 pipeline resets*/ 
-                                for(int i = 0; i < RS; i++)begin
-                                    value1_storage[i] <= (src1_result_ready[i]) ? execution_result : 
-                                        (first_open_entry[i]) ? rs1 : value1_storage[i];
+                                for(int i = 0; i < RS; i++)begin      
+                                    value1_storage[i] <= (first_open_entry[i] & can_write) ? rs1 :
+                                        (src1_result_ready[i]) ? execution_result : value1_storage[i];
                                     
-                                    value2_storage[i] <= (src2_result_ready[i]) ? execution_result : 
-                                        (first_open_entry[i]) ? rs2 : value2_storage[i];
+                                    value2_storage[i] <= (first_open_entry[i] & can_write) ? rs2 :
+                                        (src2_result_ready[i]) ? execution_result : value2_storage[i];
                                         
-                                    value3_storage[i] <= (src2_result_ready[i]) ? execution_result :
-                                        (first_open_entry[i]) ? imm : value3_storage[i];
-                                    
-                                    ready1_storage[i] <= (src1_result_ready[i]) ? '1 : 
-                                        (first_open_entry[i]) ? src1_booking[$clog2(ROB)+1] : ready1_storage[i];
+                                    value3_storage[i] <= (first_open_entry[i] & can_write) ? imm :value3_storage[i];
                                         
-                                    ready2_storage[i] <= (src2_result_ready[i]) ? '1 : 
-                                        (first_open_entry[i]) ? src2_booking[$clog2(ROB)+1] : ready2_storage[i];
+                                    ready1_storage[i] <= (first_open_entry[i] & can_write) ? src1_booking[$clog2(ROB)+1] 
+                                        :(src1_result_ready[i]) ? '1 : ready1_storage[i];
+                                        
+                                    ready2_storage[i] <= (first_open_entry[i] & can_write) ? src2_booking[$clog2(ROB)+1] 
+                                        :(src2_result_ready[i]) ? '1 : ready2_storage[i];
                                     
-                                    tag_storage[i] <= (first_open_entry[i]) ? rob_entry : tag_storage[i];
+                                    tag_storage[i] <= (first_open_entry[i] & can_write) ? rob_entry : tag_storage[i];
                                     
-                                    rob1_storage[i] <= (first_open_entry[i]) ? src1_booking[$clog2(ROB):0] :
+                                    rob1_storage[i] <= (first_open_entry[i] & can_write) ? src1_booking[$clog2(ROB):0] :
                                         rob1_storage[i];
                                     
-                                    rob2_storage[i] <= (first_open_entry[i]) ? src2_booking[$clog2(ROB):0] :
+                                    rob2_storage[i] <= (first_open_entry[i] & can_write) ? src2_booking[$clog2(ROB):0] :
                                         rob2_storage[i];
                                         
-                                    decodeinfo_storage[i] <= (first_open_entry[i]) ? {is_load,op_control} :
+                                    decodeinfo_storage[i] <= (first_open_entry[i] & can_write) ? {is_load,op_control} :
                                         decodeinfo_storage[i];
                                     
                                     /*Instruction is removed if store instruction has committed, load instruction
                                     has been selected for execution or if a pipeline reset demands it*/
                                     valid_storage[i] <= (remove_entry[i] | selected_load_instr[i] |
-                                        (commit_rob == tag_storage[i]) & !decodeinfo_storage[i] & valid_storage[i]
-                                        & instr_commit ) ? 
-                                        '0 : (first_open_entry[i]) ? '1 :
+                                        (commit_rob == tag_storage[i]) & !decodeinfo_storage[i][C+1] 
+                                        & valid_storage[i] & instr_commit ) ? 
+                                        '0 : (first_open_entry[i] & can_write) ? '1 :
                                             valid_storage[i];
 
                 
@@ -297,8 +303,6 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                         end
     
     
-                        /*Pass selected instructions to functional units*/
-                        logic older_store;
                         always_ff @(posedge clk) begin
                             if(reset)begin
                                 {load_op1,load_op2} <= '0;

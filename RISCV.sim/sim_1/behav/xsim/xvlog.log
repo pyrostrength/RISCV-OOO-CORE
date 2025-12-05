@@ -1,4 +1,0 @@
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/voidknight/Documents/CPU_FILES/register_status_table.sv" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module register_status_table
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/voidknight/RISCV/RISCV.srcs/sim_1/new/rst_tb.sv" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module rst_tb

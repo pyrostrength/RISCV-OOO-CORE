@@ -103,7 +103,7 @@ module ri_rs #(parameter ROB = 32,RS = 16, W = 31,C = 3)
     logic[W:0] value2_storage[RS - 1:0];
     
     /*Decoding info*/
-    logic[5:0] decodeinfo_storage[RS - 1:0];
+    logic[C:0] decodeinfo_storage[RS - 1:0];
     
     /*Find entries to remove upon pipeline reset*/
     logic[RS-1:0] remove_entry;
@@ -113,13 +113,14 @@ module ri_rs #(parameter ROB = 32,RS = 16, W = 31,C = 3)
             if(reset_pipeline) begin
                 if(reset_rob[$clog2(ROB)] == read_ptr[$clog2(ROB)])begin
                     if((tag_storage[i][$clog2(ROB)] != reset_rob[$clog2(ROB)]) || 
-                        (tag_storage[i][$clog2(ROB)-1:0] >= reset_rob[$clog2(ROB) - 1:0]))begin
+                    (tag_storage[i][$clog2(ROB)] == reset_rob[$clog2(ROB)]) &
+                        (tag_storage[i][$clog2(ROB)-1:0] > reset_rob[$clog2(ROB) - 1:0]))begin
                             remove_entry[i] = '1;
                     end
                 end
                 else begin
                     if((tag_storage[i][$clog2(ROB)] == reset_rob[$clog2(ROB)]) && 
-                        (tag_storage[i][$clog2(ROB)-1:0] >= reset_rob[$clog2(ROB) - 1:0]))begin
+                        (tag_storage[i][$clog2(ROB)-1:0] > reset_rob[$clog2(ROB) - 1:0]))begin
                             remove_entry[i] = '1;
                     end
                 end
@@ -131,18 +132,24 @@ module ri_rs #(parameter ROB = 32,RS = 16, W = 31,C = 3)
     reorder buffer isn't currently full, an
     instruction requested a station write and there
     exists an empty entry*/
-    logic[RS:0] first_open_entry;
+    logic[RS-1:0] first_open_entry;
+    
     always_comb begin
         first_open_entry = '0;
         rs_full = '1;
         for(int i = 0; i < RS; i++)begin
-            if(station_request & !valid_storage[i] &!full_rob)begin
+            if(!valid_storage[i])begin
                 first_open_entry[i] = '1;
                 rs_full = '0;
                 break; 
             end
         end
     end
+    
+    /*Signal that indicates if conditions for writing
+    exist*/
+    logic can_write;
+    assign can_write = !full_rob & station_request & !reset_pipeline;
                         
     /*Select entries for which execution result is
     ready and highlight respective operand to
@@ -154,14 +161,14 @@ module ri_rs #(parameter ROB = 32,RS = 16, W = 31,C = 3)
         src2_result_ready = '0;
         for(int i = 0; i < RS; i++)begin
             src1_result_ready[i] = instr_executed & !ready1_storage[i] 
-                & (rob1_storage[i] == execution_rob);
+                & (rob1_storage[i] == execution_rob) & valid_storage[i];
             src2_result_ready[i] = instr_executed & !ready2_storage[i] 
-                & (rob2_storage[i] == execution_rob); 
+                & (rob2_storage[i] == execution_rob) & valid_storage[i]; 
         end  
     end
     
     /*Select entry for execution*/
-    logic[RS:0] selected_instr;
+    logic[RS-1:0] selected_instr;
     logic instr_found;
                         
     /*Instr info*/
@@ -176,7 +183,7 @@ module ri_rs #(parameter ROB = 32,RS = 16, W = 31,C = 3)
         rob = '0;
         {op1,op2} = '0;
         for(int i = RS -1; i >= 0; i--)begin
-            if(valid_storage[i] & ready1_storage[i] & ready2_storage[i])begin
+            if(valid_storage[i] & ready1_storage[i] & ready2_storage[i] & !reset_pipeline)begin
                 selected_instr[i] = '1;
                 instr_found = '1;
                 rob = tag_storage[i];
@@ -214,30 +221,34 @@ module ri_rs #(parameter ROB = 32,RS = 16, W = 31,C = 3)
             and when instruction writes to reservation station entry
             it overrwrites all fields*/
             for(int i = 0; i < RS; i++)begin
-                valid_storage[i] <= (remove_entry[i] | selected_instr[i]) ? '0 
-                    : (first_open_entry[i]) ? '1 : valid_storage[i];
+                valid_storage[i] <= (remove_entry[i] | selected_instr[i] ) ? '0 
+                    : (first_open_entry[i] & can_write) ? '1 : valid_storage[i];
                     
-                value1_storage[i] <= (src1_result_ready[i]) ? execution_result : 
-                    (first_open_entry[i]) ? rs1 : value1_storage[i];
+                value1_storage[i] <= (first_open_entry[i] & can_write) ? rs1 : 
+                    (src1_result_ready[i]) ? execution_result : value1_storage[i];
                 
-                value2_storage[i] <= (src2_result_ready[i]) ? execution_result : 
-                    (first_open_entry[i]) ? rs2 : value2_storage[i];
-                
-                ready1_storage[i] <= (src1_result_ready[i]) ? '1 : 
-                    (first_open_entry[i]) ? src1_booking[$clog2(ROB)+1] : ready1_storage[i];
-                                        
-                ready2_storage[i] <= (src2_result_ready[i]) ? '1 : 
-                    (first_open_entry[i]) ? src2_booking[$clog2(ROB)+1] : ready2_storage[i];
+                value2_storage[i] <= (first_open_entry[i] & can_write) ? rs2 : 
+                    (src2_result_ready[i]) ? execution_result : value2_storage[i];
+                    
+                ready1_storage[i] <= (first_open_entry[i] & can_write) ? src1_booking[$clog2(ROB)+1] : 
+                    (src1_result_ready[i]) ? '1 : ready1_storage[i];
+                    
+                ready2_storage[i] <= (first_open_entry[i] & can_write) ? src2_booking[$clog2(ROB)+1] : 
+                    (src2_result_ready[i]) ? '1 : ready2_storage[i];
                                     
-                tag_storage[i] <= (first_open_entry[i]) ? rob_entry : tag_storage[i];
+                tag_storage[i] <= (first_open_entry[i] & can_write) 
+                    ? rob_entry : tag_storage[i];
                                     
-                rob1_storage[i] <= (first_open_entry[i]) ? src1_booking[$clog2(ROB):0] :
+                rob1_storage[i] <= (first_open_entry[i] & can_write) 
+                    ? src1_booking[$clog2(ROB):0] :
                     rob1_storage[i];
                                     
-                rob2_storage[i] <= (first_open_entry[i]) ? src2_booking[$clog2(ROB):0] :
+                rob2_storage[i] <= (first_open_entry[i] & can_write) 
+                    ? src2_booking[$clog2(ROB):0] :
                     rob2_storage[i];
                 
-                decodeinfo_storage[i] <= (first_open_entry[i]) ? op_control : decodeinfo_storage[i];
+                decodeinfo_storage[i] <= (first_open_entry[i] & can_write) 
+                    ? op_control : decodeinfo_storage[i];
                   
             end
                         

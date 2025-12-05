@@ -58,6 +58,7 @@ if {$::dispatch::connected} {
 OPTRACE "synth_1" START { ROLLUP_AUTO }
 set_param checkpoint.writeSynthRtdsInDcp 1
 set_param general.usePosixSpawnForFork 1
+set_msg_config -id {Common 17-41} -limit 10000000
 set_msg_config -id {Synth 8-256} -limit 10000
 set_msg_config -id {Synth 8-638} -limit 10000
 OPTRACE "Creating in-memory project" START { }
@@ -80,6 +81,7 @@ read_mem {
   /home/voidknight/RISCV/RISCV.srcs/sources_1/new/register_file.mem
 }
 read_verilog -library xil_defaultlib -sv {
+  /home/voidknight/RISCV/RISCV.srcs/sources_1/new/functions.sv
   /home/voidknight/RISCV/RISCV.srcs/sources_1/new/pc_select.sv
   /home/voidknight/RISCV/RISCV.srcs/sources_1/new/btb_flush.sv
   /home/voidknight/Documents/CPU_FILES/IFU.sv

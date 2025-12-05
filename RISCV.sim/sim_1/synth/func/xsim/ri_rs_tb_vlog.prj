@@ -1,0 +1,22 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../../../Downloads/2025.1/data/rsb/busdef" \
+"ri_rs_tb_func_synth.v" \
+
+sv xil_defaultlib  --include "../../../../../../Downloads/2025.1/data/rsb/busdef" \
+"../../../../../RISCV.srcs/sim_1/new/rst_tb.sv" \
+"../../../../../RISCV.srcs/sim_1/new/fifo_tb.sv" \
+"../../../../../RISCV.srcs/sim_1/new/pc_select_test.sv" \
+"../../../../../RISCV.srcs/sim_1/new/gshare_test.sv" \
+"../../../../../RISCV.srcs/sim_1/new/short_flush_tb.sv" \
+"../../../../../RISCV.srcs/sim_1/new/fix_flush_tb.sv" \
+"../../../../../RISCV.srcs/sim_1/new/reg_status_tb.v" \
+"../../../../../RISCV.srcs/sim_1/new/pipeline_reset_tb.sv" \
+"../../../../../RISCV.srcs/sim_1/new/branch_rs_tb.sv" \
+"../../../../../RISCV.srcs/sim_1/new/databus_tb.sv" \
+"../../../../../RISCV.srcs/sim_1/new/loadstore_rs_tb.sv" \
+"../../../../../RISCV.srcs/sim_1/new/jalr_rs_tb.sv" \
+"../../../../../RISCV.srcs/sim_1/new/ri_rs_tb.sv" \
+"../../../../../RISCV.srcs/sim_1/new/rob_tb.sv" \
+
+# Do not sort compile order
+nosort

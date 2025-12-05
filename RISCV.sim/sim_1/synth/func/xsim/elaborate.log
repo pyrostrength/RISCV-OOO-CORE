@@ -1,92 +1,27 @@
 Vivado Simulator v2025.1.0
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
-Running: /home/voidknight/Downloads/2025.1/Vivado/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L uvm -L unisims_ver -L secureip --snapshot fix_flush_tb_func_synth xil_defaultlib.fix_flush_tb xil_defaultlib.glbl -log elaborate.log 
+Running: /home/voidknight/Downloads/2025.1/Vivado/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L uvm -L unisims_ver -L secureip --snapshot ri_rs_tb_func_synth xil_defaultlib.ri_rs_tb xil_defaultlib.glbl -log elaborate.log 
 Using 8 slave threads.
 WARNING: [XSIM 43-3431] One or more environment variables have been detected which affect the operation of the C compiler. These are typically not set in standard installations and are not tested by AMD, however they may be appropriate for your system, so the flow will attempt to continue.  If errors occur, try running xelab with the "-mt off -v 1" switches to see more information from the C compiler. The following environment variables have been detected:
 Starting static elaboration
 Pass Through NonSizing Optimizer
 Completed static elaboration
 Starting simulation data flow analysis
-WARNING: [XSIM 43-4100] "/home/voidknight/RISCV/RISCV.sim/sim_1/synth/func/xsim/fix_flush_tb_func_synth.v" Line 16. Module fix_flush has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT2.v" Line 28. Module LUT2 has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT2.v" Line 65. Module x_lut2_mux4 has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT1.v" Line 27. Module LUT1(INIT=2'b01) has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT1.v" Line 62. Module x_lut1_mux2 has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LDCE.v" Line 26. Module LDCE has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LDCE.v" Line 183. Module latchsre_ldce has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT3.v" Line 28. Module LUT3(INIT=8'b10111010) has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT3.v" Line 67. Module x_lut3_mux8 has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LDCE.v" Line 26. Module LDCE has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LDCE.v" Line 183. Module latchsre_ldce has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT2.v" Line 28. Module LUT2 has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT2.v" Line 65. Module x_lut2_mux4 has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LDCE.v" Line 26. Module LDCE has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LDCE.v" Line 183. Module latchsre_ldce has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LDCE.v" Line 26. Module LDCE has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LDCE.v" Line 183. Module latchsre_ldce has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT4.v" Line 30. Module LUT4 has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/FDSE.v" Line 27. Module FDSE_default has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/FDRE.v" Line 27. Module FDRE_default has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/FDRE.v" Line 27. Module FDRE_default has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/FDRE.v" Line 27. Module FDRE_default has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/BUFG.v" Line 27. Module BUFG has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/IBUF.v" Line 29. Module IBUF has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/IBUF.v" Line 29. Module IBUF has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/OBUF.v" Line 25. Module OBUF has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT4.v" Line 30. Module LUT4 has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/IBUF.v" Line 29. Module IBUF has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/IBUF.v" Line 29. Module IBUF has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/IBUF.v" Line 29. Module IBUF has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/home/voidknight/RISCV/RISCV.sim/sim_1/synth/func/xsim/fix_flush_tb_func_synth.v" Line 16. Module fix_flush has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT2.v" Line 28. Module LUT2 has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT2.v" Line 65. Module x_lut2_mux4 has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT1.v" Line 27. Module LUT1(INIT=2'b01) has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT1.v" Line 62. Module x_lut1_mux2 has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LDCE.v" Line 26. Module LDCE has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LDCE.v" Line 183. Module latchsre_ldce has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT3.v" Line 28. Module LUT3(INIT=8'b10111010) has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT3.v" Line 67. Module x_lut3_mux8 has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LDCE.v" Line 26. Module LDCE has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LDCE.v" Line 183. Module latchsre_ldce has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT2.v" Line 28. Module LUT2 has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT2.v" Line 65. Module x_lut2_mux4 has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LDCE.v" Line 26. Module LDCE has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LDCE.v" Line 183. Module latchsre_ldce has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LDCE.v" Line 26. Module LDCE has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LDCE.v" Line 183. Module latchsre_ldce has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT4.v" Line 30. Module LUT4 has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/FDSE.v" Line 27. Module FDSE_default has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/FDRE.v" Line 27. Module FDRE_default has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/FDRE.v" Line 27. Module FDRE_default has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/FDRE.v" Line 27. Module FDRE_default has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/BUFG.v" Line 27. Module BUFG has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/IBUF.v" Line 29. Module IBUF has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/IBUF.v" Line 29. Module IBUF has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/OBUF.v" Line 25. Module OBUF has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/LUT4.v" Line 30. Module LUT4 has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/IBUF.v" Line 29. Module IBUF has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/IBUF.v" Line 29. Module IBUF has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/proj/xbuilds/SWIP/2025.1_0521_0003/installs/lin64/2025.1/data/verilog/src/unisims/IBUF.v" Line 29. Module IBUF has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/home/voidknight/RISCV/RISCV.sim/sim_1/synth/func/xsim/fix_flush_tb_func_synth.v" Line 193. Module glbl has a timescale but at least one module in design doesn't have timescale.
-WARNING: [XSIM 43-4100] "/home/voidknight/RISCV/RISCV.sim/sim_1/synth/func/xsim/fix_flush_tb_func_synth.v" Line 193. Module glbl has a timescale but at least one module in design doesn't have timescale.
 Completed simulation data flow analysis
 Time Resolution for simulation is 1ps
-Compiling module unisims_ver.x_lut2_mux4
-Compiling module unisims_ver.LUT2
-Compiling module unisims_ver.x_lut1_mux2
-Compiling module unisims_ver.LUT1(INIT=2'b01)
-Compiling module unisims_ver.latchsre_ldce
-Compiling module unisims_ver.LDCE
-Compiling module unisims_ver.x_lut3_mux8
-Compiling module unisims_ver.LUT3(INIT=8'b10111010)
-Compiling module unisims_ver.LUT4
-Compiling module unisims_ver.FDSE_default
-Compiling module unisims_ver.FDRE_default
 Compiling module unisims_ver.BUFG
 Compiling module unisims_ver.IBUF
+Compiling module unisims_ver.FDRE_default
+Compiling module unisims_ver.LUT6
+Compiling module unisims_ver.x_lut3_mux8
+Compiling module unisims_ver.LUT3
+Compiling module unisims_ver.LUT5
 Compiling module unisims_ver.OBUF
-Compiling module xil_defaultlib.fix_flush
-Compiling module xil_defaultlib.fix_flush_tb
+Compiling module unisims_ver.LUT4
+Compiling module unisims_ver.x_lut2_mux4
+Compiling module unisims_ver.LUT2
+Compiling module xil_defaultlib.ri_rs
+Compiling module xil_defaultlib.ri_rs_tb
 Compiling module xil_defaultlib.glbl
-Built simulation snapshot fix_flush_tb_func_synth
+Built simulation snapshot ri_rs_tb_func_synth
