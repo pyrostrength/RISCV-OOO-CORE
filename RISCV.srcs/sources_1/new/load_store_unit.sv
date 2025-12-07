@@ -15,14 +15,14 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                         input logic[W:0] load_address,
                         input logic[$clog2(ROB):0] load_rob,
                         /*Load_control is load operation to be performed*/
-                        input logic[C:0] load_control,
+                        input logic[C+1:0] load_control,
                         /*Is this a load instruction selected for execution?*/
                         input logic execute_load,
                         output logic load_complete,
                         /*Stores only write to memory when
                         commiting*/
                         input logic [W:0] store_address,store_data,
-                        input logic [C:0] store_control,
+                        input logic [C+1:0] store_control,
                         input logic[$clog2(ROB):0] store_rob,
                         input logic is_commit_store,
                         /*Store instruction has to write to memory first 
@@ -152,7 +152,9 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                         logic[W:0] retrieved_data_next;
                         logic load_complete_next,store_committed_next;
                         logic[$clog2(ROB):0] entry_rob_next,committed_store_rob_next;
+                        logic across_2_words;
                         
+                      
                         assign full_store_queue = full_store_rob_buffer;
                         assign full_load_queue = full_load_rob_buffer;
                         

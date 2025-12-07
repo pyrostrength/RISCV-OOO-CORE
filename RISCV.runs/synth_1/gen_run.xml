@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-2L" LaunchTime="1764920544" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/fifo_buffer.dcp">
-  <File Type="VDS-TIMINGSUMMARY" Name="ri_rs_timing_summary_synth.rpt"/>
-  <File Type="RDS-DCP" Name="ri_rs.dcp"/>
-  <File Type="RDS-UTIL-PB" Name="ri_rs_utilization_synth.pb"/>
-  <File Type="RDS-UTIL" Name="ri_rs_utilization_synth.rpt"/>
-  <File Type="RDS-PROPCONSTRS" Name="ri_rs_drc_synth.rpt"/>
-  <File Type="RDS-RDS" Name="ri_rs.vds"/>
-  <File Type="REPORTS-TCL" Name="ri_rs_reports.tcl"/>
-  <File Type="VDS-TIMING-PB" Name="ri_rs_timing_summary_synth.pb"/>
-  <File Type="PA-TCL" Name="ri_rs.tcl"/>
+<GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-2L" LaunchTime="1765060564" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/fifo_buffer.dcp">
+  <File Type="VDS-TIMINGSUMMARY" Name="jalr_rs_timing_summary_synth.rpt"/>
+  <File Type="RDS-DCP" Name="jalr_rs.dcp"/>
+  <File Type="RDS-UTIL-PB" Name="jalr_rs_utilization_synth.pb"/>
+  <File Type="RDS-UTIL" Name="jalr_rs_utilization_synth.rpt"/>
+  <File Type="RDS-PROPCONSTRS" Name="jalr_rs_drc_synth.rpt"/>
+  <File Type="RDS-RDS" Name="jalr_rs.vds"/>
+  <File Type="REPORTS-TCL" Name="jalr_rs_reports.tcl"/>
+  <File Type="VDS-TIMING-PB" Name="jalr_rs_timing_summary_synth.pb"/>
+  <File Type="PA-TCL" Name="jalr_rs.tcl"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PSRCDIR/sources_1/new/functions.sv">
@@ -184,18 +184,21 @@
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
     <File Path="$PSRCDIR/sources_1/new/branch_rs.sv">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
     <File Path="$PSRCDIR/sources_1/new/load_store_rs.sv">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
     <File Path="$PSRCDIR/sources_1/new/reorder_buffer.sv">
@@ -256,7 +259,7 @@
     </File>
     <Config>
       <Option Name="DesignMode" Val="RTL"/>
-      <Option Name="TopModule" Val="ri_rs"/>
+      <Option Name="TopModule" Val="jalr_rs"/>
     </Config>
   </FileSet>
   <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">

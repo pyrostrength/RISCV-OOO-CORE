@@ -150,8 +150,8 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                         /*Select load instruction for execution. Remember
                         an instruction selected for execution deletes its
                         own entry in the subsequent clock cycle*/
-                        logic[RS-1:0] selected_load_instr;
-                        logic[RS-1:0] older_store_for_load;
+                        logic[RS - 1:0] selected_load_instr;
+                        logic[RS - 1:0] older_store_for_load;
                         logic load_found;
                         
                         /*Instr info*/
@@ -169,7 +169,6 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                             for(int i = RS - 1; i >= 0; i--)begin
                                 if(valid_storage[i] & ready1_storage[i] & ready2_storage[i]
                                     &decodeinfo_storage[i][C+1] &!reset_pipeline)begin
-                                    older_store_for_load[i] = '0;
                                     /*Search thru RS to check for earlier store instructions*/
                                     for(int k = RS - 1; k >= 0; k--)begin
                                         if(tag_storage[k][$clog2(ROB)] == read_ptr[$clog2(ROB)])begin
@@ -192,10 +191,14 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                                             end
                                          end 
                                      end
-                                     /*Discovered if there's an older store*/
+                                     
+                                     /*Discovered if there's an older store so
+                                     so load instruction is discarded*/
                                      if(older_store_for_load[i])begin
+                                        /*Try a different load instruction*/
                                         continue;
                                      end
+                                     
                                      /*No older store we have a valid load instruction*/
                                      else begin
                                         /*If a pipeline reset occurs no instruction selected*/
@@ -290,13 +293,11 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                                     
                                     /*Instruction is removed if store instruction has committed, load instruction
                                     has been selected for execution or if a pipeline reset demands it*/
-                                    valid_storage[i] <= (remove_entry[i] | selected_load_instr[i] |
+                                    valid_storage[i] <= (first_open_entry[i] & can_write) ? '1 :
+                                        (remove_entry[i] | selected_load_instr[i] |
                                         (commit_rob == tag_storage[i]) & !decodeinfo_storage[i][C+1] 
                                         & valid_storage[i] & instr_commit ) ? 
-                                        '0 : (first_open_entry[i] & can_write) ? '1 :
-                                            valid_storage[i];
-
-                
+                                        '0 : valid_storage[i];
                                    
                                 end 
                             end

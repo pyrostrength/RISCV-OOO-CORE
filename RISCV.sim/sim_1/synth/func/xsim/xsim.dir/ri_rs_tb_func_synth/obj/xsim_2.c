@@ -1768,19 +1768,19 @@ iki_register_root_pointers(2, 2294904, 5,2, 1, 6,4495376, 6,1,0) ;
 
 }
 #include "iki_bridge.h"
-void subprog_m_cd55f45b58bc9a84_abf1579a_1053() ;
-void subprog_m_cd55f45b58bc9a84_abf1579a_1052() ;
-void subprog_m_cd55f45b58bc9a84_abf1579a_1051() ;
-void subprog_m_cd55f45b58bc9a84_abf1579a_1050() ;
-void subprog_m_cd55f45b58bc9a84_abf1579a_1049() ;
-void subprog_m_cd55f45b58bc9a84_abf1579a_1048() ;
-void subprog_m_cd55f45b58bc9a84_abf1579a_1047() ;
-void subprog_m_cd55f45b58bc9a84_abf1579a_1046() ;
-void subprog_m_cd55f45b58bc9a84_abf1579a_1045() ;
-void subprog_m_cd55f45b58bc9a84_abf1579a_1044() ;
-void subprog_m_cd55f45b58bc9a84_abf1579a_1055() ;
-static char* ng60[] = {(void *)subprog_m_cd55f45b58bc9a84_abf1579a_1053, (void *)subprog_m_cd55f45b58bc9a84_abf1579a_1052, (void *)subprog_m_cd55f45b58bc9a84_abf1579a_1051, (void *)subprog_m_cd55f45b58bc9a84_abf1579a_1050, (void *)subprog_m_cd55f45b58bc9a84_abf1579a_1049, (void *)subprog_m_cd55f45b58bc9a84_abf1579a_1048, (void *)subprog_m_cd55f45b58bc9a84_abf1579a_1047, (void *)subprog_m_cd55f45b58bc9a84_abf1579a_1046, (void *)subprog_m_cd55f45b58bc9a84_abf1579a_1045, (void *)subprog_m_cd55f45b58bc9a84_abf1579a_1044};
-static char* ng70[] = {(void *)subprog_m_cd55f45b58bc9a84_abf1579a_1055};
+void subprog_m_109b085128a5e6c4_abf1579a_1053() ;
+void subprog_m_109b085128a5e6c4_abf1579a_1052() ;
+void subprog_m_109b085128a5e6c4_abf1579a_1051() ;
+void subprog_m_109b085128a5e6c4_abf1579a_1050() ;
+void subprog_m_109b085128a5e6c4_abf1579a_1049() ;
+void subprog_m_109b085128a5e6c4_abf1579a_1048() ;
+void subprog_m_109b085128a5e6c4_abf1579a_1047() ;
+void subprog_m_109b085128a5e6c4_abf1579a_1046() ;
+void subprog_m_109b085128a5e6c4_abf1579a_1045() ;
+void subprog_m_109b085128a5e6c4_abf1579a_1044() ;
+void subprog_m_109b085128a5e6c4_abf1579a_1055() ;
+static char* ng60[] = {(void *)subprog_m_109b085128a5e6c4_abf1579a_1053, (void *)subprog_m_109b085128a5e6c4_abf1579a_1052, (void *)subprog_m_109b085128a5e6c4_abf1579a_1051, (void *)subprog_m_109b085128a5e6c4_abf1579a_1050, (void *)subprog_m_109b085128a5e6c4_abf1579a_1049, (void *)subprog_m_109b085128a5e6c4_abf1579a_1048, (void *)subprog_m_109b085128a5e6c4_abf1579a_1047, (void *)subprog_m_109b085128a5e6c4_abf1579a_1046, (void *)subprog_m_109b085128a5e6c4_abf1579a_1045, (void *)subprog_m_109b085128a5e6c4_abf1579a_1044};
+static char* ng70[] = {(void *)subprog_m_109b085128a5e6c4_abf1579a_1055};
 void relocate(char *);
 
 void sensitize(char *);

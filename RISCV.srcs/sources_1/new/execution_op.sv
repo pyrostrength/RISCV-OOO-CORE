@@ -51,7 +51,7 @@ module execution_op(input logic funct7,//We only take a single bit of the funct7
 						 end
 						 //Load instructions
 						 2'b10:begin
-						      op_control = '0;
+						      op_control = 1;
 						      /*Do not change these op-control assignments*/
 						      case(funct3)
 						          3'b111: op_control = 4'b0100;//load word
@@ -64,7 +64,7 @@ module execution_op(input logic funct7,//We only take a single bit of the funct7
 						 
 						 //Store instructions.
 						 2'b11:begin
-						      op_control = '0;
+						      op_control = 1;
 						      /*Do not change these op-control assigments*/
 						      case(funct3)
 						          3'b111: op_control = 4'b0100;//store word

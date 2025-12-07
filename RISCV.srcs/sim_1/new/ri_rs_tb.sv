@@ -20,7 +20,7 @@ module ri_rs_tb #(parameter W = 31,ROB = 32, C = 3, RS = 16)
      //Outputs of RS
      logic[$clog2(ROB):0] ri_rob;
      logic[W:0] ri_op1,ri_op2;
-     logic[3:0]ri_mode;
+     logic[C:0]ri_mode;
      logic ri_selected;
      logic rs_full;
      
@@ -60,15 +60,12 @@ module ri_rs_tb #(parameter W = 31,ROB = 32, C = 3, RS = 16)
         rand logic[$clog2(ROB):0] execution_rob;
         rand logic[$clog2(ROB):0] reset_rob;
         rand logic[$clog2(ROB):0] rob_entry;
-        rand logic reset_pipeline;
-        rand logic instr_executed;
         static rand logic[$clog2(ROB):0] read_ptr;
         
         logic[$clog2(ROB):0] rob_arrays[4] = '{src1_booking[$clog2(ROB):0],src2_booking[$clog2(ROB):0],
             execution_rob,reset_rob};
             
         constraint correct_ages{
-            solve read_ptr before rob_entry,execution_rob,reset_rob;
             
             relative_age(read_ptr,read_ptr,rob_entry) == 2;
             
@@ -91,6 +88,8 @@ module ri_rs_tb #(parameter W = 31,ROB = 32, C = 3, RS = 16)
         rand logic station_request;
         rand logic[C:0] op_control;
         rand logic[W:0] rs1,rs2,execution_result;
+        rand logic reset_pipeline;
+        rand logic instr_executed;
         
     endclass
     
@@ -154,8 +153,8 @@ module ri_rs_tb #(parameter W = 31,ROB = 32, C = 3, RS = 16)
         reset_rob = robs.reset_rob;
         read_ptr = robs.read_ptr;
         
-        reset_pipeline = robs.reset_pipeline;
-        instr_executed = robs.instr_executed;
+        reset_pipeline = inputs.reset_pipeline;
+        instr_executed = inputs.instr_executed;
         
         //reset = inputs.reset;
         reset = '0;

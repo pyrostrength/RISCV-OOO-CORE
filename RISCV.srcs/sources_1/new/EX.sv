@@ -154,28 +154,35 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
                                       .update_ghr(update_ghr));
       
       logic[W:0] load_address;
+      logic load_across_words;
       load_address_gen ld_addr_gen(.load_op1(load_op1),
+                                   .load_control(load_mode),
                                    .load_op2(load_op2),
-                                   .load_addr(load_address));
+                                   .load_addr(load_address),
+                                   .load_across_words(load_across_words));
       
       assign store_request = store_selected;
       assign st_data = store_data;
-      assign st_rob = store_rob;                             
+      assign st_rob = store_rob;
+      logic store_across_words;                             
       store_address_gen st_addr_gen(.store_op1(store_op1),
                                     .store_op2(store_op2),
+                                    .commit_mode(commit_store_mode),
+                                    .commit_addr(commit_store_address),
+                                    .store_across_words(store_across_words),
                                     .store_addr(st_addr));
                                     
       load_store_unit loadstore(.clk(clk),
                                 .reset(reset),
                                 .load_address(load_address),
                                 .load_rob(load_rob),
-                                .load_control(load_mode),
+                                .load_control({load_across_words,load_mode}),
                                 .execute_load(load_selected),
                                 .load_complete(load_request),
                                 .store_address(commit_store_address),
                                 .store_data(commit_store_data),
                                 .store_rob(commit_store_rob),
-                                .store_control(commit_store_mode),
+                                .store_control({store_across_words,commit_store_mode}),
                                 .is_commit_store(is_commit_store),
                                 .store_committed(store_committed),
                                 .committed_store_rob(committed_store_rob),

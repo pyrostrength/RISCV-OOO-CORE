@@ -1,5 +1,5 @@
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/voidknight/RISCV/RISCV.sim/sim_1/synth/func/xsim/ri_rs_tb_func_synth.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module ri_rs
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/voidknight/RISCV/RISCV.sim/sim_1/synth/func/xsim/jalr_rs_tb_func_synth.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module jalr_rs
 INFO: [VRFC 10-311] analyzing module glbl
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/voidknight/RISCV/RISCV.srcs/sim_1/new/rst_tb.sv" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module rst_tb
@@ -19,16 +19,4 @@ INFO: [VRFC 10-311] analyzing module reg_status_tb
 WARNING: [VRFC 10-9166] missing '{' [/home/voidknight/RISCV/RISCV.srcs/sim_1/new/reg_status_tb.v:182]
 WARNING: [VRFC 10-9166] missing '{' [/home/voidknight/RISCV/RISCV.srcs/sim_1/new/reg_status_tb.v:213]
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/voidknight/RISCV/RISCV.srcs/sim_1/new/pipeline_reset_tb.sv" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module pipeline_reset_tb
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/voidknight/RISCV/RISCV.srcs/sim_1/new/branch_rs_tb.sv" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module branch_rs_tb
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/voidknight/RISCV/RISCV.srcs/sim_1/new/databus_tb.sv" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module databus_tb
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/voidknight/RISCV/RISCV.srcs/sim_1/new/loadstore_rs_tb.sv" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module loadstore_rs_tb
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/voidknight/RISCV/RISCV.srcs/sim_1/new/jalr_rs_tb.sv" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module jalr_rs_tb
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/voidknight/RISCV/RISCV.srcs/sim_1/new/ri_rs_tb.sv" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module ri_rs_tb
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/voidknight/RISCV/RISCV.srcs/sim_1/new/rob_tb.sv" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module rob_tb
+ERROR: [VRFC 10-385] block comment was not closed [/home/voidknight/RISCV/RISCV.srcs/sim_1/new/pipeline_reset_tb.sv:6]

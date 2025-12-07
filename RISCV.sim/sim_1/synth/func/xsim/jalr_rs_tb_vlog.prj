@@ -1,6 +1,6 @@
 # compile verilog/system verilog design source files
 verilog xil_defaultlib  --include "../../../../../../Downloads/2025.1/data/rsb/busdef" \
-"ri_rs_tb_func_synth.v" \
+"jalr_rs_tb_func_synth.v" \
 
 sv xil_defaultlib  --include "../../../../../../Downloads/2025.1/data/rsb/busdef" \
 "../../../../../RISCV.srcs/sim_1/new/rst_tb.sv" \
