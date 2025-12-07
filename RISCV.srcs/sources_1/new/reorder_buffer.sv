@@ -75,9 +75,6 @@ module reorder_buffer #(parameter W = 31,ROB = 32,C = 6,R=32)
                         /*Commits are valid if there exists instructions
                         with its destination known and result available*/
                         logic instr_commit_next;
-                        assign instr_commit_next =!empty & data1_available & data2_available;
-                        
-                        
                         
                         /*run out of names. bare with me*/
                         logic dat1,dat2;
@@ -98,6 +95,7 @@ module reorder_buffer #(parameter W = 31,ROB = 32,C = 6,R=32)
                                 data2_available = '1;
                             end      
                         end
+                        assign instr_commit_next =!empty & data1_available & data2_available;
                         
                         /*Update read and write pointers*/
                         always_comb begin
@@ -107,7 +105,12 @@ module reorder_buffer #(parameter W = 31,ROB = 32,C = 6,R=32)
                             full = (wr_ptr[$clog2(ROB)-1:0] == rd_ptr[$clog2(ROB)-1:0]) 
                                 && (wr_ptr[$clog2(ROB)] != rd_ptr[$clog2(ROB)]);
                             empty = (wr_ptr == rd_ptr);
-                            wr_ptr_next = (!full & write_rob) ? wr_ptr + 1: wr_ptr;
+                            /*If a pipeline reset is signalled new write_ptr
+                            is at reset_rob + 1. If no pipeline reset increment
+                            write_ptr as usual if buffer isn't full and write
+                            was requested*/
+                            wr_ptr_next = (reset_pipeline) ? reset_rob + 1 :
+                                (!full & write_rob) ? wr_ptr + 1: wr_ptr;
                         end
                             
                         always_ff @(posedge clk)begin
@@ -157,17 +160,27 @@ module reorder_buffer #(parameter W = 31,ROB = 32,C = 6,R=32)
                         always_ff @(posedge clk)begin
                             if(write_rob)begin
                                 control_array[wr_ptr] <= instr_control_info;
-                                address_array[wr_ptr] <= dest_address;
-                                data1_rdy[wr_ptr] <= '0;
-                                data2_rdy[wr_ptr] <= '0; 
+                                address_array[wr_ptr] <= dest_address;  
                             end
                             
                             if(cdb_broadcast)begin
-                                data1_rdy[executed_rob] <= '1;
-                                data2_rdy[executed_rob] <= '1;
                                 data1_array[executed_rob] <= data1;
                                 data2_array[executed_rob] <= data2;
                             end
                         end
+                        
+                        /*writes to data arrays to signal
+                        instruction readiness*/
+                        always_ff @(posedge clk)begin
+                            if(write_rob)begin
+                                data1_rdy[wr_ptr] <= '0;
+                                data2_rdy[wr_ptr] <= '0;        
+                            end
+                            if(cdb_broadcast) begin
+                                 data1_rdy[executed_rob] <= '1;
+                                 data2_rdy[executed_rob] <= '1;    
+                            end
+                        end
+                            
                                           
 endmodule

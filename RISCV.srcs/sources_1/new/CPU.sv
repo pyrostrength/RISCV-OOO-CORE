@@ -7,8 +7,21 @@ To drive a 7 seg?
 */
 
 module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32) 
-    (input logic clk,reset
+    (input logic CLK,RESET
     );
+    
+    
+    logic locked;
+    logic clk, clk_extra;
+    logic reset;
+    /*Clock generator*/
+    clk_wiz_0 (.clk(CLK),
+               .reset(RESET),
+               .clk_120(clk_extra),
+               .clk_200(clk),
+               .locked(locked));
+    
+    assign reset = RESET | !locked;
     
     logic freeze;
     logic reset_pipeline,fix;
@@ -172,6 +185,9 @@ module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32)
     logic branch_request;
     logic[1:0] new_state;
     logic[$clog2(ROB):0] b_rob;
+    logic[W:0] target_address;
+    logic[I:0] t_index;
+    logic taken_branch;
    
    /*Signals specific to jalr unit*/
     logic jalr_request;

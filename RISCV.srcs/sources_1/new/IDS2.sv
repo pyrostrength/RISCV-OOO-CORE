@@ -82,11 +82,12 @@ module IDS2 #(parameter W = 31, I = 7, C = 3)
     end
     
     logic fix_flush;
-    fix_flush(.clk(clk),
-              .reset(reset),
-              .reset_pipeline(reset_pipeline),
-              .fix(fix),
-              .fix_flush(fix_flush));
+    fix_flush fixer(.clk(clk),
+                    .reset(reset),
+                    .freeze(freeze),
+                    .reset_pipeline(reset_pipeline),
+                    .fix(fix),
+                    .fix_flush(fix_flush));
     
     
     /*Register values*/

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-2L" LaunchTime="1765060564" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/fifo_buffer.dcp">
-  <File Type="VDS-TIMINGSUMMARY" Name="jalr_rs_timing_summary_synth.rpt"/>
-  <File Type="RDS-DCP" Name="jalr_rs.dcp"/>
-  <File Type="RDS-UTIL-PB" Name="jalr_rs_utilization_synth.pb"/>
-  <File Type="RDS-UTIL" Name="jalr_rs_utilization_synth.rpt"/>
-  <File Type="RDS-PROPCONSTRS" Name="jalr_rs_drc_synth.rpt"/>
-  <File Type="RDS-RDS" Name="jalr_rs.vds"/>
-  <File Type="REPORTS-TCL" Name="jalr_rs_reports.tcl"/>
-  <File Type="VDS-TIMING-PB" Name="jalr_rs_timing_summary_synth.pb"/>
-  <File Type="PA-TCL" Name="jalr_rs.tcl"/>
+<GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-2L" LaunchTime="1765089985" LaunchIncrCheckpoint="$PPRDIR/synth_1/IFU.dcp">
+  <File Type="VDS-TIMINGSUMMARY" Name="EX_timing_summary_synth.rpt"/>
+  <File Type="RDS-DCP" Name="EX.dcp"/>
+  <File Type="RDS-UTIL-PB" Name="EX_utilization_synth.pb"/>
+  <File Type="RDS-UTIL" Name="EX_utilization_synth.rpt"/>
+  <File Type="RDS-PROPCONSTRS" Name="EX_drc_synth.rpt"/>
+  <File Type="RDS-RDS" Name="EX.vds"/>
+  <File Type="REPORTS-TCL" Name="EX_reports.tcl"/>
+  <File Type="VDS-TIMING-PB" Name="EX_timing_summary_synth.pb"/>
+  <File Type="PA-TCL" Name="EX.tcl"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PSRCDIR/sources_1/new/functions.sv">
@@ -46,6 +46,7 @@
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
     <File Path="$PPRDIR/../Documents/CPU_FILES/loadnstore_buffers.sv">
@@ -259,17 +260,13 @@
     </File>
     <Config>
       <Option Name="DesignMode" Val="RTL"/>
-      <Option Name="TopModule" Val="jalr_rs"/>
+      <Option Name="TopModule" Val="EX"/>
     </Config>
   </FileSet>
   <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">
     <Filter Type="Constrs"/>
-    <File Path="$PSRCDIR/constrs_1/new/timing.xdc">
-      <FileInfo>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-      </FileInfo>
-    </File>
+    <File Path="$PSRCDIR/constrs_1/new/timing.xdc"/>
+    <File Path="$PSRCDIR/constrs_1/new/main_constraint.xdc"/>
     <Config>
       <Option Name="TargetConstrsFile" Val="$PSRCDIR/constrs_1/new/timing.xdc"/>
       <Option Name="ConstrsType" Val="XDC"/>
@@ -277,19 +274,11 @@
   </FileSet>
   <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1" RelGenDir="$PGENDIR/utils_1">
     <Filter Type="Utils"/>
-    <File Path="$PSRCDIR/utils_1/imports/synth_1/fifo_buffer.dcp">
+    <File Path="$PPRDIR/synth_1/IFU.dcp">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedInSteps" Val="synth_1"/>
-        <Attr Name="AutoDcp" Val="1"/>
-      </FileInfo>
-    </File>
-    <File Path="$PPRDIR/impl_1/PC_Selection_routed.dcp">
-      <FileInfo>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedInSteps" Val="impl_1"/>
         <Attr Name="AutoDcp" Val="1"/>
       </FileInfo>
     </File>
@@ -308,4 +297,5 @@
       <Option Id="ShregMinSize">5</Option>
     </Step>
   </Strategy>
+  <BlockFileSet Type="BlockSrcs" Name="clk_wiz_0"/>
 </GenRun>

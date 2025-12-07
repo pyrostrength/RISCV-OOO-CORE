@@ -3,12 +3,15 @@ Buffers executed instructions as they
 await their turn to write to CDB
 */
 
-module CDB #(parameter W = 31, ROB = 32)
+module CDB #(parameter W = 31, ROB = 32, I = 7)
                         (input logic clk,reset,
                          input logic[$clog2(ROB):0] j_rob,jal_rob,load_entry_rob,st_rob,alu_rob,b_rob,u_rob,
                          input logic ri_request,jal_request,jalr_request,branch_request,store_request,
                          input logic load_request,u_request,
                          input logic[W:0] ri_data,jalr_data,jal_data,st_data,st_addr,retrieved_data,u_data,
+                         input logic[W:0] target_address,
+                         input logic taken_branch,
+                         input logic[I:0] t_index,
                          output logic[W:0] broadcast_data,broadcast_address,
                          output logic cdb_broadcast,
                          output logic[$clog2(ROB):0] broadcast_rob);
@@ -29,7 +32,12 @@ module CDB #(parameter W = 31, ROB = 32)
                                          .jalr_request(jalr_request),
                                          .store_request(store_request),
                                          .load_request(load_request),
+                                         
                                          .branch_request(branch_request),
+                                         .t_index(t_index),
+                                         .taken_branch(taken_branch),
+                                         .target_address(target_address),
+                                         
                                          .u_data(u_data),
                                          .ri_data(ri_data),
                                          .jalr_data(jalr_data),

@@ -1,251 +1,49 @@
 
 *** Running vivado
-    with args -log jalr_rs.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source jalr_rs.tcl
+    with args -log EX.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source EX.tcl
 
 
 ****** Vivado v2025.1 (64-bit)
   **** SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
   **** IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
   **** SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
-  **** Start of session at: Sat Dec  6 14:36:07 2025
+  **** Start of session at: Sat Dec  6 22:46:28 2025
     ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
     ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 
-source jalr_rs.tcl -notrace
-Command: read_checkpoint -auto_incremental -incremental /home/voidknight/RISCV/RISCV.srcs/utils_1/imports/synth_1/fifo_buffer.dcp
-INFO: [Vivado 12-5825] Read reference checkpoint from /home/voidknight/RISCV/RISCV.srcs/utils_1/imports/synth_1/fifo_buffer.dcp for incremental synthesis
+source EX.tcl -notrace
+Command: read_checkpoint -auto_incremental -incremental /home/voidknight/RISCV/synth_1/IFU.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from /home/voidknight/RISCV/synth_1/IFU.dcp for incremental synthesis
 INFO: [Vivado 12-7989] Please ensure there are no constraint changes
-Command: synth_design -top jalr_rs -part xc7a35tcpg236-2L -directive PerformanceOptimized -fsm_extraction one_hot -keep_equivalent_registers -resource_sharing off -no_lc -shreg_min_size 5
+Command: synth_design -top EX -part xc7a35tcpg236-2L -directive PerformanceOptimized -fsm_extraction one_hot -keep_equivalent_registers -resource_sharing off -no_lc -shreg_min_size 5
 Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
 INFO: [Device 21-403] Loading part xc7a35tcpg236-2L
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 22694
----------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2090.234 ; gain = 442.711 ; free physical = 4845 ; free virtual = 13766
----------------------------------------------------------------------------------
-INFO: [Synth 8-6157] synthesizing module 'jalr_rs' [/home/voidknight/RISCV/RISCV.srcs/sources_1/new/jalr_rs.sv:31]
-INFO: [Synth 8-6155] done synthesizing module 'jalr_rs' (0#1) [/home/voidknight/RISCV/RISCV.srcs/sources_1/new/jalr_rs.sv:31]
-WARNING: [Synth 8-7129] Port read_ptr[4] in module jalr_rs is either unconnected or has no load
-WARNING: [Synth 8-7129] Port read_ptr[3] in module jalr_rs is either unconnected or has no load
-WARNING: [Synth 8-7129] Port read_ptr[2] in module jalr_rs is either unconnected or has no load
-WARNING: [Synth 8-7129] Port read_ptr[1] in module jalr_rs is either unconnected or has no load
-WARNING: [Synth 8-7129] Port read_ptr[0] in module jalr_rs is either unconnected or has no load
----------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 2169.172 ; gain = 521.648 ; free physical = 4769 ; free virtual = 13680
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Handling Custom Attributes
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 2186.984 ; gain = 539.461 ; free physical = 4768 ; free virtual = 13680
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 2186.984 ; gain = 539.461 ; free physical = 4768 ; free virtual = 13680
----------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2186.984 ; gain = 0.000 ; free physical = 4768 ; free virtual = 13680
-INFO: [Project 1-570] Preparing netlist for logic optimization
-
-Processing XDC Constraints
-Initializing timing engine
-Parsing XDC File [/home/voidknight/RISCV/RISCV.srcs/constrs_1/new/timing.xdc]
-Finished Parsing XDC File [/home/voidknight/RISCV/RISCV.srcs/constrs_1/new/timing.xdc]
-Completed Processing XDC Constraints
-
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2307.723 ; gain = 0.000 ; free physical = 4769 ; free virtual = 13675
-INFO: [Project 1-111] Unisim Transformation Summary:
-No Unisim elements were transformed.
-
-Constraint Validation Runtime : Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2307.758 ; gain = 0.000 ; free physical = 4770 ; free virtual = 13675
----------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 2307.758 ; gain = 660.234 ; free physical = 4798 ; free virtual = 13709
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Loading Part and Timing Information
----------------------------------------------------------------------------------
-Loading part: xc7a35tcpg236-2L
----------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 2315.727 ; gain = 668.203 ; free physical = 4798 ; free virtual = 13709
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Applying 'set_property' XDC Constraints
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 2315.727 ; gain = 668.203 ; free physical = 4797 ; free virtual = 13709
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Preparing Guide Design
----------------------------------------------------------------------------------
-CRITICAL WARNING: [Synth 8-6895] The reference checkpoint /home/voidknight/RISCV/RISCV.srcs/utils_1/imports/synth_1/fifo_buffer.dcp is not suitable for use with incremental synthesis for this design. Please regenerate the checkpoint for this design with -incremental_synth switch in the same Vivado session that synth_design has been run. Synthesis will continue with the default flow
----------------------------------------------------------------------------------
-Finished Doing Graph Differ : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 2315.727 ; gain = 668.203 ; free physical = 4797 ; free virtual = 13710
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished Preparing Guide Design : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 2315.727 ; gain = 668.203 ; free physical = 4797 ; free virtual = 13710
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2315.727 ; gain = 668.203 ; free physical = 4793 ; free virtual = 13712
----------------------------------------------------------------------------------
-
-
-Incremental Synthesis Report Summary:
-
-1. Incremental synthesis run: no
-
-   Reason for not running incremental synthesis : 
-
-
-INFO: [Synth 8-7130] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
----------------------------------------------------------------------------------
-Start RTL Component Statistics 
----------------------------------------------------------------------------------
-Detailed RTL Component Info : 
-+---Registers : 
-	               32 Bit    Registers := 15    
-	               16 Bit    Registers := 4     
-	                8 Bit    Registers := 2     
-	                6 Bit    Registers := 13    
-	                1 Bit    Registers := 13    
-+---Muxes : 
-	   2 Input   32 Bit        Muxes := 17    
-	   2 Input    8 Bit        Muxes := 6     
-	   2 Input    6 Bit        Muxes := 3     
-	   2 Input    4 Bit        Muxes := 4     
-	   5 Input    4 Bit        Muxes := 1     
-	   2 Input    3 Bit        Muxes := 1     
-	   2 Input    2 Bit        Muxes := 1     
-	   2 Input    1 Bit        Muxes := 40    
----------------------------------------------------------------------------------
-Finished RTL Component Statistics 
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Part Resource Summary
----------------------------------------------------------------------------------
-Part Resources:
-DSPs: 90 (col length:60)
-BRAMs: 100 (col length: RAMB18 60 RAMB36 30)
----------------------------------------------------------------------------------
-Finished Part Resource Summary
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Cross Boundary and Area Optimization
----------------------------------------------------------------------------------
-WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
-WARNING: [Synth 8-7129] Port read_ptr[4] in module jalr_rs is either unconnected or has no load
-WARNING: [Synth 8-7129] Port read_ptr[3] in module jalr_rs is either unconnected or has no load
-WARNING: [Synth 8-7129] Port read_ptr[2] in module jalr_rs is either unconnected or has no load
-WARNING: [Synth 8-7129] Port read_ptr[1] in module jalr_rs is either unconnected or has no load
-WARNING: [Synth 8-7129] Port read_ptr[0] in module jalr_rs is either unconnected or has no load
----------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:12 ; elapsed = 00:00:12 . Memory (MB): peak = 2315.727 ; gain = 668.203 ; free physical = 4819 ; free virtual = 13735
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Applying XDC Timing Constraints
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:17 ; elapsed = 00:00:17 . Memory (MB): peak = 2332.727 ; gain = 685.203 ; free physical = 4758 ; free virtual = 13670
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Timing Optimization
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:17 ; elapsed = 00:00:17 . Memory (MB): peak = 2332.727 ; gain = 685.203 ; free physical = 4758 ; free virtual = 13670
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Technology Mapping
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:17 ; elapsed = 00:00:17 . Memory (MB): peak = 2342.742 ; gain = 695.219 ; free physical = 4750 ; free virtual = 13662
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start IO Insertion
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Flattening Before IO Insertion
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished Flattening Before IO Insertion
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Final Netlist Cleanup
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished Final Netlist Cleanup
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 2525.555 ; gain = 878.031 ; free physical = 4599 ; free virtual = 13518
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Renaming Generated Instances
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 2525.555 ; gain = 878.031 ; free physical = 4599 ; free virtual = 13518
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Rebuilding User Hierarchy
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 2525.555 ; gain = 878.031 ; free physical = 4599 ; free virtual = 13518
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Renaming Generated Ports
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 2525.555 ; gain = 878.031 ; free physical = 4599 ; free virtual = 13518
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Handling Custom Attributes
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 2525.555 ; gain = 878.031 ; free physical = 4599 ; free virtual = 13518
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Renaming Generated Nets
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 2525.555 ; gain = 878.031 ; free physical = 4599 ; free virtual = 13518
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Writing Synthesis Report
----------------------------------------------------------------------------------
-
-Report BlackBoxes: 
-+-+--------------+----------+
-| |BlackBox name |Instances |
-+-+--------------+----------+
-+-+--------------+----------+
-
-Report Cell Usage: 
-+------+-----+------+
-|      |Cell |Count |
-+------+-----+------+
-|1     |OBUF |   120|
-+------+-----+------+
----------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 2525.555 ; gain = 878.031 ; free physical = 4599 ; free virtual = 13518
----------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 1 critical warnings and 6 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:19 ; elapsed = 00:00:19 . Memory (MB): peak = 2525.555 ; gain = 757.258 ; free physical = 4598 ; free virtual = 13518
-Synthesis Optimization Complete : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 2525.562 ; gain = 878.031 ; free physical = 4598 ; free virtual = 13518
-INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2525.562 ; gain = 0.000 ; free physical = 4598 ; free virtual = 13518
-INFO: [Project 1-570] Preparing netlist for logic optimization
-INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2525.562 ; gain = 0.000 ; free physical = 4756 ; free virtual = 13680
-INFO: [Project 1-111] Unisim Transformation Summary:
-No Unisim elements were transformed.
-
-Synth Design complete | Checksum: 6da86b4
+INFO: [Synth 8-7075] Helper process launched with PID 18878
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 2097.258 ; gain = 439.828 ; free physical = 3659 ; free virtual = 13708
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'EX' [/home/voidknight/RISCV/RISCV.srcs/sources_1/new/EX.sv:5]
+INFO: [Synth 8-6157] synthesizing module 'alu' [/home/voidknight/RISCV/RISCV.srcs/sources_1/new/alu.sv:2]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/voidknight/RISCV/RISCV.srcs/sources_1/new/alu.sv:18]
+INFO: [Synth 8-6155] done synthesizing module 'alu' (0#1) [/home/voidknight/RISCV/RISCV.srcs/sources_1/new/alu.sv:2]
+WARNING: [Synth 8-7071] port 'result' of module 'alu' is unconnected for instance 'ALU' [/home/voidknight/RISCV/RISCV.srcs/sources_1/new/EX.sv:92]
+WARNING: [Synth 8-7023] instance 'ALU' of module 'alu' has 8 connections declared, but only 7 given [/home/voidknight/RISCV/RISCV.srcs/sources_1/new/EX.sv:92]
+INFO: [Synth 8-6157] synthesizing module 'branch_alu' [/home/voidknight/RISCV/RISCV.srcs/sources_1/new/branch_alu.sv:11]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/voidknight/RISCV/RISCV.srcs/sources_1/new/branch_alu.sv:43]
+INFO: [Synth 8-6155] done synthesizing module 'branch_alu' (0#1) [/home/voidknight/RISCV/RISCV.srcs/sources_1/new/branch_alu.sv:11]
+WARNING: [Synth 8-324] index 4 out of range [/home/voidknight/RISCV/RISCV.srcs/sources_1/new/EX.sv:112]
+ERROR: [Synth 8-524] part-select [6:5] out of range of prefix 'branch_mode' [/home/voidknight/RISCV/RISCV.srcs/sources_1/new/EX.sv:114]
+ERROR: [Synth 8-6156] failed synthesizing module 'EX' [/home/voidknight/RISCV/RISCV.srcs/sources_1/new/EX.sv:5]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 2173.195 ; gain = 515.766 ; free physical = 3595 ; free virtual = 13642
+---------------------------------------------------------------------------------
+RTL Elaboration failed
 INFO: [Common 17-83] Releasing license: Synthesis
-17 Infos, 11 Warnings, 1 Critical Warnings and 0 Errors encountered.
-synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:27 ; elapsed = 00:00:25 . Memory (MB): peak = 2525.590 ; gain = 1016.309 ; free physical = 4758 ; free virtual = 13682
-INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1907.430; main = 1698.234; forked = 274.607
-INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3464.609; main = 2525.559; forked = 963.863
-INFO: [runtcl-6] Synthesis results are not added to the cache due to CRITICAL_WARNING
-Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2549.566 ; gain = 0.000 ; free physical = 4758 ; free virtual = 13682
-INFO: [Common 17-1381] The checkpoint '/home/voidknight/RISCV/RISCV.runs/synth_1/jalr_rs.dcp' has been generated.
-INFO: [Vivado 12-24828] Executing command : report_utilization -file jalr_rs_utilization_synth.rpt -pb jalr_rs_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Sat Dec  6 14:36:36 2025...
+15 Infos, 3 Warnings, 0 Critical Warnings and 3 Errors encountered.
+synth_design failed
+ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details
+INFO: [Common 17-206] Exiting Vivado at Sat Dec  6 22:46:40 2025...

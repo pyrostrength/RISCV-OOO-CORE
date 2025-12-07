@@ -34,6 +34,7 @@ module fix_flush
     
     always_comb begin
         fix_flush = '0;
+        state_next = state;
         case(state)
             still:begin
                 fix_flush = (fix) ? '1: '0;

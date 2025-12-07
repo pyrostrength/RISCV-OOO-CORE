@@ -9,8 +9,8 @@ to their respective functional units
 */
 
 module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
-          (input logic clk,reset,reset_pipeline,instr_commit,instr_executed,
-           input logic[3:0] op_control,
+          (input logic clk,reset,reset_pipeline,instr_executed,instr_commit,
+           input logic[C:0] op_control,
            input logic commit_reg_write,
            
            /*2 instruction commits, one generic, the other
@@ -24,17 +24,16 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
            input logic[W:0] nxt_pc,imm_ext,pred_addr,
      
            input logic ri_req,jalr_req,loadstore_req,branch_req,
-           input logic write_mem,jal,take_imm,
-           input logic jalr,write_rob,
+           input logic jal,take_imm,
            input logic lui,auipc,
-           input logic load,store,
-           input logic write_reg, is_branch,
+           input logic load,
+           input logic write_reg,
            input logic prediction_taken,
            
            input logic[$clog2(R)-1:0] commit_reg,rd,rs1,rs2,
            input logic[$clog2(ROB):0] instr_rob,reset_rob,read_ptr,
            input logic full_rob,
-           input logic[$clog2(ROB):0] commit_rob,execution_rob,
+           input logic[$clog2(ROB):0] execution_rob,
            input logic[W:0] commit_result,execution_result,
            
            /*Signals specific to ri reservation station*/
@@ -47,7 +46,6 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
            /*Signals specific to jalr reservation station*/
            output logic[$clog2(ROB):0] jalr_rob,
            output logic[W:0] jalr_op1,jalr_op2,
-           output logic[C:0] jalr_mode,
            output logic[I:0] jalr_prediction_index,jalr_ghr,
            output logic[W:0] jalr_seq_pc,
            output logic jalr_selected,
@@ -65,13 +63,13 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
            /*Signals specific to load store reservation station*/
            output logic[$clog2(ROB):0] load_rob,
            output logic[W:0] load_op1,load_op2,
-           output logic[C:0] load_mode,
+           output logic[C+1:0] load_mode,
            output logic load_selected,
            output logic loadstore_full,
            
            output logic[$clog2(ROB):0] store_rob,
            output logic[W:0] store_op1,store_op2,
-           output logic[C:0] store_mode,
+           output logic[C+1:0] store_mode,
            output logic[W:0] store_data,
            output logic store_selected,
            
@@ -90,7 +88,7 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
           /*Register status tables*/
           register_status_table rst(.clk(clk),
                                     .reset(reset),
-                                    .regwrite(write_reg),
+                                    .reg_write(write_reg),
                                     .instr_commit(instr_commit),
                                     .pipeline_reset(reset_pipeline),
                                     .commit_reg(commit_reg),
@@ -130,23 +128,19 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
           assign src2 = (take_imm) ? imm_ext : reg_src2;
           ri_rs ri_station(.clk(clk),
                              .reset(reset),
+                             .full_rob(full_rob),
                              .reset_pipeline(reset_pipeline),
                              .read_ptr(read_ptr),
                              .rob_entry(instr_rob),
                              .src1_booking(src1_booking),
                              .src2_booking(src2_booking),
-                             .is_lui(lui),
-                             .is_auipc(auipc),
                              .station_request(ri_req),
                              .op_control(op_control),
                              .rs1(reg_src1),
                              .rs2(src2),
-                             .commit_rob(commit_rob),
                              .execution_rob(execution_rob),
                              .reset_rob(reset_rob),
-                             .commit_result(commit_result),
                              .execution_result(execution_result),
-                             .instr_commit(instr_commit),
                              .instr_executed(instr_executed),
                              .ri_rob(ri_rob),
                              .ri_op1(ri_op1),
@@ -178,7 +172,6 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
                              .jalr_rob(jalr_rob),
                              .jalr_op1(jalr_op1),
                              .jalr_op2(jalr_op2),
-                             .jalr_mode(jalr_mode),
                              .jalr_selected(jalr_selected),
                              .jalr_prediction_index(jalr_prediction_index),
                              .jalr_ghr(jalr_ghr),
@@ -221,6 +214,7 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
                              .reset(reset),
                              .reset_pipeline(reset_pipeline),
                              .full_rob(full_rob),
+                             .is_load(load),
                              .read_ptr(read_ptr),
                              .rob_entry(instr_rob),
                              .src1_booking(src1_booking),

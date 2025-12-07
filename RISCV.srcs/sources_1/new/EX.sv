@@ -15,7 +15,6 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
      /*Signals specific to jalr reservation station*/
            input logic[$clog2(ROB):0] jalr_rob,
            input logic[W:0] jalr_op1,jalr_op2,
-           input logic[C:0] jalr_mode,
            input logic[I:0] jalr_prediction_index,jalr_ghr,
            input logic[W:0] jalr_seq_pc,
            input logic jalr_selected,
@@ -24,7 +23,7 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
            /*Signals specific to branch reservation station*/
            input logic[$clog2(ROB):0] branch_rob,
            input logic[W:0] branch_op1,branch_op2,branch_predicted_address,
-           input logic[C:0] branch_mode,
+           input logic[C+3:0] branch_mode,
            input logic[I:0] branch_prediction_index,branch_ghr,
            input logic[W:0] branch_seq_pc,
            input logic branch_selected,
@@ -33,13 +32,13 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
            /*Signals specific to load store reservation station*/
            input logic[$clog2(ROB):0] load_rob,
            input logic[W:0] load_op1,load_op2,
-           input logic[C:0] load_mode,
+           input logic[C+1:0] load_mode,
            input logic load_selected,
            input logic loadstore_full,
            
            input logic[$clog2(ROB):0] store_rob,
            input logic[W:0] store_op1,store_op2,
-           input logic[C:0] store_mode,
+           input logic[C+1:0] store_mode,
            input logic[W:0] store_data,
            input logic store_selected,
            
@@ -60,6 +59,9 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
            output logic branch_request,
            output logic[1:0] new_state,
            output logic[$clog2(ROB):0] b_rob,
+           output logic[W:0] target_address,
+           output logic taken_branch,
+           output logic[I:0] t_index,
            
            /*Signals specific to jalr unit*/
            output logic jalr_request,
@@ -101,9 +103,6 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
     
     /*Use branch request and taken branch to
     update the gshare predictor*/
-    logic taken_branch;
-    logic[1:0] new_state_next;
-    logic branch_request_next;
     logic[W:0] branch_address;
     branch_alu branchALU(.src1(branch_op1),
                          .src2(branch_op2),
@@ -116,9 +115,10 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
                          .is_branch_instr(branch_selected),
                          .misprediction(misprediction),
                          .branch_cdb_request(branch_request),
-                         .new_state(new_state_next),
+                         .new_state(new_state),
                          .branch_rob(b_rob),
-                         .taken_branch(taken_branch));
+                         .taken_branch(taken_branch),
+                         .branch_address(branch_address));
      
      logic[W:0] jalr_jump_address;
      assign j_rob = jalr_rob;
@@ -190,6 +190,10 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
                                 .entry_rob(load_entry_rob),
                                 .full_load_queue(full_load_queue),
                                 .full_store_queue(full_store_queue));
+      
+      //Send target_address to reorder buffer
+      assign target_address = branch_address;
+      assign t_index = branch_prediction_index;
       
       
 endmodule

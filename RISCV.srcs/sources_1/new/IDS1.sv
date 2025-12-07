@@ -40,9 +40,7 @@ module IDS1 #(parameter I = 7, C = 3, W = 31)
     logic is_jalr_next,rob_write_next,is_lui_next,is_auipc_next;
     logic is_load_next,is_store_next,reg_write_next,branch_next;
     logic[W:0] branch_addr_next,jal_addr_next;
-    decode_stage1    decoder1(.clk(clk),
-                              .reset(reset),
-                              .reset_pipeline(reset_pipeline),
+    decode_stage1    decoder1(.instr_pc(instr_pc),
                               .imm(instr[W:7]),
                               .rd(instr[11:7]),
                               .opcode(instr[3:0]),

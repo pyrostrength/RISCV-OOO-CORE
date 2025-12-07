@@ -12,12 +12,14 @@ of program instruction type cannot be determined
 thus a priority encoded selection scheme makes 
 little sense*/
 
-module databus_arbiter #(parameter W = 31, ROB = 32)
+module databus_arbiter #(parameter W = 31, ROB = 32, I = 7)
                         (input logic clk,reset,
                          input logic[$clog2(ROB):0] jalr_rob,jal_rob,load_rob,store_rob,ri_rob,branch_rob,u_rob,
                          input logic ri_request,jal_request,jalr_request,branch_request,store_request,u_request,
-                         input logic load_request,
+                         input logic load_request,taken_branch,
                          input logic[W:0] ri_data,jalr_data,jal_result,store_data,store_address,load_data,u_data,
+                         input logic[W:0] target_address,
+                         input logic[I:0] t_index,
                          output logic cdb_broadcast,
                          output logic[W:0] broadcast_data,broadcast_address,
                          output logic[$clog2(ROB):0] broadcast_rob);
@@ -90,6 +92,28 @@ module databus_arbiter #(parameter W = 31, ROB = 32)
                                                                          .read(grant[2]),
                                                                          .wr_data(branch_rob),
                                                                          .rd_data(read_branch_rob));
+                         
+                         logic full_branch_target_buffer,empty_branch_target_buffer;
+                         logic[W+1:0] read_branch_target;
+                         fifo_buffer #(.DW(W+1)) branch_target_buffer(.clk(clk),
+                                                                         .reset(reset),
+                                                                         .full(full_branch_target_buffer),
+                                                                         .empty(empty_branch_target_buffer),
+                                                                         .write(branch_request),
+                                                                         .read(grant[2]),
+                                                                         .wr_data({taken_branch,target_address}),
+                                                                         .rd_data(read_branch_target));
+                         
+                         logic full_branch_index_buffer,empty_branch_index_buffer;
+                         logic[I:0] read_branch_index;
+                         fifo_buffer #(.DW(I)) branch_index_buffer(.clk(clk),
+                                                                         .reset(reset),
+                                                                         .full(full_branch_index_buffer),
+                                                                         .empty(empty_branch_index_buffer),
+                                                                         .write(branch_request),
+                                                                         .read(grant[2]),
+                                                                         .wr_data(t_index),
+                                                                         .rd_data(read_branch_index));
                          
                          /*Buffer for jalr instructions*/
                          logic full_jalr_rob_buffer,empty_jalr_rob_buffer;
@@ -279,5 +303,9 @@ module databus_arbiter #(parameter W = 31, ROB = 32)
                             endcase
                          end 
                          
-                         assign cdb_broadcast = (grant != '0);                  
+                         assign cdb_broadcast = (grant != '0); 
+                         
+                         always_comb begin
+                            
+                         end                 
 endmodule
