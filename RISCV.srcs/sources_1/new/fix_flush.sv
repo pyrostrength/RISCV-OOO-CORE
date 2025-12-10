@@ -17,7 +17,7 @@ module fix_flush
     );
     
     typedef enum{flush1,flush2,flush3,still} state_type;
-    state_type state,state_next;
+    (* keep = "true" *) state_type state,state_next;
     
     always_ff @(posedge clk)begin
         if(reset | reset_pipeline)
@@ -37,7 +37,7 @@ module fix_flush
         state_next = state;
         case(state)
             still:begin
-                fix_flush = (fix) ? '1: '0;
+                fix_flush = '0;
                 state_next = (fix) ? flush1 : still;
             end
             
@@ -52,9 +52,10 @@ module fix_flush
             end
             
             flush3:begin
-                fix_flush = '0;
+                fix_flush = '1;
                 state_next = still;
             end
+            
         endcase
     end
 

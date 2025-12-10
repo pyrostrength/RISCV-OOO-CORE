@@ -19,7 +19,7 @@ module IDS1 #(parameter I = 7, C = 3, W = 31)
     output logic[1:0] execution_op,
     output logic ri_station,jalr_station,loadstore_station,branch_station,
     output logic mem_write,is_jal,use_imm,
-    output logic is_jalr,rob_write,
+    output logic rob_write,
     output logic is_lui,is_auipc,
     output logic is_load,is_store,
     
@@ -37,7 +37,7 @@ module IDS1 #(parameter I = 7, C = 3, W = 31)
     logic ri_station_next,loadstore_station_next,branch_station_next;
     logic jalr_station_next;
     logic mem_write_next,is_jal_next,use_imm_next;
-    logic is_jalr_next,rob_write_next,is_lui_next,is_auipc_next;
+    logic rob_write_next,is_lui_next,is_auipc_next;
     logic is_load_next,is_store_next,reg_write_next,branch_next;
     logic[W:0] branch_addr_next,jal_addr_next;
     decode_stage1    decoder1(.instr_pc(instr_pc),
@@ -53,7 +53,6 @@ module IDS1 #(parameter I = 7, C = 3, W = 31)
                               .mem_write(mem_write_next),
                               .is_jal(is_jal_next),
                               .use_imm(use_imm_next),
-                              .is_jalr(is_jalr_next),
                               .rob_write(rob_write_next),
                               .is_lui(is_lui_next),
                               .is_auipc(is_auipc_next), 
@@ -74,7 +73,7 @@ module IDS1 #(parameter I = 7, C = 3, W = 31)
 
     always_ff @(posedge clk) begin
         if(reset | reset_pipeline) begin
-           {mem_write,is_jal,is_jalr} <= '0;
+           {mem_write,is_jal} <= '0;
            imm_src <= '0;
 	       {ri_station,loadstore_station,branch_station,jalr_station} <= '0;
 	       {use_imm,rob_write,execution_op} <= '0;
@@ -98,7 +97,6 @@ module IDS1 #(parameter I = 7, C = 3, W = 31)
 	    else if(freeze) begin
 	       mem_write <= mem_write;
 	       is_jal <= is_jal;
-	       is_jalr <= is_jalr;
 	       
 	       ri_station <= ri_station;
 	       jalr_station <= jalr_station;
@@ -133,7 +131,6 @@ module IDS1 #(parameter I = 7, C = 3, W = 31)
 	    else begin
 	       mem_write <= mem_write_next;
 	       is_jal <= is_jal_next;
-	       is_jalr <= is_jalr_next;
 	       
 	       imm_src <= imm_src_next;
 	       use_imm <= use_imm_next;

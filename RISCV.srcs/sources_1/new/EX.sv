@@ -10,15 +10,13 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
            input logic[W:0] ri_op1,ri_op2,
            input logic[C:0] ri_mode,
            input logic ri_selected,
-           input logic ri_full,
      
      /*Signals specific to jalr reservation station*/
            input logic[$clog2(ROB):0] jalr_rob,
            input logic[W:0] jalr_op1,jalr_op2,
-           input logic[I:0] jalr_prediction_index,jalr_ghr,
+           input logic[I:0] jalr_ghr,
            input logic[W:0] jalr_seq_pc,
            input logic jalr_selected,
-           input logic jalr_full,
            
            /*Signals specific to branch reservation station*/
            input logic[$clog2(ROB):0] branch_rob,
@@ -27,18 +25,15 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
            input logic[I:0] branch_prediction_index,branch_ghr,
            input logic[W:0] branch_seq_pc,
            input logic branch_selected,
-           input logic branch_full,
            
            /*Signals specific to load store reservation station*/
            input logic[$clog2(ROB):0] load_rob,
            input logic[W:0] load_op1,load_op2,
-           input logic[C+1:0] load_mode,
+           input logic[C:0] load_mode,
            input logic load_selected,
-           input logic loadstore_full,
            
            input logic[$clog2(ROB):0] store_rob,
            input logic[W:0] store_op1,store_op2,
-           input logic[C+1:0] store_mode,
            input logic[W:0] store_data,
            input logic store_selected,
            
@@ -71,6 +66,7 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
            /*Signals specific to pipeline reset
            arbitration unit*/
            output logic reset_pipeline,
+           output logic[$clog2(ROB):0] reset_rob,
            output logic[I:0] ghr_recovered,
            output logic[W:0] reset_addr,
            output logic conditional_taken,
@@ -97,7 +93,8 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
             .op1(ri_op1),
             .op2(ri_op2),
             .ri_rob(alu_rob),
-            .ri_cdb_request(ri_request));
+            .ri_cdb_request(ri_request),
+            .result(ri_data));
     
     logic misprediction;
     
@@ -135,6 +132,7 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
      execute stage and initiates pipeline reset
      if necessary*/
      pipeline_reset_arbitrer reset_mod(.clk(clk),
+                                      .reset_rob(reset_rob),
                                       .reset(reset),
                                       .jalr_rob(jalr_rob),
                                       .branch_rob(branch_rob),
@@ -156,7 +154,7 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
       logic[W:0] load_address;
       logic load_across_words;
       load_address_gen ld_addr_gen(.load_op1(load_op1),
-                                   .load_control(load_mode),
+                                   .load_control(load_mode[C-1:0]),
                                    .load_op2(load_op2),
                                    .load_addr(load_address),
                                    .load_across_words(load_across_words));
@@ -167,10 +165,10 @@ module EX #(parameter ROB = 32, R = 4, W = 31, I = 7, C = 3)
       logic store_across_words;                             
       store_address_gen st_addr_gen(.store_op1(store_op1),
                                     .store_op2(store_op2),
-                                    .commit_mode(commit_store_mode),
+                                    .commit_mode(commit_store_mode[C-1:0]),
                                     .commit_addr(commit_store_address),
                                     .store_across_words(store_across_words),
-                                    .store_addr(st_addr));
+                                    .store_address(st_addr));
                                     
       load_store_unit loadstore(.clk(clk),
                                 .reset(reset),

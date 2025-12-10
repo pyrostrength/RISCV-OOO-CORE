@@ -26,6 +26,7 @@ module alu #(parameter W = 31, C = 3, ROB = 32)
 			         4'b0111:result = op1 >> op2[4:0];
 			         4'b1000:result = op1 - op2;
 			         4'b1001:result = op1 >>> op2[4:0];
+			         default:result = '0; //default to passing out zeroes
 			     endcase
 			 end
 endmodule

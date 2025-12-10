@@ -13,7 +13,7 @@ valid, ROB entry of instruction
 that writes to each source operand register, 
 valid bit indicating validity of entry and
 auxillary info for the execution and identification
-in form {nxt_seq_pc,prediction_index,ghr_checkpoint}. 
+in form {nxt_seq_pc,ghr_checkpoint}. 
 Instruction writes into first open entry at 
 the top of the reservation station.
 
@@ -48,7 +48,7 @@ module jalr_rs #(parameter ROB = 32,RS = 4, W = 31, I = 7)
     input logic station_request,
     /*Source operand values to choose from*/
     input logic[W:0] rs1, rs2, seq_pc,
-    input logic[I:0] prediction_index,ghr_checkpoint,
+    input logic[I:0] ghr_checkpoint,
     /*Execution and commit prefix are for executing
     and committing instruction*/
     input logic[$clog2(ROB):0] execution_rob,reset_rob,
@@ -68,7 +68,7 @@ module jalr_rs #(parameter ROB = 32,RS = 4, W = 31, I = 7)
     on common data bus*/
     output logic jalr_selected,
     
-    output logic[I:0] jalr_prediction_index,jalr_ghr,
+    output logic[I:0] jalr_ghr,
     output logic[W:0] jalr_seq_pc,
     
     output logic rs_full
@@ -93,7 +93,7 @@ module jalr_rs #(parameter ROB = 32,RS = 4, W = 31, I = 7)
     logic[W:0] value2_storage[RS - 1:0];
     
     /*Decoding info*/
-    logic[2*I + 1:0] pht_storage[RS - 1:0];
+    logic[I:0] pht_storage[RS - 1:0];
     logic[W:0] seq_pc_storage[RS - 1:0];
     
     /*Find entries to remove upon pipeline reset*/
@@ -161,20 +161,19 @@ module jalr_rs #(parameter ROB = 32,RS = 4, W = 31, I = 7)
     /*Instr info*/
     logic[W:0] op1,op2,nxt_pc;
     logic[$clog2(ROB):0] rob;
-    logic[I:0] p_index,ghr;
+    logic[I:0] ghr;
     
     always_comb begin
         selected_instr = '0;
         instr_found = '0;
-        {p_index,ghr} = '0;
+        ghr = '0;
         rob = '0;
         {op1,op2,nxt_pc} = '0;
         for(int i = RS -1; i >= 0; i--)begin
             if(valid_storage[i] & ready1_storage[i] & ready2_storage[i] &!reset_pipeline)begin
                 selected_instr[i] = '1;
                 instr_found = '1;
-                p_index = pht_storage[i][2*I+1:I+1];
-                ghr = pht_storage[i][I:0];
+                ghr = pht_storage[i];
                 rob = tag_storage[i];
                 op1 = value1_storage[i];
                 op2 = value2_storage[i];
@@ -238,7 +237,7 @@ module jalr_rs #(parameter ROB = 32,RS = 4, W = 31, I = 7)
                     rob2_storage[i];
                 
                 pht_storage[i] <= (first_open_entry[i] & can_write) 
-                    ? {prediction_index, ghr_checkpoint} : pht_storage[i];
+                    ? {ghr_checkpoint} : pht_storage[i];
                 
                 seq_pc_storage[i] <= (first_open_entry[i] & can_write) ? seq_pc : seq_pc_storage[i];
                   
@@ -251,13 +250,12 @@ module jalr_rs #(parameter ROB = 32,RS = 4, W = 31, I = 7)
     /*Selection Logic*/
     always_ff@(posedge clk) begin
         if(reset)begin
-            {jalr_selected,jalr_prediction_index,jalr_ghr,jalr_seq_pc,jalr_op1} <= '0;
+            {jalr_selected,jalr_ghr,jalr_seq_pc,jalr_op1} <= '0;
             {jalr_op2,jalr_rob} <= '0;  
         end
         
         else begin
             jalr_selected <= instr_found;
-            jalr_prediction_index <= p_index;
             jalr_ghr <= ghr;
             jalr_seq_pc <= nxt_pc;
             jalr_op1 <= op1;

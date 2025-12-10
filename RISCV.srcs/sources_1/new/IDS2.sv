@@ -20,7 +20,7 @@ module IDS2 #(parameter W = 31, I = 7, C = 3)
      input logic[1:0] execution_op,
      input logic ri_station,jalr_station,loadstore_station,branch_station,
      input logic mem_write,is_jal,use_imm,
-     input logic is_jalr,rob_write,
+     input logic rob_write,
      input logic is_lui,is_auipc,
      input logic is_load,is_store,
     
@@ -48,9 +48,9 @@ module IDS2 #(parameter W = 31, I = 7, C = 3)
      
      output logic ri_req,jalr_req,loadstore_req,branch_req,
      output logic write_mem,jal,take_imm,
-     output logic jalr,write_rob,
+     output logic write_rob,
      output logic lui,auipc,
-     output logic load,store,
+     output logic load,
      output logic is_branch,write_reg,
     
      output logic prediction_taken,
@@ -86,7 +86,7 @@ module IDS2 #(parameter W = 31, I = 7, C = 3)
                     .reset(reset),
                     .freeze(freeze),
                     .reset_pipeline(reset_pipeline),
-                    .fix(fix),
+                    .fix(fix_next),
                     .fix_flush(fix_flush));
     
     
@@ -115,12 +115,10 @@ module IDS2 #(parameter W = 31, I = 7, C = 3)
             write_mem <= '0;
             jal <= '0;
             take_imm <= '0;
-            jalr <= '0;
             write_rob <= '0;
             lui <= '0;
             auipc <= '0;
             load <= '0;
-            store <= '0;
             prediction_taken <= '0;
             write_reg <= '0;
             is_branch <= '0;
@@ -146,12 +144,10 @@ module IDS2 #(parameter W = 31, I = 7, C = 3)
             write_mem <= write_mem;
             jal <= jal;
             take_imm <= take_imm;
-            jalr <= jalr;
             write_rob <= write_rob;
             lui <= lui;
             auipc <= auipc;
             load <= load;
-            store <= store;
             prediction_taken <= prediction_taken;
             write_reg <= write_reg;
             is_branch <= is_branch;
@@ -177,12 +173,10 @@ module IDS2 #(parameter W = 31, I = 7, C = 3)
             write_mem <= mem_write;
             jal <= is_jal;
             take_imm <= use_imm;
-            jalr <= is_jalr;
             write_rob <= rob_write;
             lui <= is_lui;
             auipc <= is_auipc;
             load <= is_load;
-            store <= is_store;
             prediction_taken <= prediction_taken_next;
             write_reg <= reg_write;
             is_branch <= branch;

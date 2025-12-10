@@ -7,21 +7,24 @@ To drive a 7 seg?
 */
 
 module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32) 
-    (input logic CLK,RESET
+    (input logic clk,reset,
+     output logic[(W-1)/2:0] d
     );
     
     
+    /*
     logic locked;
-    logic clk, clk_extra;
     logic reset;
+    logic clk;
     /*Clock generator*/
-    clk_wiz_0 (.clk(CLK),
-               .reset(RESET),
-               .clk_120(clk_extra),
-               .clk_200(clk),
-               .locked(locked));
     
+    /*
+    clk_wiz_0 clkgen(.clk_in1(CLK),
+               .reset(RESET),
+               .clk_out1(clk),
+               .locked(locked));
     assign reset = RESET | !locked;
+    */
     
     logic freeze;
     logic reset_pipeline,fix;
@@ -36,14 +39,15 @@ module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32)
     logic[1:0] updated_state;
     logic[I:0] wr_index;
     logic[W:0] update_addr;
-    logic update_predictor;  
+    logic update_predictor;
+    logic update_btb;  
     
     logic [W:0] instr;
-    logic prediction_state;
+    logic[1:0] prediction_state;
     logic[W:0] prediction_address;
     logic buffer_hit;
     logic[W:0] instr_pc;
-    IFU instruction_fetch_unit(.*);
+    (* KEEP_HIERARCHY = "TRUE" *)IFU instruction_fetch_unit(.*);
     
     
     logic reg_write;
@@ -53,7 +57,7 @@ module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32)
     logic[1:0] execution_op;
     logic ri_station,jalr_station,loadstore_station,branch_station;
     logic mem_write,is_jal,use_imm;
-    logic is_jalr,rob_write;
+    logic rob_write;
     logic is_lui,is_auipc;
     logic is_load,is_store;
     
@@ -63,7 +67,7 @@ module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32)
     logic[W:0] predicted_addr;
     logic[I:0] table_index,ghr_snaps;
     logic[1:0] table_state;
-    IDS1 instruction_decode_stage1(.*);
+    (* KEEP_HIERARCHY = "TRUE" *)IDS1 instruction_decode_stage1(.*);
      
     logic[3:0] op_control;
     logic[I:0] rd_index,ghr_snapshot;
@@ -71,14 +75,14 @@ module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32)
     logic[W:0] nxt_pc,pred_addr;
     logic ri_req,jalr_req,loadstore_req,branch_req;
     logic write_mem,jal,take_imm;
-    logic jalr,write_rob;
+    logic write_rob;
     logic lui,auipc;
-    logic load,store;
+    logic load;
     logic is_branch,write_reg;
     logic prediction_taken;
     logic[4:0] rd,rs1,rs2;
     logic[W:0] imm_ext;
-    IDS2 instruction_decode_stage2(.*);
+    (* KEEP_HIERARCHY = "TRUE" *)IDS2 instruction_decode_stage2(.*);
     
     logic instr_commit,store_committed,instr_executed;
     logic commit_reg_write;
@@ -96,8 +100,7 @@ module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32)
            
     logic[$clog2(ROB):0] jalr_rob;
     logic[W:0] jalr_op1,jalr_op2;
-    logic[C:0] jalr_mode;
-    logic[I:0] jalr_prediction_index,jalr_ghr;
+    logic[I:0] jalr_ghr;
     logic[W:0] jalr_seq_pc;
     logic jalr_selected;
     logic jalr_full;
@@ -118,7 +121,6 @@ module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32)
    
     logic[$clog2(ROB):0] store_rob;
     logic[W:0] store_op1,store_op2;
-    logic[C:0] store_mode;
     logic[W:0] store_data;
     logic store_selected;
    
@@ -130,7 +132,7 @@ module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32)
     logic[$clog2(ROB):0] u_rob;
     logic[W:0] u_data;
   
-    IW instruction_window(.*);
+    (* KEEP_HIERARCHY = "TRUE" *)IW instruction_window(.*);
     
     
     logic cdb_broadcast;
@@ -139,9 +141,8 @@ module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32)
     logic[$clog2(R)-1:0] dest_address;
     assign dest_address = rd;
     logic[C+3:0] instr_control_info;
-    assign instr_control_info = {op_control,branch,write_mem,write_reg};
+    assign instr_control_info = {op_control,is_branch,write_mem,write_reg};
     
-    logic empty_rob;
     /*Instruction info of commiting instruction*/
     logic[C+3:0] commit_control_info;
     logic[$clog2(R)-1:0] commit_address;
@@ -150,16 +151,18 @@ module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32)
     logic[W:0] commit_data1,commit_data2;
     assign commit_result = commit_data1;
     assign update_addr = commit_data2;
-    //{wr_index,new_state,update_predictor}
-    assign update_predictor = commit_data1[0];
-    assign updated_state = commit_data1[2:1];
-    assign wr_index = commit_data1[10:3];
+    //{taken_branch,wr_index}
+    //All branch instructions update their predictors
+    assign update_predictor = commit_control_info[2];
+    assign wr_index = commit_data1[I:0];
+    assign updated_state = commit_data1[I+3:I+2];
+    assign update_btb = commit_control_info[2] & commit_data1[I+1];
     
     logic[$clog2(ROB):0] write_ptr;
     assign instr_rob = write_ptr;
-    reorder_buffer rob(.*,
+    (* KEEP_HIERARCHY = "TRUE" *)reorder_buffer rob(.*,
                        .full(full_rob),
-                       .empty(empty_rob));
+                       .empty());
     
     
    
@@ -213,21 +216,27 @@ module CPU #(parameter W = 31, I = 7, ROB = 32, C = 3, R = 32)
     logic[$clog2(ROB):0] st_rob;
     logic[W:0] st_data,st_addr;
     
-    EX execute_stage(.*);
+    (* KEEP_HIERARCHY = "TRUE" *)EX execute_stage(.*);
     
     logic[W:0] broadcast_data,broadcast_address;
     logic[$clog2(ROB):0] broadcast_rob;
+    logic full_u_rob_buffer,full_jal_rob_buffer;
+    
     assign data1 = broadcast_data;
     assign data2 = broadcast_address;
+    
+    assign execution_result = broadcast_data;
     assign executed_rob = broadcast_rob;
+    assign execution_rob = broadcast_rob;
     assign instr_executed = cdb_broadcast;
-    CDB databus_stage(.*);
+    (* KEEP_HIERARCHY = "TRUE" *)CDB databus_stage(.*);
     
     /*If the reorder buffer is full or if
     any of the reservation stations are full,
     freeze the CPU's backend*/
-    assign freeze = full_rob | branch_full | loadstore_full | ri_full | jalr_full;
+    assign freeze = full_rob | branch_full | loadstore_full | ri_full | jalr_full 
+        | full_u_rob_buffer | full_jal_rob_buffer | full_load_queue | full_store_queue;
     
-    
+    assign d = commit_data1[15:0];
                                
 endmodule

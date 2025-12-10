@@ -21,7 +21,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='/home/voidknight/RISCV/RISCV.runs/synth_1'
+HD_PWD='/home/voidknight/RISCV/RISCV.runs/impl_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log
@@ -37,4 +37,8 @@ EAStep()
      fi
 }
 
-EAStep vivado -log CPU.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source CPU.tcl
+# pre-commands:
+/bin/touch .init_design.begin.rst
+EAStep vivado -log CPU.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source CPU.tcl -notrace
+
+

@@ -17,7 +17,7 @@ module decode_stage1 #(parameter W = 31, I_W = 24)
     output logic ri_station,branch_station,jalr_station,
     output logic loadstore_station,
     output logic mem_write,is_jal,use_imm,
-    output logic is_jalr,rob_write,
+    output logic rob_write,
     output logic is_lui,is_auipc,
     
     output logic is_load,is_store,
@@ -33,7 +33,7 @@ module decode_stage1 #(parameter W = 31, I_W = 24)
     end
 
 	always_comb begin
-	   {mem_write,is_jal,is_jalr} = '0;
+	   {mem_write,is_jal} = '0;
 	   {ri_station,branch_station,jalr_station,loadstore_station} = '0;
 	   execution_op = 2'b11;
 	   imm_src = 3'b000; //For JALR and I-type instructions.
@@ -102,7 +102,6 @@ module decode_stage1 #(parameter W = 31, I_W = 24)
 		   end
 										
 		   4'b1000 : begin //JALR-type
-		      is_jalr= 1'b1;
 			  jalr_station = 1'b1;
 		   end
 		   
@@ -111,6 +110,17 @@ module decode_stage1 #(parameter W = 31, I_W = 24)
 		      loadstore_station = '1;
 			  rob_write = 1'b1;
 			  is_load = '1;
+		   end
+		   
+		   default:begin
+		      {mem_write,is_jal} = '0;
+	          {ri_station,branch_station,jalr_station,loadstore_station} = '0;
+	          execution_op = '0;
+	          imm_src = '0; 
+	          use_imm = '0;
+	          rob_write = '0;
+	          {is_lui,is_auipc,is_load,is_store} = '0;
+	          branch = '0;
 		   end
 		endcase
     end

@@ -3,10 +3,9 @@ Fifo buffer implemented as a circular queue.
 Has synchronous write and read, both with
 enable signals.
 
-Fifo buffers size and data width can be configured
-through the SIZE and DW parameters.
-Xilinx for some reason will not infer old data behaviour
-no matter what I do.
+Fifo buffers size and data width 
+can be configured through the SIZE 
+and DW parameters.
 */
 
 module fifo_buffer#(parameter DW = 31, SIZE = 32)

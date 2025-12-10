@@ -46,7 +46,7 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
            /*Signals specific to jalr reservation station*/
            output logic[$clog2(ROB):0] jalr_rob,
            output logic[W:0] jalr_op1,jalr_op2,
-           output logic[I:0] jalr_prediction_index,jalr_ghr,
+           output logic[I:0] jalr_ghr,
            output logic[W:0] jalr_seq_pc,
            output logic jalr_selected,
            output logic jalr_full,
@@ -63,13 +63,12 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
            /*Signals specific to load store reservation station*/
            output logic[$clog2(ROB):0] load_rob,
            output logic[W:0] load_op1,load_op2,
-           output logic[C+1:0] load_mode,
+           output logic[C:0] load_mode,
            output logic load_selected,
            output logic loadstore_full,
            
            output logic[$clog2(ROB):0] store_rob,
            output logic[W:0] store_op1,store_op2,
-           output logic[C+1:0] store_mode,
            output logic[W:0] store_data,
            output logic store_selected,
            
@@ -162,7 +161,6 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
                              .rs1(reg_src1),
                              .rs2(imm_ext),
                              .seq_pc(seq_pc),
-                             .prediction_index(rd_index),
                              .ghr_checkpoint(ghr_snapshot),
                              
                              .execution_rob(execution_rob),
@@ -173,7 +171,6 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
                              .jalr_op1(jalr_op1),
                              .jalr_op2(jalr_op2),
                              .jalr_selected(jalr_selected),
-                             .jalr_prediction_index(jalr_prediction_index),
                              .jalr_ghr(jalr_ghr),
                              .jalr_seq_pc(jalr_seq_pc),
                              .rs_full(jalr_full));
@@ -242,7 +239,6 @@ module IW #(parameter W = 31, I = 7, C = 3, ROB = 32, R = 32)
                              .store_op1(store_op1),
                              .store_op2(store_op2),
                              .store_data(store_data),
-                             .store_mode(store_mode),
                              .store_selected(store_selected));
         
         /*To JAL cdb queue*/                     

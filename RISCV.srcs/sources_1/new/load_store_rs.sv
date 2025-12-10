@@ -52,13 +52,12 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                          output logic[W:0] load_op1,load_op2,
                          output logic[$clog2(ROB):0] load_rob,
                          output logic load_selected,
-                         output logic[C+1:0] load_mode,
+                         output logic[C:0] load_mode,
                          
                          //Store output
                          output logic[W:0] store_op1,store_op2,store_data,
                          output logic[$clog2(ROB):0] store_rob,
                          output logic store_selected,
-                         output logic[C+1:0] store_mode,
                          
                          output logic rs_full
                          );
@@ -204,7 +203,7 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                                         /*If a pipeline reset occurs no instruction selected*/
                                         selected_load_instr[i] = '1;
                                         load_found = '1;
-                                        ld_mode = decodeinfo_storage[i];
+                                        ld_mode = decodeinfo_storage[i][C:0];
                                         ld_rob = tag_storage[i];
                                         ld_op1 = value1_storage[i];
                                         ld_op2 = value2_storage[i];
@@ -221,11 +220,9 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                         /*Instr info*/
                         logic[W:0] st_data,st_op1,st_op2;
                         logic[$clog2(ROB):0] st_rob;
-                        logic[C:0] st_mode;
                         always_comb begin
                             selected_store_instr = '0;
                             store_found = '0;
-                            st_mode = '0;
                             st_rob = '0;
                             {st_op1,st_op2,st_data} = '0;
                             for(int i = RS -1; i >= 0; i--)begin
@@ -233,7 +230,6 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                                     &!decodeinfo_storage[i][C+1] & !reset_pipeline)begin
                                         selected_store_instr[i] = '1;
                                         store_found = '1;
-                                        st_mode = decodeinfo_storage[i];
                                         st_rob = tag_storage[i];
                                         st_op1 = value1_storage[i];
                                         st_op2 = value3_storage[i];
@@ -309,7 +305,7 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                                 {load_op1,load_op2} <= '0;
                                 {load_rob,load_selected,load_mode} <= '0;
                                 {store_op1,store_op2,store_data} <= '0;
-                                {store_rob,store_selected,store_mode} <= '0;
+                                {store_rob,store_selected} <= '0;
                             end
         
                             else begin
@@ -324,7 +320,6 @@ module load_store_rs #(parameter ROB = 32,W = 31,C = 3,RS = 8 )
                                 store_data <= st_data;
                                 store_rob <= st_rob;
                                 store_selected <= store_found;
-                                store_mode <= st_mode;
                             end
                         end
     

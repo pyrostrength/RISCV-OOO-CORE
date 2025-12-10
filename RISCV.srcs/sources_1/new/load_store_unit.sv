@@ -19,11 +19,13 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                         /*Is this a load instruction selected for execution?*/
                         input logic execute_load,
                         output logic load_complete,
+                        
                         /*Stores only write to memory when
                         commiting*/
                         input logic [W:0] store_address,store_data,
                         input logic [C+1:0] store_control,
                         input logic[$clog2(ROB):0] store_rob,
+                        
                         input logic is_commit_store,
                         /*Store instruction has to write to memory first 
                         to be committed. These signals will eliminate corresponding
@@ -44,29 +46,27 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                         /*Let all commiting store and selected load instructions
                         write into FIFO buffers*/
                         logic[W:0] selected_load_address;
-                        logic full_load_addr_buffer,empty_load_addr_buffer;
                         fifo_buffer load_addr_buffer(.clk(clk),
                                                      .reset(reset),
                                                      .write(execute_load),
                                                      .read(load_chosen),
-                                                     .full(full_load_addr_buffer),
-                                                     .empty(empty_load_addr_buffer),
+                                                     .full(),
+                                                     .empty(),
                                                      .rd_data(selected_load_address),
                                                      .wr_data(load_address));
                         
-                        logic[C+1:0] selected_load_op_mode; 
-                        logic full_load_ctrl_buffer,empty_load_ctrl_buffer;                      
+                        logic[C+1:0] selected_load_op_mode;                      
                         fifo_buffer #(.DW(C+1)) load_control_buffer(.clk(clk),
                                                 .reset(reset),
                                                 .write(execute_load),
                                                 .read(load_chosen),
-                                                .full(full_load_ctrl_buffer),
-                                                .empty(empty_load_ctrl_buffer),
+                                                .full(),
+                                                .empty(),
                                                 .rd_data(selected_load_op_mode),
                                                 .wr_data(load_control));
                         
                         logic[$clog2(ROB):0] selected_load_rob;
-                        logic full_load_rob_buffer,empty_load_rob_buffer;
+                        logic empty_load_rob_buffer, full_load_rob_buffer;
                         
                         fifo_buffer #(.DW($clog2(ROB))) load_rob_buffer(.clk(clk),
                                                 .reset(reset),
@@ -80,30 +80,28 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                         /*Let all commiting store and selected load instructions
                         write into FIFO buffers*/
                         logic[W:0] selected_store_address;
-                        logic full_store_addr_buffer,empty_store_addr_buffer;
                         fifo_buffer store_addr_buffer(.clk(clk),
                                                      .reset(reset),
                                                      .write(is_commit_store),
                                                      .read(store_chosen),
-                                                     .full(full_store_addr_buffer),
-                                                     .empty(empty_store_addr_buffer),
+                                                     .full(),
+                                                     .empty(),
                                                      .rd_data(selected_store_address),
                                                      .wr_data(store_address));
                         
-                        logic[C+1:0] selected_store_op_mode;
-                        logic full_store_ctrl_buffer,empty_store_ctrl_buffer;                     
+                        logic[C+1:0] selected_store_op_mode;                  
                         fifo_buffer #(.DW(C+1)) store_control_buffer(.clk(clk),
                                                 .reset(reset),
                                                 .write(is_commit_store),
                                                 .read(store_chosen),
-                                                .full(full_store_ctrl_buffer),
-                                                .empty(empty_store_ctrl_buffer),
+                                                .full(),
+                                                .empty(),
                                                 .rd_data(selected_store_op_mode),
                                                 .wr_data(store_control));
                         
                         logic[$clog2(ROB):0] selected_store_rob;
-                        logic full_store_rob_buffer,empty_store_rob_buffer;
-                        
+                        logic empty_store_rob_buffer;
+                        logic full_store_rob_buffer;
                         fifo_buffer #(.DW($clog2(ROB))) store_rob_buffer(.clk(clk),
                                                 .reset(reset),
                                                 .write(is_commit_store),
@@ -113,19 +111,18 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                                                 .rd_data(selected_store_rob),
                                                 .wr_data(store_rob));
                         
-                        logic full_store_data_buffer,empty_store_data_buffer;
                         logic[W:0] selected_store_data;                       
                         fifo_buffer store_data_buffer(.clk(clk),
                                                      .reset(reset),
                                                      .write(is_commit_store),
                                                      .read(store_chosen),
-                                                     .full(full_store_data_buffer),
-                                                     .empty(empty_store_data_buffer),
+                                                     .full(),
+                                                     .empty(),
                                                      .rd_data(selected_store_data),
                                                      .wr_data(store_data));
                                                 
                         typedef enum{idle,load1,load2,store1,store2,store3} state_type;
-                        state_type state,state_next;
+                        (* keep = "true" *) state_type state,state_next;
                         
                         logic count,count_next;
                         
@@ -152,7 +149,6 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                         logic[W:0] retrieved_data_next;
                         logic load_complete_next,store_committed_next;
                         logic[$clog2(ROB):0] entry_rob_next,committed_store_rob_next;
-                        logic across_2_words;
                         
                       
                         assign full_store_queue = full_store_rob_buffer;
@@ -212,18 +208,18 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                             hold_ctrl_info_next = hold_ctrl_info;
                             
                             {read_mem,write_mem} = '0;
-                            {mem_data, mem_rd_address, mem_wr_address, mem_wr_data} = '0;
+                            {mem_rd_address, mem_wr_address, mem_wr_data} = '0;
                             
                             retrieved_data_next = retrieved_data;
                             load_complete_next = '0;
                             entry_rob_next = entry_rob;
                             committed_store_rob_next = committed_store_rob;
-                            store_committed_next = store_committed;
+                            store_committed_next = '0;
                             case(state)
                                 idle:begin
                                    /*Setup store. Read from first data word then
                                    make appropriate adjustments to the data*/
-                                   if((count == 0) & !empty_store_addr_buffer)begin
+                                   if((count == 0) & !empty_store_rob_buffer)begin
                                         store_chosen = '1; /*Move onto next store instruction in store queue*/
                                         /*Store important instruction information*/
                                         hold_address_next = selected_store_address;
@@ -235,7 +231,7 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                                         mem_rd_address = selected_store_address[W:2];
                                         state_next = store1;
                                    end
-                                   else if((count == 1) & !empty_load_addr_buffer)begin
+                                   else if((count == 1) & !empty_load_rob_buffer)begin
                                         /*Move onto next load instruction in load queue*/
                                         load_chosen = '1;
                                         /*Store important load instruction info*/
@@ -274,6 +270,9 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                                                     2'b11:begin
                                                         retrieved_data_next = {24*{mem_data[31]},mem_data[31:24]};
                                                     end
+                                                    default:begin
+                                                        retrieved_data_next = '0;    
+                                                    end
                                                 endcase  
                                             end
                                             
@@ -292,6 +291,9 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                                                     end
                                                     2'b11:begin
                                                         retrieved_data_next = {24*{1'b0},mem_data[31:24]};
+                                                    end
+                                                    default:begin
+                                                        retrieved_data_next = '0;   
                                                     end
                                                 endcase  
                                             end
@@ -313,8 +315,11 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                                                         retrieved_data_next = {16*{mem_data[31]},mem_data[31:24],
                                                             mem_data[23:16]}; 
                                                     end
-                                                    /*Half word with starting address 2'b11 and no 2 word read is
-                                                    impossible twin*/
+                                                    /*Half word with starting address 2'b11 and none 2 word read is
+                                                    impossible. If statement guarantees default doesn't execute*/
+                                                    default:begin
+                                                        retrieved_data_next = '0;   
+                                                    end
                                                 endcase  
                                             end
                                             
@@ -337,12 +342,19 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                                                     end
                                                     /*Half word with starting address 2'b11 and no 2 word read is
                                                     impossible twin*/
+                                                    default:begin
+                                                        retrieved_data_next = '0;   
+                                                    end
                                                 endcase  
                                             end
                                              
                                             /*Load full word*/
                                             4'b0100:begin
                                                 retrieved_data_next = mem_data;
+                                            end
+                                            
+                                            default:begin
+                                                retrieved_data_next = '0;    
                                             end
                                        endcase
                                    end
@@ -385,6 +397,9 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                                                     2'b11:begin
                                                         retrieved_data_next = {mem_data[23:0],hold_data[31:24]};
                                                     end
+                                                    default:begin
+                                                        retrieved_data_next = '0;   
+                                                    end
                                                 endcase  
                                             end
                                             
@@ -398,6 +413,10 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                                             4'b1010:begin
                                                  retrieved_data_next = {16*{1'b0},mem_data[7:0]
                                                     ,hold_data[31:23]};  
+                                            end
+                                            
+                                            default:begin
+                                                retrieved_data_next = '0;   
                                             end
                                              
                                        endcase
@@ -432,13 +451,16 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                                                     2'b11:begin
                                                         mem_wr_data = {hold_data[7:0],mem_data[23:0]};
                                                     end
+                                                    default:begin
+                                                        mem_wr_data = '0;   
+                                                    end
                                                 endcase  
                                             end
                                             
                                             
                                             /*Store half-word*/
                                             4'b0010:begin
-                                                mem_wr_data = {16*{mem_data[16]},hold_data[15:0]};  
+                                                mem_wr_data = {mem_data[31:16],hold_data[15:0]};  
                                                 case(hold_address[1:0])
                                                     2'b00:begin
                                                         mem_wr_data = {mem_data[31:16],hold_data[15:0]};    
@@ -450,6 +472,9 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                                                     2'b10:begin
                                                        mem_wr_data = {hold_data[15:0],mem_data[15:0]}; 
                                                     end
+                                                    default:begin
+                                                       mem_wr_data = '0;   
+                                                    end
                                                 endcase  
                                             end
                                             
@@ -457,6 +482,10 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                                             /*Store full word*/
                                             4'b0100:begin
                                                 mem_wr_data = hold_data[31:0];
+                                            end
+                                            
+                                            default:begin
+                                                mem_wr_data = '0;    
                                             end
                                        endcase
                                    end
@@ -488,7 +517,14 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                                                     2'b11:begin
                                                         mem_wr_data = {hold_data[7:0],mem_data[23:0]};
                                                     end
+                                                    default:begin
+                                                        mem_wr_data = '0;   
+                                                    end
                                                 endcase
+                                            end
+                                            
+                                            default:begin
+                                                mem_wr_data = '0;    
                                             end
                                         endcase 
                                    end         
@@ -502,11 +538,7 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                                     store_committed_next = '1;
                                     case(hold_ctrl_info[C:0])
                                         4'b0010:begin
-                                            case(hold_address[1:0])
-                                                2'b11:begin
-                                                    mem_wr_data = {mem_data[31:8],hold_data[15:8]};
-                                                end
-                                            endcase
+                                            mem_wr_data = {mem_data[31:8],hold_data[15:8]};
                                         end
                                         
                                         4'b0100:begin
@@ -519,11 +551,40 @@ module load_store_unit #(parameter W = 31, C = 3, ROB = 32)
                                                 end
                                                 2'b11:begin
                                                     mem_wr_data = {mem_data[31:24],hold_data[31:8]};
+                                                end
+                                                default:begin
+                                                    mem_wr_data = '0;
                                                 end 
                                             endcase
                                         end
+                                        
+                                        default:begin
+                                            mem_wr_data = '0 ;
+                                        end
                                     endcase
-                                end   
+                                end
+                                
+                                /*
+                                default:begin
+                                    store_chosen = '0;
+                                    load_chosen = '0;
+                                    state_next = idle;
+                                    count_next = count + 1;
+                                    hold_address_next = hold_address;
+                                    hold_data_next = hold_data;
+                                    hold_rob_next = hold_rob;
+                                    hold_ctrl_info_next = hold_ctrl_info;
+                            
+                                    {read_mem,write_mem} = '0;
+                                    {mem_rd_address, mem_wr_address, mem_wr_data} = '0;
+                            
+                                    retrieved_data_next = '0;
+                                    load_complete_next = '0;
+                                    entry_rob_next = '0;
+                                    committed_store_rob_next = '0;
+                                    store_committed_next = '0;
+                       
+                                end */  
                             endcase
                         end      
 endmodule

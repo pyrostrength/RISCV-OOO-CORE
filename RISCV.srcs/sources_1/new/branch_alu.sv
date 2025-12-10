@@ -170,6 +170,12 @@ module branch_alu #(parameter W = 31, C = 3,ROB = 32)
                                     end
                                 endcase  
                             end
+                            
+                            default:begin
+                                misprediction = '0;
+                                new_state = original_state;
+                                taken_branch = '1;    
+                            end
                         endcase
                    end
                    

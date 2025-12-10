@@ -14,7 +14,7 @@ module branch_target_buffer #(parameter I = 7,DEPTH = 256, W = 31)
                             (input logic clk,
                              input logic[I:0] index,wr_index,
                              input logic[W:0] update_addr,
-                             input logic update_predictor,
+                             input logic update_btb,
                              output logic btb_hit,
                              output logic[W:0] target_addr);
                              
@@ -29,7 +29,7 @@ module branch_target_buffer #(parameter I = 7,DEPTH = 256, W = 31)
 
                              always_ff @(posedge clk) begin
                                 /*Synchronous write*/
-                                if(update_predictor) begin
+                                if(update_btb) begin
                                     buffer[wr_index] <= {1'b1,update_addr};
                                 end
                              end

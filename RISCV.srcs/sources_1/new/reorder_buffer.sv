@@ -55,7 +55,7 @@ module reorder_buffer #(parameter W = 31,ROB = 32,C = 6,R=32)
                         logic[$clog2(R)-1:0] address_array[ROB:0];
                         
                         /*Holds operation info. 
-                        {operation,memwrite,regwrite,branch}*/
+                        {operation,branch,mem_write,reg_write}*/
                         logic[C:0] control_array[ROB:0];
                         
                         

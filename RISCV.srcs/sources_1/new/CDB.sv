@@ -10,15 +10,21 @@ module CDB #(parameter W = 31, ROB = 32, I = 7)
                          input logic load_request,u_request,
                          input logic[W:0] ri_data,jalr_data,jal_data,st_data,st_addr,retrieved_data,u_data,
                          input logic[W:0] target_address,
+                         input logic[1:0] new_state,
                          input logic taken_branch,
                          input logic[I:0] t_index,
                          output logic[W:0] broadcast_data,broadcast_address,
                          output logic cdb_broadcast,
-                         output logic[$clog2(ROB):0] broadcast_rob);
+                         output logic[$clog2(ROB):0] broadcast_rob,
+                         
+                         /*Full signals for pseudo reservation station of jal
+                         and U-type instructions*/
+                         output logic full_u_rob_buffer, full_jal_rob_buffer);
                          
                          
-                         databus_arbiter(.clk(clk),
+                         databus_arbiter arbiter(.clk(clk),
                                          .reset(reset),
+                                         .new_state(new_state),
                                          .u_rob(u_rob),
                                          .jalr_rob(j_rob),
                                          .jal_rob(jal_rob),
@@ -48,7 +54,9 @@ module CDB #(parameter W = 31, ROB = 32, I = 7)
                                          .cdb_broadcast(cdb_broadcast),
                                          .broadcast_data(broadcast_data),
                                          .broadcast_address(broadcast_address),
-                                         .broadcast_rob(broadcast_rob));
+                                         .broadcast_rob(broadcast_rob),
+                                         .full_u_rob_buffer(full_u_rob_buffer),
+                                         .full_jal_rob_buffer(full_jal_rob_buffer));
                          
                  
 endmodule

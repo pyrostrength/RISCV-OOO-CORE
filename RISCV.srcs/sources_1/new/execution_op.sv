@@ -13,7 +13,7 @@ module execution_op(input logic funct7,//We only take a single bit of the funct7
 				   output logic[3:0] op_control);
 						 
 				   always_comb begin 
-						op_control = 4'b1111;
+						op_control = '0;
 						case(execute_op)
 						  2'b00: 
 						      case(funct7)
@@ -21,7 +21,7 @@ module execution_op(input logic funct7,//We only take a single bit of the funct7
 								    case(funct3)
 									   3'b000 : op_control = 4'b1000; //Subtraction
 									   3'b111 : op_control = 4'b1001; //Arithmetic right shift
-									   default : op_control = 4'b0001; //Logical And, in case of incorrect funct3 field.
+									   default : op_control = '0; 
 									endcase
 										
 								1'b0:
@@ -34,7 +34,9 @@ module execution_op(input logic funct7,//We only take a single bit of the funct7
 									   3'b101: op_control = 4'b0101;  // Slt[unsigned]
 									   3'b110: op_control = 4'b0110;  // Sll
 									   3'b111: op_control = 4'b0111;  // Srl
+									   default: op_control = '0;
 								    endcase
+							     default:op_control = '0;
 							  endcase
 						 //Branch instructions
 						 2'b01:begin
@@ -46,8 +48,8 @@ module execution_op(input logic funct7,//We only take a single bit of the funct7
 						          3'b011: op_control = 4'b0011;//branch if less than unsigned
 						          3'b100: op_control = 4'b0100;//branch if greater than equal to
 						          3'b101: op_control = 4'b0101;//branch if greater than equal to unsigned 
+						          default: op_control = '0;
 						      endcase
-						      
 						 end
 						 //Load instructions
 						 2'b10:begin
@@ -59,6 +61,7 @@ module execution_op(input logic funct7,//We only take a single bit of the funct7
 						          3'b110: op_control = 4'b1010;//load half word unsigned
 						          3'b001: op_control = 4'b0001;//load byte
 						          3'b101: op_control = 4'b1001;//load byte unsigned
+						          default: op_control = 4'b0100;
 						      endcase
 						 end
 						 
@@ -70,8 +73,11 @@ module execution_op(input logic funct7,//We only take a single bit of the funct7
 						          3'b111: op_control = 4'b0100;//store word
 						          3'b010: op_control = 4'b0010;//store half word
 						          3'b001: op_control = 4'b0001;//store byte
+						          default: op_control = 4'b0100;
 						      endcase
 						 end
+						 
+						 default:op_control = '0;
 					   endcase
 		           end
 endmodule

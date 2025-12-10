@@ -10,7 +10,7 @@ module btb_flush(
     );
     
     typedef enum{flush,still} state_type;
-    state_type state,state_next;
+    (* keep = "true" *) state_type state,state_next;
     
     always_ff @(posedge clk)begin
         if(reset | reset_pipeline)
@@ -41,6 +41,7 @@ module btb_flush(
                 short_flush = '0;
                 state_next = still;
             end
+            
         endcase
     end
 

@@ -66,19 +66,22 @@ module pipeline_reset_arbitrer #(parameter W = 31,ROB = 32,I = 7)
      /*GHR can only be updated by branch instruction
      that's executed and in absence of pipeline
      reset*/
-     output logic update_ghr
+     output logic update_ghr,
+     /*ROB entry of instruction requesting
+     pipeline reset*/
+     output logic[$clog2(ROB):0] reset_rob
     );
     
     logic[I:0] ghr_recovered_next;
     logic reset_pipeline_next;
-    logic reset_addr_next;
+    logic[W:0] reset_addr_next;
     logic conditional_taken_next;
     logic update_ghr_next;
     
     typedef enum{base,active} state_type;
-    state_type state, state_next;
+    (* keep = "true" *) state_type state, state_next;
     
-    logic[$clog2(ROB):0] rob,rob_next;
+    logic[$clog2(ROB):0] rob,rob_next,reset_rob_next;
     
     always_ff @(posedge clk)begin
         if(reset)begin
@@ -90,6 +93,7 @@ module pipeline_reset_arbitrer #(parameter W = 31,ROB = 32,I = 7)
             
             state <= base;
             rob <= '0;
+            reset_rob <= '0;
         end
         
         else begin
@@ -101,6 +105,7 @@ module pipeline_reset_arbitrer #(parameter W = 31,ROB = 32,I = 7)
             
             state <= state_next;
             rob <= rob_next;
+            reset_rob <= reset_rob_next;
         end
     end
     
@@ -175,7 +180,7 @@ module pipeline_reset_arbitrer #(parameter W = 31,ROB = 32,I = 7)
         reset_pipeline_next = '0;
         reset_addr_next = jalr_address;
         rob_next = jalr_rob; 
-        
+        reset_rob_next = rob_next;
         case(state)
             /*Compare branch and jalr instruction
             and signal appropriate pipeline reset*/
@@ -238,7 +243,24 @@ module pipeline_reset_arbitrer #(parameter W = 31,ROB = 32,I = 7)
                             branch_address : jalr_address;
                         update_ghr_next = is_branch;
                     end
+                    
+                    /*default*/
+                    default:begin
+                        state_next = base;
+                        reset_pipeline_next = '0;
+                        update_ghr_next = '0;
+                        rob_next = jalr_rob;  
+                    end
                 endcase  
+             end
+             
+             default:begin
+                update_ghr_next = '0;
+                state_next = state;
+                ghr_recovered_next = jalr_ghr_checkpoint;
+                reset_pipeline_next = '0;
+                reset_addr_next = jalr_address;
+                rob_next = jalr_rob;   
              end
         endcase
     end
